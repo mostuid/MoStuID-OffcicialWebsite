@@ -1404,7 +1404,7 @@ function Footer({ setActiveTab, scrollToSection }) {
             href="mailto:mostuid@gmail.com"
             className="font-chivo font-normal text-neutral-300 hover:text-white transition-colors cursor-pointer block"
           >
-            mostuid@gmail.com
+            📧 mostuid@gmail.com <br /> ☎︎ +62 882-0163-12643
           </a>
         </div>
 
