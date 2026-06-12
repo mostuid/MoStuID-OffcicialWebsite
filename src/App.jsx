@@ -427,6 +427,16 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
       img: cofounderimg,
       name: "Mohd. Daniel",
       role: "Co-Founder / Art Director"
+    },
+    {
+      img: markeximg,
+      name: "Mhd. Andre F",
+      role: "Marketing Executive"
+    },
+    {
+      img: providimg,
+      name: "Noval Pratama",
+      role: "Professional Videographer"
     }
   ];
 
