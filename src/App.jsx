@@ -1157,7 +1157,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
 /* ==========================================
    KOMPONEN MANDIRI: TAB ABOUT US
-   ========================================== */
+   ==========================================  */
 function AboutTabSection() {
   // SEGMEN TIM DIKEMBALIKAN SESUAI REQUEST-MU
   const team = [
