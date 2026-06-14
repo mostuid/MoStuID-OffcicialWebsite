@@ -110,13 +110,23 @@ function App() {
   // =========================================================================
   const ubahTabNavigasi = (tabBaru) => {
     setActiveTab(tabBaru);
-    window.history.pushState({ tab: tabBaru }, "", `?page=${tabBaru}`);
+
+    // 🔥 SELIPAN PERBAIKAN: Jika tab baru yang dituju adalah 'home', bersihkan URL parameter menjadi path dasar ('/')
+    const urlBaru = tabBaru === "home" ? window.location.pathname : `?page=${tabBaru}`;
+
+    window.history.pushState({ tab: tabBaru }, "", urlBaru);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
+    // Membaca parameter halaman aktif saat pertama kali web dimuat di browser
+    const params = new URLSearchParams(window.location.search);
+    const pageAktif = params.get("page") || "home";
+
     if (!window.history.state) {
-      window.history.replaceState({ tab: "home" }, "", "?page=home");
+      // 🔥 SELIPAN PERBAIKAN: Mencegah penulisan paksa '?page=home' di URL saat pertama kali user mendarat di website
+      const urlAwal = pageAktif === "home" ? window.location.pathname : `?page=${pageAktif}`;
+      window.history.replaceState({ tab: pageAktif }, "", urlAwal);
     }
 
     const tanganiTombolBrowser = (event) => {
@@ -132,6 +142,7 @@ function App() {
       window.removeEventListener("popstate", tanganiTombolBrowser);
     };
   }, []);
+  
   // =========================================================================
 
   useEffect(() => {
