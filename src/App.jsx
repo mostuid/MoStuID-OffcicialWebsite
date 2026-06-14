@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import founderimg from "./assets/founder.png";
 import cofounderimg from "./assets/co-founder.png";
 import markeximg from "./assets/marketing-executive.png";
@@ -13,6 +14,9 @@ import iconBrandingStrategy from "./assets/Icon Branding Strategy.png";
 import iconAnimationServices from "./assets/Icon Animation Services.png";
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const currentPath = location.pathname; // Ini akan membaca URL browser saat ini (misal: "/" atau "/portfolio")
   const [activeTab, setActiveTab] = useState("home");
   const [portfolioFilter, setPortfolioFilter] = useState("all");
   const [isSec2Visible, setIsSec2Visible] = useState(false);
@@ -111,10 +115,13 @@ function App() {
   const ubahTabNavigasi = (tabBaru) => {
     setActiveTab(tabBaru);
 
-    // 🔥 SELIPAN PERBAIKAN: Jika tab baru yang dituju adalah 'home', bersihkan URL parameter menjadi path dasar ('/')
-    const urlBaru = tabBaru === "home" ? window.location.pathname : `?page=${tabBaru}`;
+    // 🔥 SELIPAN 2: Alihkan sistem navigasi menggunakan push rute resmi dari react-router-dom
+    if (tabBaru === "home") {
+      navigate("/"); // Mengubah URL menjadi paling bersih (mostu.id/)
+    } else {
+      navigate(`/${tabBaru}`); // Mengubah URL menjadi (mostu.id/portfolio, mostu.id/about, dll)
+    }
 
-    window.history.pushState({ tab: tabBaru }, "", urlBaru);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -142,7 +149,7 @@ function App() {
       window.removeEventListener("popstate", tanganiTombolBrowser);
     };
   }, []);
-  
+
   // =========================================================================
 
   useEffect(() => {
@@ -296,8 +303,34 @@ function App() {
 
       {/* AREA KONTEN UTAMA */}
       <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 overflow-y-clip">
+
+        {/* 🔥 SELIPAN: Bungkus seluruh percabangan halaman menggunakan komponen Routes resmi */}
+        <Routes>
+
+          {/* Jalur halaman utama (mostu.id/) */}
+          <Route path="/" element={<HeroSection scrollToSection={scrollToSection} setIsBriefModalOpen={setIsBriefModalOpen} />} />
+
+          {/* Jalur halaman portfolio (mostu.id/portfolio) */}
+          <Route path="/portfolio" element={
+            <PortfolioTabSection currentFilter={portfolioFilter} setFilter={setPortfolioFilter} setActiveTab={ubahTabNavigasi} />
+          } />
+
+          {/* Jalur halaman produk digital (mostu.id/products) */}
+          <Route path="/products" element={
+            <div className="py-24 text-center max-w-xl mx-auto min-h-[60vh] flex flex-col justify-center items-center animate-slide-up">
+              <h2 className="text-3xl font-poppins font-black mb-3">Our Digital Products</h2>
+              <p className="text-neutral-400 text-sm font-light leading-relaxed mb-6">Kami sedang merakit template UI/UX premium, Landing Page Generator instan, dan aset visual siap pakai untuk mempercepat skalabilitas bisnismu.</p>
+              <span className="inline-block border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono uppercase tracking-widest px-4 py-1.5 rounded-full bg-[#FF5500]/5 select-none mb-6">Coming Soon / Under Development</span>
+            </div>
+          } />
+
+          {/* Jalur halaman tentang agensi (mostu.id/about) */}
+          <Route path="/about" element={<AboutTabSection />} />
+
+        </Routes>
+
         {/* SECTION 1: HERO CONTAINER */}
-        {activeTab === "home" && <HeroSection scrollToSection={scrollToSection} setIsBriefModalOpen={setIsBriefModalOpen} />}
+        {currentPath === "/" && <HeroSection scrollToSection={scrollToSection} setIsBriefModalOpen={setIsBriefModalOpen} />}
 
         {/* KONTEN PORTFOLIO */}
         {activeTab === "portfolio" && (
@@ -318,12 +351,12 @@ function App() {
       </main>
 
       {/* SECTION 2: SERVICES CONTAINER */}
-      {activeTab === "home" && (
+      {currentPath === "/" && (
         <ServicesSection sec2Ref={sec2Ref} isSec2Visible={isSec2Visible} setActiveTab={ubahTabNavigasi} />
       )}
 
       {/* SECTION 3: QnA CONTAINER */}
-      {activeTab === "home" && <QnaSection />}
+      {currentPath === "/" && <QnaSection />}
 
       {/* FOOTER CONTAINER */}
       <Footer setActiveTab={ubahTabNavigasi} scrollToSection={scrollToSection} />
@@ -454,16 +487,16 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
   const textContainerConfig = {
     pcLeft: "78%",
     pcBottom: "120px",
-    hpLeft: "50%",      
+    hpLeft: "50%",
     hpBottom: "70px",
 
     pcMinWidth: "300px",
     pcMinHeight: "50px",
-    pcPadding: "1rem",     
+    pcPadding: "1rem",
 
     hpMinWidth: "250px",
     hpMinHeight: "50px",
-    hpPadding: "0.75rem"   
+    hpPadding: "0.75rem"
   };
   /* ========================================================================= */
 
@@ -486,7 +519,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
   useEffect(() => {
     const currentName = heroSlides[activeSlide].name;
     const currentRole = heroSlides[activeSlide].role;
-    
+
     setDisplayName("");
     setDisplayRole("");
 
