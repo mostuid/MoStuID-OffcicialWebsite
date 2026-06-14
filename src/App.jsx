@@ -304,50 +304,58 @@ function App() {
       {/* AREA KONTEN UTAMA */}
       <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 overflow-y-clip">
 
-        {/* 🔥 SELIPAN: Bungkus seluruh percabangan halaman menggunakan komponen Routes resmi */}
         <Routes>
 
-          {/* Jalur halaman utama (mostu.id/) */}
-          <Route path="/" element={<HeroSection scrollToSection={scrollToSection} setIsBriefModalOpen={setIsBriefModalOpen} />} />
+          {/* HOME */}
+          <Route
+            path="/"
+            element={
+              <HeroSection
+                scrollToSection={scrollToSection}
+                setIsBriefModalOpen={setIsBriefModalOpen}
+              />
+            }
+          />
 
-          {/* Jalur halaman portfolio (mostu.id/portfolio) */}
-          <Route path="/portfolio" element={
-            <PortfolioTabSection currentFilter={portfolioFilter} setFilter={setPortfolioFilter} setActiveTab={ubahTabNavigasi} />
-          } />
+          {/* PORTFOLIO */}
+          <Route
+            path="/portfolio"
+            element={
+              <PortfolioTabSection
+                currentFilter={portfolioFilter}
+                setFilter={setPortfolioFilter}
+                setActiveTab={ubahTabNavigasi}
+              />
+            }
+          />
 
-          {/* Jalur halaman produk digital (mostu.id/products) */}
-          <Route path="/products" element={
-            <div className="py-24 text-center max-w-xl mx-auto min-h-[60vh] flex flex-col justify-center items-center animate-slide-up">
-              <h2 className="text-3xl font-poppins font-black mb-3">Our Digital Products</h2>
-              <p className="text-neutral-400 text-sm font-light leading-relaxed mb-6">Kami sedang merakit template UI/UX premium, Landing Page Generator instan, dan aset visual siap pakai untuk mempercepat skalabilitas bisnismu.</p>
-              <span className="inline-block border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono uppercase tracking-widest px-4 py-1.5 rounded-full bg-[#FF5500]/5 select-none mb-6">Coming Soon / Under Development</span>
-            </div>
-          } />
+          {/* PRODUCTS */}
+          <Route
+            path="/products"
+            element={
+              <div className="py-24 text-center max-w-xl mx-auto min-h-[60vh] flex flex-col justify-center items-center animate-slide-up">
+                <h2 className="text-3xl font-poppins font-black mb-3">
+                  Our Digital Products
+                </h2>
+                <p className="text-neutral-400 text-sm font-light leading-relaxed mb-6">
+                  Kami sedang merakit template UI/UX premium, Landing Page Generator instan,
+                  dan aset visual siap pakai untuk mempercepat skalabilitas bisnismu.
+                </p>
+                <span className="inline-block border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono uppercase tracking-widest px-4 py-1.5 rounded-full bg-[#FF5500]/5 select-none mb-6">
+                  Coming Soon / Under Development
+                </span>
+              </div>
+            }
+          />
 
-          {/* Jalur halaman tentang agensi (mostu.id/about) */}
-          <Route path="/about" element={<AboutTabSection />} />
+          {/* ABOUT */}
+          <Route
+            path="/about"
+            element={<AboutTabSection />}
+          />
 
         </Routes>
 
-        {/* SECTION 1: HERO CONTAINER */}
-        {currentPath === "/" && <HeroSection scrollToSection={scrollToSection} setIsBriefModalOpen={setIsBriefModalOpen} />}
-
-        {/* KONTEN PORTFOLIO */}
-        {activeTab === "portfolio" && (
-          <PortfolioTabSection currentFilter={portfolioFilter} setFilter={setPortfolioFilter} setActiveTab={ubahTabNavigasi} />
-        )}
-
-        {/* KONTEN PRODUCTS */}
-        {activeTab === "products" && (
-          <div className="py-24 text-center max-w-xl mx-auto min-h-[60vh] flex flex-col justify-center items-center animate-slide-up">
-            <h2 className="text-3xl font-poppins font-black mb-3">Our Digital Products</h2>
-            <p className="text-neutral-400 text-sm font-light leading-relaxed mb-6">Kami sedang merakit template UI/UX premium, Landing Page Generator instan, dan aset visual siap pakai untuk mempercepat skalabilitas bisnismu.</p>
-            <span className="inline-block border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono uppercase tracking-widest px-4 py-1.5 rounded-full bg-[#FF5500]/5 select-none mb-6">Coming Soon / Under Development</span>
-          </div>
-        )}
-
-        {/* KONTEN ABOUT US */}
-        {activeTab === "about" && <AboutTabSection />}
       </main>
 
       {/* SECTION 2: SERVICES CONTAINER */}
