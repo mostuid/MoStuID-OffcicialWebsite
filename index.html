@@ -13,20 +13,6 @@
   <title>MoStu.id | Digital & Creative Agency</title>
 </head>
 
-<script>
-  if ("serviceWorker" in navigator) {
-    window.addEventListener("load", function () {
-      navigator.serviceWorker.register("/sw.js")
-        .then(function () {
-          console.log("Monetag service worker aktif");
-        })
-        .catch(function (error) {
-          console.error("Service worker gagal:", error);
-        });
-    });
-  }
-</script>
-
 <body>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
