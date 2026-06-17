@@ -6,6 +6,7 @@ import markeximg from "./assets/marketing-executive.png";
 import providimg from "./assets/professional-videgrapher.png";
 import logoImg from "./assets/logo-mostu.png";
 import bgSec2 from './assets/bg-sec2.png';
+import webPorto1Img from "./assets/Web-Porto1.png";
 
 // IMPORT ASSET ICON
 import iconWebSoftware from "./assets/Icon Web-Software.png";
@@ -1161,27 +1162,45 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     { id: "branding", name: "Branding Strategy" },
   ];
 
+  // 2. Hubungkan variabel import 'webPorto1Img' ke dalam proyek pertama
   const projects = [
-    {
-      title: "Terapi Kesehatan Sejati Landing Page",
-      cat: "web-dev",
-      desc: "Sistem toko online super cepat terintegrasi payment gateway.",
-      meta: "Web Development &bull; 2026",
+    { 
+      title: "Terapi Kesehatan Sejati Landing Page", 
+      cat: "web-dev", 
+      desc: "Sistem toko online super cepat terintegrasi payment gateway.", 
+      meta: "Web Development &bull; 2026", 
       delay: "",
-      link: "https://terapikesehatansejati.netlify.app/"
+      link: "https://terapikesehatansejati.netlify.app/",
+      image: webPorto1Img // 🔥 Gambar diikat di sini
     },
-    { title: "SaaS Multi-Tenant Application", cat: "web-dev", desc: "Arsitektur cloud terpusat untuk efisiensi bisnis manajemen retail.", meta: "Software System &bull; 2026", delay: "[animation-delay:100ms]" },
-    { title: "3D Spatial Commercial Interior", cat: "visual-story", desc: "Visualisasi aset interior coffee shop dengan estetika Luxury Dark.", meta: "3D Rendering &bull; 2026", delay: "[animation-delay:200ms]" },
-    { title: "Cinematic Corporate Profile", cat: "visual-story", desc: "Penyusunan alur cerita visual promosi berskala sinematik professional.", meta: "Videography &bull; 2026", delay: "[animation-delay:300ms]" },
-    { title: "Mineral Town Romance Asset", cat: "animation", desc: "Pengembangan paket aset background bergerak & interaksi visual novel.", meta: "Game Animation &bull; 2026", delay: "[animation-delay:400ms]" },
-    { title: "Dynamic Bumper Video Interface", cat: "animation", desc: "Motion graphics transisi antarmuka berkecepatan tinggi.", meta: "Motion Design &bull; 2026", delay: "[animation-delay:500ms]" },
-    { title: "Corporate Visual Guideline Kit", cat: "branding", desc: "Rancangan guidelines logo, tipografi, dan kit media sosial.", meta: "Branding Kit &bull; 2026", delay: "[animation-delay:600ms]" },
+    { title: "SaaS Multi-Tenant Application", cat: "web-dev", desc: "Arsitektur cloud terpusat untuk efisiensi bisnis manajemen retail.", meta: "Software System &bull; 2026", delay: "[animation-delay:100ms]", link: null, image: null },
+    { title: "3D Spatial Commercial Interior", cat: "visual-story", desc: "Visualisasi aset interior coffee shop dengan estetika Luxury Dark.", meta: "3D Rendering &bull; 2026", delay: "[animation-delay:200ms]", link: null, image: null },
+    { title: "Cinematic Corporate Profile", cat: "visual-story", desc: "Penyusunan alur cerita visual promosi berskala sinematik professional.", meta: "Videography &bull; 2026", delay: "[animation-delay:300ms]", link: null, image: null },
+    { title: "Mineral Town Romance Asset", cat: "animation", desc: "Pengembangan paket aset background bergerak & interaksi visual novel.", meta: "Game Animation &bull; 2026", delay: "[animation-delay:400ms]", link: null, image: null },
+    { title: "Dynamic Bumper Video Interface", cat: "animation", desc: "Motion graphics transisi antarmuka berkecepatan tinggi.", meta: "Motion Design &bull; 2026", delay: "[animation-delay:500ms]", link: null, image: null },
+    { title: "Corporate Visual Guideline Kit", cat: "branding", desc: "Rancangan guidelines logo, tipografi, dan kit media sosial.", meta: "Branding Kit &bull; 2026", delay: "[animation-delay:600ms]", link: null, image: null },
   ];
 
   const filteredProjects = currentFilter === "all" ? projects : projects.filter(p => p.cat === currentFilter);
 
+  // Native Link Launcher (Aman dari pembatasan React Router & Pop-up Blockers)
+  const handleCardClick = (e, projectLink) => {
+    if (!projectLink) return;
+    e.stopPropagation();
+    
+    const hiddenAnchor = document.createElement("a");
+    hiddenAnchor.href = projectLink;
+    hiddenAnchor.target = "_blank";
+    hiddenAnchor.rel = "noopener noreferrer";
+    
+    document.body.appendChild(hiddenAnchor);
+    hiddenAnchor.click();
+    document.body.removeChild(hiddenAnchor);
+  };
+
   return (
     <div className="py-12 min-h-[70vh]">
+      {/* HEADER NAVIGASI KATEGORI */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
         <div className="animate-slide-down">
           <h2 className="text-4xl font-black tracking-tight mb-2 font-poppins">Portofolio Kami</h2>
@@ -1203,17 +1222,45 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
         </div>
       </div>
 
+      {/* GRID PORTOFOLIO */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {filteredProjects.map((project, i) => (
           <div
             key={i}
-            className={`bg-neutral-900/40 backdrop-blur-md p-6 rounded-xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 cursor-pointer group flex flex-col justify-between opacity-0 animate-slide-up ${project.delay}`}
+            onClick={(e) => handleCardClick(e, project.link)}
+            className={`bg-neutral-900/40 backdrop-blur-md p-6 rounded-xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between opacity-0 animate-slide-up ${project.delay} ${project.link ? 'hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] cursor-pointer' : ''}`}
           >
             <div>
-              <div className="h-44 bg-gradient-to-b from-neutral-950 to-neutral-900/60 rounded-lg mb-4 opacity-60 group-hover:opacity-100 border border-neutral-850 flex items-center justify-center transition-all duration-500 overflow-hidden relative">
-                <span className="text-[10px] uppercase font-mono tracking-widest text-neutral-600 group-hover:text-[#FF5500]/60 transition-colors">Project Canvas Cover</span>
+              {/* CONTAINER CANVAS PREVIEW (Tulisan "Project Canvas Cover" dihapus total) */}
+              <div className="h-44 bg-neutral-950 rounded-lg mb-4 border border-neutral-850 flex items-center justify-center transition-all duration-500 overflow-hidden relative">
+                
+                {project.image ? (
+                  // 🔥 TAMPILKAN GAMBAR PREVIEW JIKA ADA DATA ASSET-NYA
+                  <>
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                    />
+                    {/* Lapisan overlay gelap + teks transisi sewaktu di-hover */}
+                    {project.link && (
+                      <div className="absolute inset-0 bg-black/30 opacity-100 group-hover:bg-transparent transition-all duration-500 flex items-center justify-center">
+                        <span className="text-[10px] uppercase font-mono tracking-widest text-white bg-[#FF5500] px-3 py-1.5 rounded-md font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-xl shadow-[#FF5500]/20 tracking-wider">
+                          ➔ Launch Project
+                        </span>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  // JIKA BELUM ADA GAMBAR: Diberi background gradasi luxury gelap polos agar tidak merusak layout
+                  <div className="w-full h-full bg-gradient-to-br from-neutral-950 to-neutral-900/40" />
+                )}
+
               </div>
-              <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">{project.title}</h3>
+
+              <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
+                {project.title}
+              </h3>
               <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">{project.desc}</p>
             </div>
             <p className="text-neutral-500 text-[11px] font-mono" dangerouslySetInnerHTML={{ __html: project.meta }} />
