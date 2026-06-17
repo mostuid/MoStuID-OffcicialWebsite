@@ -1152,9 +1152,12 @@ function MemberRegistrationModal({ isOpen, onClose }) {
 }
 
 /* ==========================================
-   KOMPONEN MANDIRI: TAB PORTFOLIO
+   KOMPONEN MANDIRI: TAB PORTFOLIO + MODAL YOUTUBE
    ========================================== */
 function PortfolioTabSection({ currentFilter, setFilter }) {
+  // State khusus untuk melacak video mana yang sedang aktif diputar di pop-up
+  const [activeVideoId, setActiveVideoId] = useState(null);
+
   const categories = [
     { id: "all", name: "All Projects" },
     { id: "web-dev", name: "Web/Software" },
@@ -1163,49 +1166,64 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     { id: "branding", name: "Branding Strategy" },
   ];
 
-  // 2. Hubungkan variabel import 'webPorto1Img' ke dalam proyek pertama
   const projects = [
     { 
-      title: "Terapi Kesehatan Sejati", 
+      title: "Terapi Kesehatan Sejati Landing Page", 
       cat: "web-dev", 
-      desc: "Landing page jasa terapi kesehatan klient kami.", 
-      meta: "Web Development Project &bull; 2026", 
+      desc: "Sistem toko online super cepat terintegrasi payment gateway.", 
+      meta: "Web Development &bull; 2026", 
       delay: "",
       link: "https://terapikesehatansejati.netlify.app/",
-      image: webPorto1Img // 🔥 Gambar diikat di sini
+      image: webPorto1Img, 
+      videoYoutubeId: null 
     },
-    { title: "SaaS Multi-Tenant Application", cat: "web-dev", desc: "Arsitektur cloud terpusat untuk efisiensi bisnis manajemen retail.", meta: "Software System &bull; 2026", delay: "[animation-delay:100ms]", link: null, image: null },
-    { title: "3D Spatial Commercial Interior", cat: "visual-story", desc: "Visualisasi aset interior coffee shop dengan estetika Luxury Dark.", meta: "3D Rendering &bull; 2026", delay: "[animation-delay:200ms]", link: null, image: null },
-    { title: "Cinematic Corporate Profile", cat: "visual-story", desc: "Penyusunan alur cerita visual promosi berskala sinematik professional.", meta: "Videography &bull; 2026", delay: "[animation-delay:300ms]", link: null, image: null },
-    
+    { title: "SaaS Multi-Tenant Application", cat: "web-dev", desc: "Arsitektur cloud terpusat untuk efisiensi bisnis manajemen retail.", meta: "Software System &bull; 2026", delay: "[animation-delay:100ms]", link: null, image: null, videoYoutubeId: null },
+    { title: "3D Spatial Commercial Interior", cat: "visual-story", desc: "Visualisasi aset interior coffee shop dengan estetika Luxury Dark.", meta: "3D Rendering &bull; 2026", delay: "[animation-delay:200ms]", link: null, image: null, videoYoutubeId: null },
+    { 
+      title: "Digital Product Campaign", 
+      cat: "visual-story", 
+      desc: "Video promosi produk digital dengan visual menarik, komunikatif, dan berorientasi hasil.", 
+      meta: "Videography Projects &bull; 2026", 
+      delay: "[animation-delay:300ms]", 
+      link: null, 
+      image: null, 
+      videoYoutubeId: "FbdM_EwI1pk" // ID Video YouTube
+    },
     { title: "PT Perta Arun Gas Projects",
       cat: "animation",
       desc: "Pengembangan paket aset background bergerak & interaksi visual novel.",
       meta: "Animation Project &bull; 2026",
       delay: "[animation-delay:400ms]",
       link: "https://www.youtube.com/playlist?list=PLYQpjQwcSKW9jG1wHX6KXY_sMytqHeHQ0",
-      image: animPorto1Img
+      image: animPorto1Img,
+      videoYoutubeId: null
     },
-    
-    { title: "Dynamic Bumper Video Interface", cat: "animation", desc: "Motion graphics transisi antarmuka berkecepatan tinggi.", meta: "Motion Design &bull; 2026", delay: "[animation-delay:500ms]", link: null, image: null },
-    { title: "Corporate Visual Guideline Kit", cat: "branding", desc: "Rancangan guidelines logo, tipografi, dan kit media sosial.", meta: "Branding Kit &bull; 2026", delay: "[animation-delay:600ms]", link: null, image: null },
+    { title: "Dynamic Bumper Video Interface", cat: "animation", desc: "Motion graphics transisi antarmuka berkecepatan tinggi.", meta: "Motion Design &bull; 2026", delay: "[animation-delay:500ms]", link: null, image: null, videoYoutubeId: null },
+    { title: "Corporate Visual Guideline Kit", cat: "branding", desc: "Rancangan guidelines logo, tipografi, dan kit media sosial.", meta: "Branding Kit &bull; 2026", delay: "[animation-delay:600ms]", link: null, image: null, videoYoutubeId: null },
   ];
 
   const filteredProjects = currentFilter === "all" ? projects : projects.filter(p => p.cat === currentFilter);
 
-  // Native Link Launcher (Aman dari pembatasan React Router & Pop-up Blockers)
-  const handleCardClick = (e, projectLink) => {
-    if (!projectLink) return;
+  // Aksi ketika kartu portofolio diklik
+  const handleCardClick = (e, project) => {
     e.stopPropagation();
     
-    const hiddenAnchor = document.createElement("a");
-    hiddenAnchor.href = projectLink;
-    hiddenAnchor.target = "_blank";
-    hiddenAnchor.rel = "noopener noreferrer";
-    
-    document.body.appendChild(hiddenAnchor);
-    hiddenAnchor.click();
-    document.body.removeChild(hiddenAnchor);
+    // Skenario 1: Jika ada Video Youtube, buka jendela pop-up penayang
+    if (project.videoYoutubeId) {
+      setActiveVideoId(project.videoYoutubeId);
+      return;
+    }
+
+    // Skenario 2: Jika ada link web external, buka tautan di tab baru
+    if (project.link) {
+      const hiddenAnchor = document.createElement("a");
+      hiddenAnchor.href = project.link;
+      hiddenAnchor.target = "_blank";
+      hiddenAnchor.rel = "noopener noreferrer";
+      document.body.appendChild(hiddenAnchor);
+      hiddenAnchor.click();
+      document.body.removeChild(hiddenAnchor);
+    }
   };
 
   return (
@@ -1232,40 +1250,43 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
         </div>
       </div>
 
-      {/* GRID PORTOFOLIO */}
+      {/* GRID DAFTAR PORTOFOLIO */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {filteredProjects.map((project, i) => (
           <div
             key={i}
-            onClick={(e) => handleCardClick(e, project.link)}
-            className={`bg-neutral-900/40 backdrop-blur-md p-6 rounded-xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between opacity-0 animate-slide-up ${project.delay} ${project.link ? 'hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] cursor-pointer' : ''}`}
+            onClick={(e) => handleCardClick(e, project)}
+            className={`bg-neutral-900/40 backdrop-blur-md p-6 rounded-xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between opacity-0 animate-slide-up ${project.delay} ${project.link || project.videoYoutubeId ? 'hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] cursor-pointer' : ''}`}
           >
             <div>
-              {/* CONTAINER CANVAS PREVIEW (Tulisan "Project Canvas Cover" dihapus total) */}
-              <div className="h-44 bg-neutral-950 rounded-lg mb-4 border border-neutral-850 flex items-center justify-center transition-all duration-500 overflow-hidden relative">
-                
-                {project.image ? (
-                  // 🔥 TAMPILKAN GAMBAR PREVIEW JIKA ADA DATA ASSET-NYA
-                  <>
+              {/* AREA PREVIEW GAMBAR ATAU MOCKUP */}
+              <div className="h-44 bg-neutral-950 rounded-lg mb-4 border border-neutral-850 flex items-center justify-center overflow-hidden relative">
+                {project.videoYoutubeId ? (
+                  // Jika video: Tampilkan thumbnail YouTube statis bawaan resolusi tinggi (Tanpa Hover Efek)
+                  <div className="w-full h-full relative flex items-center justify-center">
                     <img 
-                      src={project.image} 
+                      src={`https://img.youtube.com/vi/${project.videoYoutubeId}/hqdefault.jpg`} 
                       alt={project.title} 
-                      className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
+                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
                     />
-                    {/* Lapisan overlay gelap + teks transisi sewaktu di-hover */}
-                    {project.link && (
-                      <div className="absolute inset-0 bg-black/30 opacity-100 group-hover:bg-transparent transition-all duration-500 flex items-center justify-center">
-                        <span className="text-[10px] uppercase font-mono tracking-widest text-white bg-[#FF5500] px-3 py-1.5 rounded-md font-bold opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-xl shadow-[#FF5500]/20 tracking-wider">
-                          ➔ Launch Project
-                        </span>
-                      </div>
-                    )}
-                  </>
+                    {/* Icon Tombol Play Minimalis Tengah Permanen */}
+                    <div className="absolute p-3 rounded-full bg-black/60 border border-white/20 text-white group-hover:scale-110 transition-transform duration-300 pointer-events-none">
+                      <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </div>
+                  </div>
+                ) : project.image ? (
+                  // Jika gambar web/mockup biasa
+                  <img 
+                    src={project.image} 
+                    alt={project.title} 
+                    className="w-full h-full object-cover opacity-100"
+                  />
                 ) : (
-                  // JIKA BELUM ADA GAMBAR: Diberi background gradasi luxury gelap polos agar tidak merusak layout
+                  // Kosong / Default gradasi
                   <div className="w-full h-full bg-gradient-to-br from-neutral-950 to-neutral-900/40" />
                 )}
-
               </div>
 
               <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
@@ -1277,6 +1298,42 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
           </div>
         ))}
       </div>
+
+      {/* ==========================================
+         🔥 POP-UP LIGHTBOX MODAL PENAYANG YOUTUBE
+         ========================================== */}
+      {activeVideoId && (
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
+          onClick={() => setActiveVideoId(null)} // Klik di luar area video untuk menutup pop-up
+        >
+          <div 
+            className="relative w-full max-w-4xl aspect-video bg-neutral-950 rounded-xl overflow-hidden border border-neutral-800 shadow-2xl"
+            onClick={(e) => e.stopPropagation()} // Cegah penutupan ketika area video diklik
+          >
+            {/* Tombol Tutup Silang Pojok Kanan Atas */}
+            <button 
+              onClick={() => setActiveVideoId(null)}
+              className="absolute -top-12 right-0 md:top-4 md:right-4 z-50 text-neutral-400 hover:text-white bg-neutral-900/80 hover:bg-neutral-900 p-2 rounded-full border border-neutral-800 transition-colors cursor-pointer"
+              title="Close Player"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+
+            {/* Frame Player Youtube dengan Autoplay setelah Pop-up Aktif */}
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0&modestbranding=1`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
