@@ -7,6 +7,7 @@ import providimg from "./assets/professional-videgrapher.png";
 import logoImg from "./assets/logo-mostu.png";
 import bgSec2 from './assets/bg-sec2.png';
 import webPorto1Img from "./assets/Web-Porto1.png";
+import animPorto1Img from "./assets/Anim-Porto1.jpg";
 
 // IMPORT ASSET ICON
 import iconWebSoftware from "./assets/Icon Web-Software.png";
@@ -1165,10 +1166,10 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   // 2. Hubungkan variabel import 'webPorto1Img' ke dalam proyek pertama
   const projects = [
     { 
-      title: "Terapi Kesehatan Sejati Landing Page", 
+      title: "Terapi Kesehatan Sejati", 
       cat: "web-dev", 
-      desc: "Sistem toko online super cepat terintegrasi payment gateway.", 
-      meta: "Web Development &bull; 2026", 
+      desc: "Landing page jasa terapi kesehatan klient kami.", 
+      meta: "Web Development Project &bull; 2026", 
       delay: "",
       link: "https://terapikesehatansejati.netlify.app/",
       image: webPorto1Img // 🔥 Gambar diikat di sini
@@ -1176,7 +1177,16 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     { title: "SaaS Multi-Tenant Application", cat: "web-dev", desc: "Arsitektur cloud terpusat untuk efisiensi bisnis manajemen retail.", meta: "Software System &bull; 2026", delay: "[animation-delay:100ms]", link: null, image: null },
     { title: "3D Spatial Commercial Interior", cat: "visual-story", desc: "Visualisasi aset interior coffee shop dengan estetika Luxury Dark.", meta: "3D Rendering &bull; 2026", delay: "[animation-delay:200ms]", link: null, image: null },
     { title: "Cinematic Corporate Profile", cat: "visual-story", desc: "Penyusunan alur cerita visual promosi berskala sinematik professional.", meta: "Videography &bull; 2026", delay: "[animation-delay:300ms]", link: null, image: null },
-    { title: "Mineral Town Romance Asset", cat: "animation", desc: "Pengembangan paket aset background bergerak & interaksi visual novel.", meta: "Game Animation &bull; 2026", delay: "[animation-delay:400ms]", link: null, image: null },
+    
+    { title: "PT Perta Arun Gas Projects",
+      cat: "animation",
+      desc: "Pengembangan paket aset background bergerak & interaksi visual novel.",
+      meta: "Animation Project &bull; 2026",
+      delay: "[animation-delay:400ms]",
+      link: "https://www.youtube.com/playlist?list=PLYQpjQwcSKW9jG1wHX6KXY_sMytqHeHQ0",
+      image: animPorto1Img
+    },
+    
     { title: "Dynamic Bumper Video Interface", cat: "animation", desc: "Motion graphics transisi antarmuka berkecepatan tinggi.", meta: "Motion Design &bull; 2026", delay: "[animation-delay:500ms]", link: null, image: null },
     { title: "Corporate Visual Guideline Kit", cat: "branding", desc: "Rancangan guidelines logo, tipografi, dan kit media sosial.", meta: "Branding Kit &bull; 2026", delay: "[animation-delay:600ms]", link: null, image: null },
   ];
