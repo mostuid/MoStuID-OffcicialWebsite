@@ -363,7 +363,7 @@ function App() {
                         AI Voice Generator
                       </h3>
                       <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">
-                        Ubah teks menjadi suara manusia buatan AI (voice over) yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
+                        Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
                       </p>
                     </div>
                     
