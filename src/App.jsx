@@ -336,17 +336,107 @@ function App() {
           <Route
             path="/products"
             element={
-              <div className="py-24 text-center max-w-xl mx-auto min-h-[60vh] flex flex-col justify-center items-center animate-slide-up">
-                <h2 className="text-3xl font-poppins font-black mb-3">
-                  Our Digital Products
-                </h2>
-                <p className="text-neutral-400 text-sm font-light leading-relaxed mb-6">
-                  Kami sedang merakit template UI/UX premium, Landing Page Generator instan,
-                  dan aset visual siap pakai untuk mempercepat skalabilitas bisnismu.
-                </p>
-                <span className="inline-block border border-[#FF5500]/30 text-[#FF5500] text-xs font-mono uppercase tracking-widest px-4 py-1.5 rounded-full bg-[#FF5500]/5 select-none mb-6">
-                  Coming Soon / Under Development
-                </span>
+              <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
+                {/* Header Section */}
+                <div className="text-center max-w-xl mx-auto mb-12">
+                  <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight">
+                    Our Digital Products
+                  </h2>
+                  <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+                    Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
+                  </p>
+                </div>
+
+                {/* Grid Container untuk 4 Tools */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+                  
+                  {/* TOOL 1: AI VOICE GENERATOR (AKTIF) - Muncul Pertama */}
+                  <div className="bg-neutral-900/40 backdrop-blur-md p-6 rounded-2xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] opacity-0 animate-slide-up">
+                    <div>
+                      {/* Icon/Badge Area */}
+                      <div className="w-12 h-12 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+                        </svg>
+                      </div>
+                      <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
+                        AI Voice Generator
+                      </h3>
+                      <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">
+                        Ubah teks menjadi suara manusia buatan (voice over) yang realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
+                      </p>
+                    </div>
+                    
+                    {/* Action Button */}
+                    <button 
+                      onClick={() => window.open("https://gemini.google.com/share/7fcab75c69b6", "_blank")}
+                      className="w-full mt-2 border border-neutral-800 bg-neutral-950 hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] text-center cursor-pointer shadow-md"
+                    >
+                      Launch Tool ➔
+                    </button>
+                  </div>
+
+                  {/* TOOL 2: UI/UX PREMIUM TEMPLATES (COMING SOON) - Delay 100ms */}
+                  <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:100ms] select-none">
+                    <div>
+                      <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 0 2.4 2.249h1.64a2.25 2.25 0 0 0 2.4-2.249 3 3 0 0 0-.66-1.128ZM9.53 16.122a3 3 0 1 1 4.94 0M9.53 16.122a3 3 0 0 0 .47.11h3.41a3 3 0 0 0 .47-.11m4.94 0a3 3 0 0 1-.66 1.128 2.25 2.25 0 0 1 2.4 2.249h1.64a2.25 2.25 0 0 1 2.4-2.249 3 3 0 0 1-5.78-1.128ZM15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        </svg>
+                      </div>
+                      <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                        Premium UI Kit
+                      </h3>
+                      <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                        Sistem komponen visual, landing page template, dan kerangka desain UI/UX modern siap pakai untuk Figma dan React.
+                      </p>
+                    </div>
+                    <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                      Coming Soon
+                    </span>
+                  </div>
+
+                  {/* TOOL 3: INSTANT LANDING GENERATOR (COMING SOON) - Delay 200ms */}
+                  <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:200ms] select-none">
+                    <div>
+                      <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                        </svg>
+                      </div>
+                      <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                        Page Generator
+                      </h3>
+                      <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                        Rakit halaman landing page promosi produk atau portofolio bisnis Anda secara instan dalam hitungan menit tanpa koding.
+                      </p>
+                    </div>
+                    <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                      Coming Soon
+                    </span>
+                  </div>
+
+                  {/* TOOL 4: CINEMATIC MOTION ASSETS (COMING SOON) - Delay 300ms */}
+                  <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:300ms] select-none">
+                    <div>
+                      <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25z" />
+                        </svg>
+                      </div>
+                      <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                        Motion Assets Pack
+                      </h3>
+                      <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                        Koleksi aset bumper video, overlay cinematic, sound effects, dan grafis gerak transisi premium untuk editor video.
+                      </p>
+                    </div>
+                    <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                      Coming Soon
+                    </span>
+                  </div>
+
+                </div>
               </div>
             }
           />
