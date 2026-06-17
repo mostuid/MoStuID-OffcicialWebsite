@@ -28,3 +28,6 @@ src/assets/Web-Porto1.mp4
 src/assets/Web-Porto1.gif
 node_modules/
 .DS_Store
+
+src/components/AIVoiceGeneratorIgnore.html
+src/components/AIVoiceGenerator.jsx
