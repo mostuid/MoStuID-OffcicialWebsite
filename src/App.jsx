@@ -1168,13 +1168,13 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
   const projects = [
     { 
-      title: "Terapi Kesehatan Sejati Landing Page", 
-      cat: "web-dev", 
-      desc: "Sistem toko online super cepat terintegrasi payment gateway.", 
-      meta: "Web Development &bull; 2026", 
+      title: "Terapi Kesehatan Sejati", 
+      cat: "web-dev",
+      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.", 
+      meta: "Web Development Project &bull; 2026", 
       delay: "",
       link: "https://terapikesehatansejati.netlify.app/",
-      image: webPorto1Img, 
+      image: webPorto1Img,
       videoYoutubeId: null 
     },
     { title: "SaaS Multi-Tenant Application", cat: "web-dev", desc: "Arsitektur cloud terpusat untuk efisiensi bisnis manajemen retail.", meta: "Software System &bull; 2026", delay: "[animation-delay:100ms]", link: null, image: null, videoYoutubeId: null },
@@ -1191,7 +1191,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     },
     { title: "PT Perta Arun Gas Projects",
       cat: "animation",
-      desc: "Pengembangan paket aset background bergerak & interaksi visual novel.",
+      desc: "Visual edukatif untuk meningkatkan kesadaran keselamatan dan budaya kerja.",
       meta: "Animation Project &bull; 2026",
       delay: "[animation-delay:400ms]",
       link: "https://www.youtube.com/playlist?list=PLYQpjQwcSKW9jG1wHX6KXY_sMytqHeHQ0",
