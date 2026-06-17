@@ -1162,7 +1162,14 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   ];
 
   const projects = [
-    { title: "Premium E-Commerce Platform", cat: "web-dev", desc: "Sistem toko online super cepat terintegrasi payment gateway.", meta: "Web Development &bull; 2026", delay: "" },
+    {
+      title: "Terapi Kesehatan Sejati Landing Page",
+      cat: "web-dev",
+      desc: "Sistem toko online super cepat terintegrasi payment gateway.",
+      meta: "Web Development &bull; 2026",
+      delay: "",
+      link: "https://terapikesehatansejati.netlify.app/"
+    },
     { title: "SaaS Multi-Tenant Application", cat: "web-dev", desc: "Arsitektur cloud terpusat untuk efisiensi bisnis manajemen retail.", meta: "Software System &bull; 2026", delay: "[animation-delay:100ms]" },
     { title: "3D Spatial Commercial Interior", cat: "visual-story", desc: "Visualisasi aset interior coffee shop dengan estetika Luxury Dark.", meta: "3D Rendering &bull; 2026", delay: "[animation-delay:200ms]" },
     { title: "Cinematic Corporate Profile", cat: "visual-story", desc: "Penyusunan alur cerita visual promosi berskala sinematik professional.", meta: "Videography &bull; 2026", delay: "[animation-delay:300ms]" },
