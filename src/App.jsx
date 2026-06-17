@@ -8,7 +8,7 @@ import logoImg from "./assets/logo-mostu.png";
 import bgSec2 from './assets/bg-sec2.png';
 import webPorto1Img from "./assets/Web-Porto1.mp4";
 import animPorto1Img from "./assets/Anim-Porto1.jpg";
-import videoPorto1Img from "./assets/Web-Porto1.gif";
+import videoPorto1Img from "./assets/Video-Porto1.gif";
 
 // IMPORT ASSET ICON
 import iconWebSoftware from "./assets/Icon Web-Software.png";

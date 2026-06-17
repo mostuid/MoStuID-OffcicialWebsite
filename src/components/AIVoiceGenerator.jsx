@@ -46,7 +46,7 @@ const DELIVERY_STYLES = [
 ];
 
 export default function AiVoiceGenerator() {
-    const apiKey = ""; // Masukkan API Key Gemini Kamu di Sini jika diperlukan
+    const apiKey = "AQ.Ab8RN6LLUVIP5Jt1DVFMxafDH3rQ_7xQHxDXqANY17NFaNwySg"; // Masukkan API Key Gemini Kamu di Sini jika diperlukan
     const mainAudioRef = useRef(null);
     const textareaRef = useRef(null);
     const fileInputRef = useRef(null);
