@@ -1199,7 +1199,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       videoYoutubeId: "zFJzxtdbuok" 
     },
     {
-      title: "PT Perta Arun Gas Projects",
+      title: "PT Perta Arun Gas Animation",
       cat: "animation",
       desc: "Visual edukatif untuk meningkatkan kesadaran keselamatan dan budaya kerja.",
       meta: "Animation Project &bull; 2026",
