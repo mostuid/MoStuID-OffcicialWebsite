@@ -369,7 +369,7 @@ function App() {
                     
                     {/* Action Button */}
                     <button 
-                      onClick={() => window.open("https://gemini.google.com/share/def53e46bb13", "_blank")}
+                      onClick={() => window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank")}
                       className="w-full mt-2 border border-neutral-800 bg-neutral-950 hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] text-center cursor-pointer shadow-md"
                     >
                       Launch Tool ➔
