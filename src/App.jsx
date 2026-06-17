@@ -1177,8 +1177,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       image: webPorto1Img,
       videoYoutubeId: null 
     },
-    { title: "SaaS Multi-Tenant Application", cat: "web-dev", desc: "Arsitektur cloud terpusat untuk efisiensi bisnis manajemen retail.", meta: "Software System &bull; 2026", delay: "[animation-delay:100ms]", link: null, image: null, videoYoutubeId: null },
-    { title: "3D Spatial Commercial Interior", cat: "visual-story", desc: "Visualisasi aset interior coffee shop dengan estetika Luxury Dark.", meta: "3D Rendering &bull; 2026", delay: "[animation-delay:200ms]", link: null, image: null, videoYoutubeId: null },
     { 
       title: "Digital Product Campaign", 
       cat: "visual-story", 
@@ -1189,6 +1187,16 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       image: null, 
       videoYoutubeId: "FbdM_EwI1pk" // ID Video YouTube
     },
+    { 
+      title: "Video Profil Prof. Dr. Ghazali Syamni", 
+      cat: "visual-story", 
+      desc: "Video profil pengukuhan guru besar dengan mengangkat mengangkat perjalanan akademik, kontribusi keilmuan beliau.", 
+      meta: "Videography Projects &bull; 2026", 
+      delay: "[animation-delay:300ms]", 
+      link: null, 
+      image: null, 
+      videoYoutubeId: "zFJzxtdbuok" // ID Video YouTube
+    },
     { title: "PT Perta Arun Gas Projects",
       cat: "animation",
       desc: "Visual edukatif untuk meningkatkan kesadaran keselamatan dan budaya kerja.",
@@ -1198,8 +1206,24 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       image: animPorto1Img,
       videoYoutubeId: null
     },
-    { title: "Dynamic Bumper Video Interface", cat: "animation", desc: "Motion graphics transisi antarmuka berkecepatan tinggi.", meta: "Motion Design &bull; 2026", delay: "[animation-delay:500ms]", link: null, image: null, videoYoutubeId: null },
-    { title: "Corporate Visual Guideline Kit", cat: "branding", desc: "Rancangan guidelines logo, tipografi, dan kit media sosial.", meta: "Branding Kit &bull; 2026", delay: "[animation-delay:600ms]", link: null, image: null, videoYoutubeId: null },
+    
+    /*{ title: "Dynamic Bumper Video Interface",
+      cat: "animation",
+      desc: "Motion graphics transisi antarmuka berkecepatan tinggi.",
+      meta: "Motion Design &bull; 2026",
+      delay: "[animation-delay:500ms]",
+      link: null,
+      image: null,
+      videoYoutubeId: null
+    },
+    { title: "Corporate Visual Guideline Kit",
+      cat: "branding",
+      desc: "Rancangan guidelines logo, tipografi, dan kit media sosial.",
+      meta: "Branding Kit &bull; 2026",
+      delay: "[animation-delay:600ms]",
+      link: null, image: null,
+      videoYoutubeId: null
+    },*/
   ];
 
   const filteredProjects = currentFilter === "all" ? projects : projects.filter(p => p.cat === currentFilter);
