@@ -6,8 +6,9 @@ import markeximg from "./assets/marketing-executive.png";
 import providimg from "./assets/professional-videgrapher.png";
 import logoImg from "./assets/logo-mostu.png";
 import bgSec2 from './assets/bg-sec2.png';
-import webPorto1Img from "./assets/Web-Porto1.png";
+import webPorto1Img from "./assets/Web-Porto1.mp4";
 import animPorto1Img from "./assets/Anim-Porto1.jpg";
+import videoPorto1Img from "./assets/Video-Porto1.png";
 
 // IMPORT ASSET ICON
 import iconWebSoftware from "./assets/Icon Web-Software.png";
@@ -1167,37 +1168,38 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   ];
 
   const projects = [
-    { 
-      title: "Terapi Kesehatan Sejati", 
+    {
+      title: "Terapi Kesehatan Sejati",
       cat: "web-dev",
-      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.", 
-      meta: "Web Development Project &bull; 2026", 
+      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
+      meta: "Web Development Project &bull; 2026",
       delay: "",
       link: "https://terapikesehatansejati.netlify.app/",
       image: webPorto1Img,
-      videoYoutubeId: null 
+      videoYoutubeId: null
     },
-    { 
-      title: "Digital Product Campaign", 
-      cat: "visual-story", 
-      desc: "Video promosi produk digital dengan visual menarik, komunikatif, dan berorientasi hasil.", 
-      meta: "Videography Projects &bull; 2026", 
-      delay: "[animation-delay:300ms]", 
-      link: null, 
-      image: null, 
-      videoYoutubeId: "FbdM_EwI1pk" // ID Video YouTube
+    {
+      title: "Digital Product Campaign",
+      cat: "visual-story",
+      desc: "Video promosi produk digital dengan visual menarik, komunikatif, dan berorientasi hasil.",
+      meta: "Videography Projects &bull; 2026",
+      delay: "[animation-delay:300ms]",
+      link: null,
+      image: videoPorto1Img, // 🔥 Diisi dengan asset .mp4 atau .gif lokal kamu
+      videoYoutubeId: "FbdM_EwI1pk" // ID Video YouTube untuk pop-up saat diklik
     },
-    { 
-      title: "Video Profil Prof. Dr. Ghazali Syamni", 
-      cat: "visual-story", 
-      desc: "Video profil pengukuhan guru besar dengan mengangkat mengangkat perjalanan akademik, kontribusi keilmuan beliau.", 
-      meta: "Videography Projects &bull; 2026", 
-      delay: "[animation-delay:300ms]", 
-      link: null, 
-      image: null, 
-      videoYoutubeId: "zFJzxtdbuok" // ID Video YouTube
+    {
+      title: "Video Profil Prof. Dr. Ghazali Syamni",
+      cat: "visual-story",
+      desc: "Video profil pengukuhan guru besar dengan mengangkat mengangkat perjalanan akademik, kontribusi keilmuan beliau.",
+      meta: "Videography Projects &bull; 2026",
+      delay: "[animation-delay:300ms]",
+      link: null,
+      image: null,
+      videoYoutubeId: "zFJzxtdbuok" 
     },
-    { title: "PT Perta Arun Gas Projects",
+    {
+      title: "PT Perta Arun Gas Projects",
       cat: "animation",
       desc: "Visual edukatif untuk meningkatkan kesadaran keselamatan dan budaya kerja.",
       meta: "Animation Project &bull; 2026",
@@ -1206,24 +1208,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       image: animPorto1Img,
       videoYoutubeId: null
     },
-    
-    /*{ title: "Dynamic Bumper Video Interface",
-      cat: "animation",
-      desc: "Motion graphics transisi antarmuka berkecepatan tinggi.",
-      meta: "Motion Design &bull; 2026",
-      delay: "[animation-delay:500ms]",
-      link: null,
-      image: null,
-      videoYoutubeId: null
-    },
-    { title: "Corporate Visual Guideline Kit",
-      cat: "branding",
-      desc: "Rancangan guidelines logo, tipografi, dan kit media sosial.",
-      meta: "Branding Kit &bull; 2026",
-      delay: "[animation-delay:600ms]",
-      link: null, image: null,
-      videoYoutubeId: null
-    },*/
   ];
 
   const filteredProjects = currentFilter === "all" ? projects : projects.filter(p => p.cat === currentFilter);
@@ -1231,7 +1215,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   // Aksi ketika kartu portofolio diklik
   const handleCardClick = (e, project) => {
     e.stopPropagation();
-    
+
     // Skenario 1: Jika ada Video Youtube, buka jendela pop-up penayang
     if (project.videoYoutubeId) {
       setActiveVideoId(project.videoYoutubeId);
@@ -1285,30 +1269,52 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
             <div>
               {/* AREA PREVIEW GAMBAR ATAU MOCKUP */}
               <div className="h-44 bg-neutral-950 rounded-lg mb-4 border border-neutral-850 flex items-center justify-center overflow-hidden relative">
-                {project.videoYoutubeId ? (
-                  // Jika video: Tampilkan thumbnail YouTube statis bawaan resolusi tinggi (Tanpa Hover Efek)
+                {project.image ? (
                   <div className="w-full h-full relative flex items-center justify-center">
-                    <img 
-                      src={`https://img.youtube.com/vi/${project.videoYoutubeId}/hqdefault.jpg`} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+                    {/* 🔥 CEK APAPUN JIKA FILE ADALAH FORMAT MP4 LOKAL */}
+                    {typeof project.image === 'string' && project.image.endsWith('.mp4') ? (
+                      <video
+                        src={project.image}
+                        className="w-full h-full object-cover opacity-100"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                      />
+                    ) : (
+                      // JIKA BUKAN MP4 (Berarti Gambar Biasa atau GIF Bergerak): Tampilkan tag img biasa
+                      <img
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover opacity-100"
+                      />
+                    )}
+
+                    {/* Jika item ini merupakan penunjuk video YouTube, berikan tombol Play statis di tengahnya */}
+                    {project.videoYoutubeId && (
+                      <div className="absolute p-3 rounded-full bg-black/60 border border-white/20 text-white group-hover:scale-110 transition-transform duration-300 pointer-events-none z-30">
+                        <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
+                    )}
+                  </div>
+                ) : project.videoYoutubeId ? (
+                  // JIKA TIDAK ADA PREVIEW LOKAL: Gunakan thumbnail bawaan YouTube otomatis
+                  <div className="w-full h-full relative flex items-center justify-center">
+                    <img
+                      src={`https://img.youtube.com/vi/${project.videoYoutubeId}/hqdefault.jpg`}
+                      alt={project.title}
+                      className="w-full h-full object-cover opacity-100"
                     />
-                    {/* Icon Tombol Play Minimalis Tengah Permanen */}
-                    <div className="absolute p-3 rounded-full bg-black/60 border border-white/20 text-white group-hover:scale-110 transition-transform duration-300 pointer-events-none">
+                    <div className="absolute p-3 rounded-full bg-black/60 border border-white/20 text-white group-hover:scale-110 transition-transform duration-300 pointer-events-none z-30">
                       <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z" />
                       </svg>
                     </div>
                   </div>
-                ) : project.image ? (
-                  // Jika gambar web/mockup biasa
-                  <img 
-                    src={project.image} 
-                    alt={project.title} 
-                    className="w-full h-full object-cover opacity-100"
-                  />
                 ) : (
-                  // Kosong / Default gradasi
+                  // JIKA KOSONG: Tampilkan gradasi luxury gelap minimalis polos
                   <div className="w-full h-full bg-gradient-to-br from-neutral-950 to-neutral-900/40" />
                 )}
               </div>
@@ -1327,26 +1333,24 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
          🔥 POP-UP LIGHTBOX MODAL PENAYANG YOUTUBE
          ========================================== */}
       {activeVideoId && (
-        <div 
+        <div
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
-          onClick={() => setActiveVideoId(null)} // Klik di luar area video untuk menutup pop-up
+          onClick={() => setActiveVideoId(null)}
         >
-          <div 
+          <div
             className="relative w-full max-w-4xl aspect-video bg-neutral-950 rounded-xl overflow-hidden border border-neutral-800 shadow-2xl"
-            onClick={(e) => e.stopPropagation()} // Cegah penutupan ketika area video diklik
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Tombol Tutup Silang Pojok Kanan Atas */}
-            <button 
+            <button
               onClick={() => setActiveVideoId(null)}
               className="absolute -top-12 right-0 md:top-4 md:right-4 z-50 text-neutral-400 hover:text-white bg-neutral-900/80 hover:bg-neutral-900 p-2 rounded-full border border-neutral-800 transition-colors cursor-pointer"
               title="Close Player"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
-            {/* Frame Player Youtube dengan Autoplay setelah Pop-up Aktif */}
             <iframe
               className="w-full h-full"
               src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0&modestbranding=1`}
