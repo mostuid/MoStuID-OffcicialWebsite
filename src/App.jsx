@@ -12,6 +12,7 @@ import videoPorto1Img from "./assets/Video-Porto1.png";
 
 // IMPORT ASSET ICON
 import iconWebSoftware from "./assets/Icon Web-Software.png";
+import iconAIAgent from "./assets/Icon AI-Agent.png";
 import iconVisualStorytelling from "./assets/Icon Visual Story Telling.png";
 import iconBrandingStrategy from "./assets/Icon Branding Strategy.png";
 import iconAnimationServices from "./assets/Icon Animation Services.png";
@@ -349,7 +350,7 @@ function App() {
 
                 {/* Grid Container untuk 4 Tools */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
-                  
+
                   {/* TOOL 1: AI VOICE GENERATOR (AKTIF) - Muncul Pertama */}
                   <div className="bg-neutral-900/40 backdrop-blur-md p-6 rounded-2xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] opacity-0 animate-slide-up">
                     <div>
@@ -366,9 +367,9 @@ function App() {
                         Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
                       </p>
                     </div>
-                    
+
                     {/* Action Button */}
-                    <button 
+                    <button
                       onClick={() => window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank")}
                       className="w-full mt-2 border border-neutral-800 bg-neutral-950 hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] text-center cursor-pointer shadow-md"
                     >
@@ -911,6 +912,12 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
       animDelay: ""
     },
     {
+      id: "ai-agent",
+      title: "AI Automation Services",
+      icon: <img src={iconAIAgent} alt="AI Agent Icon" className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" />,
+      animDelay: ""
+    },
+    {
       id: "visual-story",
       title: "Visual Storytelling",
       icon: <img src={iconVisualStorytelling} alt="Visual Story Telling Icon" className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" />,
@@ -948,21 +955,50 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {servicesData.map((service) => (
+          {servicesData.map((service, index) => (
             <div
               key={service.id}
               onClick={() => handleServiceClick(service.id)}
-              className={`bg-white/30 backdrop-blur-md px-8 py-6 rounded-xl border border-white/50 flex items-center justify-between transition-all duration-500 hover:bg-white/60 hover:translate-y-[-4px] hover:shadow-[0_15px_30px_rgba(255,85,0,0.08)] cursor-pointer group opacity-0 ${isSec2Visible ? 'animate-slide-up ' + service.animDelay : ''}`}
+              className={`
+        bg-white/30 backdrop-blur-md px-8 py-6 rounded-xl border border-white/50
+        flex items-center justify-between
+        transition-all duration-500
+        hover:bg-white/60 hover:translate-y-[-4px]
+        hover:shadow-[0_15px_30px_rgba(255,85,0,0.08)]
+        cursor-pointer group opacity-0
+        ${index === servicesData.length - 1 ? 'md:col-span-2 md:max-w-[48%] md:mx-auto w-full' : ''}
+        ${isSec2Visible ? 'animate-slide-up ' + service.animDelay : ''}
+      `}
             >
               <div className="flex items-center space-x-6 text-left w-full">
                 <div className="flex justify-center items-center shrink-0 bg-transparent">
                   {service.icon}
                 </div>
-                <h3 className="font-poppins font-semibold text-base sm:text-lg text-neutral-200 group-hover:text-white transition-colors duration-300">{service.title}</h3>
+
+                <h3 className="font-poppins font-semibold text-base sm:text-lg text-neutral-200 group-hover:text-white transition-colors duration-300">
+                  {service.title}
+                </h3>
               </div>
+
               <div className="flex items-center space-x-1 text-xs font-mono font-bold text-neutral-400 group-hover:text-black transition-colors duration-300 pl-4 shrink-0">
-                <span className="hidden sm:inline opacity-0 transform translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">View <br /> Project</span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+                <span className="hidden sm:inline opacity-0 transform translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                  View <br /> Project
+                </span>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                  stroke="currentColor"
+                  className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                  />
+                </svg>
               </div>
             </div>
           ))}
@@ -1252,6 +1288,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   const categories = [
     { id: "all", name: "All Projects" },
     { id: "web-dev", name: "Web/Software" },
+    { id: "ai-agent", name: "AI Automation Services" },
     { id: "visual-story", name: "Visual Storytelling" },
     { id: "animation", name: "Animation Services" },
     { id: "branding", name: "Branding Strategy" },
@@ -1286,7 +1323,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       delay: "[animation-delay:300ms]",
       link: null,
       image: null,
-      videoYoutubeId: "zFJzxtdbuok" 
+      videoYoutubeId: "zFJzxtdbuok"
     },
     {
       title: "PT Perta Arun Gas Animation",
