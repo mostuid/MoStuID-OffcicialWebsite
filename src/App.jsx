@@ -7,6 +7,7 @@ import providimg from "./assets/professional-videgrapher.png";
 import logoImg from "./assets/logo-mostu.png";
 import bgSec2 from './assets/bg-sec2.png';
 import webPorto1Img from "./assets/Web-Porto1.gif";
+import webPorto2Img from "./assets/Web-Porto2.gif";
 import animPorto1Img from "./assets/Anim-Porto1.jpg";
 import videoPorto1Img from "./assets/Video-Porto1.png";
 
@@ -1303,6 +1304,16 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       delay: "",
       link: "https://terapikesehatansejati.netlify.app/",
       image: webPorto1Img,
+      videoYoutubeId: null
+    },
+    {
+      title: "Go Green Parallax Website",
+      cat: "web-dev",
+      desc: "Website prototype buatan MoStu Agency untuk client yang tertarik memiliki website dengan desain dan animasi yang menarik.",
+      meta: "Web Development Prototype &bull; 2026",
+      delay: "",
+      link: "https://go-green-paralax.vercel.app/",
+      image: webPorto2Img,
       videoYoutubeId: null
     },
     {
