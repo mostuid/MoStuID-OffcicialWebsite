@@ -1528,45 +1528,71 @@ function AboutTabSection() {
     <div className="py-12 max-w-5xl mx-auto space-y-20 animate-slide-up">
 
       {/* ==========================================
-         TENTANG PERUSAHAAN (MENGGUNAKAN BG-SEC2.PNG)
-         ========================================== */}
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center select-none">
-        <div className="md:col-span-7 space-y-4 text-left">
-          <div className="flex items-center space-x-4 mb-2">
-            <h2 className="text-4xl font-poppins font-black tracking-tight text-white">About MoStu</h2>
+   TENTANG PERUSAHAAN (MENGGUNAKAN BG-SEC2.PNG) + TIMELINE
+   ========================================== */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch select-none">
+        <div className="md:col-span-7 space-y-0 text-left relative">
+          {/* Judul About MoStu - Rata kiri tanpa garis */}
+          <h2 className="text-4xl font-poppins font-black tracking-tight text-white mb-6">
+            About MoStu
+          </h2>
+
+          {/* Garis Vertikal Timeline - dimulai dari setelah judul */}
+          <div className="absolute left-0 top-13 bottom-0 w-0.5 bg-[#FF5500]/30 rounded-full"></div>
+
+          {/* Paragraf 1 */}
+          <div className="relative pl-6 pb-6">
+            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
+            <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan Agency yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
+            </p>
           </div>
-          <p className="text-neutral-400 text-sm font-light leading-relaxed">
-            MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan Agency yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
-          </p>
-          <p className="text-neutral-400 text-sm font-light leading-relaxed">
-            Ide ini lahir dari sebuah meja warkop, ditemani segelas kopi pancung khas Aceh dan obrolan panjang tentang mimpi, kreativitas, serta harapan untuk membangun sesuatu yang bermanfaat. Hingga hari ini, Mostanir Studios masih dalam proses bertumbuh dan belajar.
-          </p>
-          <p className="text-neutral-400 text-sm font-light leading-relaxed">
-            Kami memang bukan tim besar, bahkan belum memiliki perjalanan yang begitu panjang. Namun kami percaya, bahwa setiap karya yang dikerjakan dengan sungguh-sungguh akan menemukan jalannya sendiri.
-          </p>
-          <p className="text-neutral-400 text-sm font-light leading-relaxed">
-            Dari proyek ke proyek, kami terus mengembangkan kemampuan, memperluas pengalaman, dan berusaha memberikan hasil terbaik bagi setiap klien yang mempercayakan kebutuhannya kepada kami, dengan penuh tanggung jawab.
-          </p>
-          <p className="text-neutral-400 text-sm font-light leading-relaxed">
-            Perjalanan ini masih panjang, dan kami memilih untuk terus belajar, berkarya, serta bertumbuh bersama setiap kepercayaan yang Anda berikan.
-          </p>
+
+          {/* Paragraf 2 */}
+          <div className="relative pl-6 pb-6">
+            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
+            <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              Ide ini lahir dari sebuah meja warkop, ditemani segelas kopi pancung khas Aceh dan obrolan panjang tentang mimpi, kreativitas, serta harapan untuk membangun sesuatu yang bermanfaat. Hingga hari ini, Mostanir Studios masih dalam proses bertumbuh dan belajar.
+            </p>
+          </div>
+
+          {/* Paragraf 3 */}
+          <div className="relative pl-6 pb-6">
+            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
+            <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              Kami memang bukan tim besar, bahkan belum memiliki perjalanan yang begitu panjang. Namun kami percaya, bahwa setiap karya yang dikerjakan dengan sungguh-sungguh akan menemukan jalannya sendiri.
+            </p>
+          </div>
+
+          {/* Paragraf 4 */}
+          <div className="relative pl-6 pb-6">
+            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
+            <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              Dari proyek ke proyek, kami terus mengembangkan kemampuan, memperluas pengalaman, dan berusaha memberikan hasil terbaik bagi setiap klien yang mempercayakan kebutuhannya kepada kami, dengan penuh tanggung jawab.
+            </p>
+          </div>
+
+          {/* Paragraf 5 (terakhir) */}
+          <div className="relative pl-6">
+            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-1.75 shadow-lg shadow-[#FF5500]/30"></div>
+            <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              Perjalanan ini masih panjang, dan kami memilih untuk terus belajar, berkarya, serta bertumbuh bersama setiap kepercayaan yang Anda berikan.
+            </p>
+          </div>
         </div>
 
-        {/* WADAH FOTO PROFIL PERUSAHAAN */}
-        <div className="md:col-span-5 relative rounded-2xl overflow-hidden border border-neutral-850 aspect-video md:aspect-square flex items-center justify-center bg-neutral-900">
+        {/* WADAH FOTO PROFIL PERUSAHAAN - Tinggi menyesuaikan dengan konten kiri */}
+        <div className="md:col-span-5 relative rounded-2xl overflow-hidden border border-neutral-850 flex items-center justify-center bg-neutral-900 h-full min-h-75">
           <img
             src={bgSec2}
             alt="MoStu Corporate Visual"
-            className="w-full h-full object-cover object-center opacity-80"
+            className="w-full h-full object-cover object-center opacity-80 absolute inset-0"
           />
           {/* Efek Overlay Teks Elegan di Atas Gambar */}
-          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-left">
-
-            {/* FIX GLOW EFFECT: Menambahkan drop-shadow kustom dengan warna oranye agensimu */}
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-left z-10">
             <span className="font-poppins font-bold text-4xl text-[#ffb792] block drop-shadow-[0_0_15px_rgba(255,85,0,0.65)] select-none">
               Since 2024
             </span>
-
             <span className="text-neutral-300 font-mono text-[10px] uppercase tracking-widest mt-2 block">
               From Simple Ideas to Meaningful Solutions
             </span>
@@ -1630,7 +1656,7 @@ function AboutTabSection() {
       {/* ==========================================
    TOMBOL DOWNLOAD COMPANY PROFILE
    ========================================== */}
-      <div className="flex justify-center py-6 border-t border-neutral-900/60">
+      <div className="flex justify-center border-t border-neutral-900/60">
         <a
           href="https://drive.google.com/file/d/16yB8tE9GljHrGHLYDFdxOVC-8Rkj8883/view?usp=sharing"
           target="_blank"
