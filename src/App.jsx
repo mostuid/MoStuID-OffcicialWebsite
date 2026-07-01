@@ -1294,6 +1294,21 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   // State khusus untuk melacak video mana yang sedang aktif diputar di pop-up
   const [activeVideoId, setActiveVideoId] = useState(null);
 
+  // State untuk dropdown kategori
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  // Tutup dropdown saat klik di luar
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const categories = [
     { id: "all", name: "All Projects" },
     { id: "web-dev", name: "Web/Software" },
@@ -1382,25 +1397,63 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
   return (
     <div className="py-12 min-h-[70vh]">
-      {/* HEADER NAVIGASI KATEGORI */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+      {/* HEADER NAVIGASI KATEGORI - Dengan Dropdown */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 relative z-20">
+        {/* Sub Judul - Tetap di kiri atas */}
         <div className="animate-slide-down">
           <h2 className="text-4xl font-black tracking-tight mb-2 font-poppins">Portofolio Kami</h2>
           <p className="text-neutral-400 max-w-xl font-light text-sm">Silahkan eksplorasi karya terbaik pilihan kami.</p>
         </div>
 
-        <div className="flex flex-wrap gap-4 items-center self-start md:self-end animate-slide-left">
-          <div className="flex flex-wrap gap-2 border border-neutral-800/60 p-1.5 rounded-xl bg-neutral-900/20 backdrop-blur-sm">
-            {categories.map((cat) => (
-              <button
-                key={cat.id}
-                onClick={() => setFilter(cat.id)}
-                className={`px-4 py-2 rounded-lg text-xs font-poppins font-medium tracking-wide transition-all duration-300 cursor-pointer ${currentFilter === cat.id ? "bg-[#FF5500] text-white shadow-md shadow-[#FF5500]/10" : "text-neutral-400 hover:text-white"}`}
-              >
-                {cat.name}
-              </button>
-            ))}
-          </div>
+        {/* Dropdown Kategori - Di sebelah kanan */}
+        <div className="relative self-start md:self-end animate-slide-left" ref={dropdownRef}>
+          {/* Tombol Dropdown */}
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="flex items-center gap-3 px-5 py-2.5 rounded-xl bg-neutral-900/40 border border-neutral-700/50 hover:border-[#FF5500]/40 text-neutral-300 hover:text-white font-poppins text-sm font-medium transition-all duration-300 cursor-pointer"
+          >
+            <span>
+              {categories.find(cat => cat.id === currentFilter)?.name || "All Projects"}
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+            </svg>
+          </button>
+
+          {/* Menu Dropdown - dengan z-index tinggi */}
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 w-56 bg-neutral-950/95 backdrop-blur-lg border border-neutral-800 rounded-xl shadow-2xl py-2 z-100 animate-slide-down">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => {
+                    setFilter(cat.id);
+                    setIsDropdownOpen(false);
+                  }}
+                  className={`w-full text-left px-5 py-2.5 text-sm font-poppins transition-all duration-200 cursor-pointer ${currentFilter === cat.id
+                      ? "text-[#FF5500] bg-[#FF5500]/10 font-semibold"
+                      : "text-neutral-400 hover:text-white hover:bg-neutral-800/50"
+                    }`}
+                >
+                  <div className="flex items-center gap-3">
+                    {currentFilter === cat.id && (
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 text-[#FF5500]">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                      </svg>
+                    )}
+                    <span className={currentFilter === cat.id ? "ml-0" : "ml-7"}>{cat.name}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
