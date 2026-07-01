@@ -813,7 +813,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 
         {/* IKON MOUSE */}
         {(() => {
-          const POSISI_HP = { left: "1px", bottom: "-520px" };
+          const POSISI_HP = { left: "1px", bottom: "-470px" };
           const POSISI_PC = { left: "167px", top: "400px" };
           return (
             <div
