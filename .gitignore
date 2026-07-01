@@ -26,6 +26,7 @@ dist-ssr
 # Tambahkan ini ke file .gitignore
 src/assets/Web-Porto1.mp4
 src/assets/Web-Porto1.gif
+src/assets/talentss.png
 node_modules/
 .DS_Store
 
