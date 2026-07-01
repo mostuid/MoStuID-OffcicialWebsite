@@ -195,7 +195,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen grid-bg relative overflow-x-hidden bg-darkBg text-white selection:bg-agency-orange selection:text-white pt-[76px]">
+    <div className="min-h-screen grid-bg relative overflow-x-hidden bg-darkBg text-white selection:bg-agency-orange selection:text-white">
 
       {/* NAVBAR HEADER: Auto-Hide on Scroll & Sticky Position (PC & HP) */}
       <header
@@ -218,19 +218,19 @@ function App() {
             {/* KEDUA: Portfolio */}
             <button onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); }} className={`hover:text-white transition-colors relative py-1.5 cursor-pointer ${activeTab === "portfolio" ? "text-white" : ""}`}>
               Portfolio
-              {activeTab === "portfolio" && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-agency-orange" />}
+              {activeTab === "portfolio" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
             </button>
 
             {/* KETIGA: Products */}
             <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-white tracking-wide transition-colors relative py-1.5 cursor-pointer ${activeTab === "products" ? "text-white" : ""}`}>
               Products
-              {activeTab === "products" && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-agency-orange" />}
+              {activeTab === "products" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
             </button>
 
             {/* KEEMPAT: About Us */}
             <button onClick={() => ubahTabNavigasi("about")} className={`hover:text-white tracking-wide transition-colors relative py-1.5 cursor-pointer ${activeTab === "about" ? "text-white" : ""}`}>
               About Us
-              {activeTab === "about" && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-agency-orange" />}
+              {activeTab === "about" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
             </button>
           </nav>
 
@@ -266,7 +266,7 @@ function App() {
           {/* DROPDOWN MENU INTERFACE: FIX LEBAR MENGIKUTI GARIS MERAH (HANYA SISI KANAN) */}
           {isMobileMenuOpen && (
             // GANTI KELAS DI SINI: left-0 dibuang, diganti left-auto w-[55vw] sm:w-[45vh] agar lebarnya proporsional di kanan
-            <div className="absolute top-full right-6 left-auto w-[55vw] max-w-[280px] bg-neutral-950/95 backdrop-blur-lg border border-white/5 rounded-2xl px-6 py-6 flex flex-col space-y-4 md:hidden animate-slide-down shadow-2xl z-50 overflow-y-auto text-right items-end mt-2">
+            <div className="absolute top-full right-6 left-auto w-[40vw] max-w-70 bg-neutral-950/95 backdrop-blur-lg border border-white/5 rounded-2xl px-6 py-6 flex flex-col space-y-4 md:hidden animate-slide-down shadow-2xl z-50 overflow-y-auto text-right items-end mt-2">
               <button
                 onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); setTimeout(() => scrollToSection("services-area"), 100); }}
                 className="w-full text-right text-neutral-300 hover:text-white font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer"
@@ -326,11 +326,13 @@ function App() {
           <Route
             path="/portfolio"
             element={
-              <PortfolioTabSection
-                currentFilter={portfolioFilter}
-                setFilter={setPortfolioFilter}
-                setActiveTab={ubahTabNavigasi}
-              />
+              <div className="mt-20">
+                <PortfolioTabSection
+                  currentFilter={portfolioFilter}
+                  setFilter={setPortfolioFilter}
+                  setActiveTab={ubahTabNavigasi}
+                />
+              </div>
             }
           />
 
@@ -338,106 +340,108 @@ function App() {
           <Route
             path="/products"
             element={
-              <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
-                {/* Header Section */}
-                <div className="text-center max-w-xl mx-auto mb-12">
-                  <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight">
-                    Our Digital Products
-                  </h2>
-                  <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
-                    Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
-                  </p>
-                </div>
-
-                {/* Grid Container untuk 4 Tools */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
-
-                  {/* TOOL 1: AI VOICE GENERATOR (AKTIF) - Muncul Pertama */}
-                  <div className="bg-neutral-900/40 backdrop-blur-md p-6 rounded-2xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] opacity-0 animate-slide-up">
-                    <div>
-                      {/* Icon/Badge Area */}
-                      <div className="w-12 h-12 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
-                        </svg>
-                      </div>
-                      <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
-                        AI Voice Generator
-                      </h3>
-                      <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">
-                        Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
-                      </p>
-                    </div>
-
-                    {/* Action Button */}
-                    <button
-                      onClick={() => window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank")}
-                      className="w-full mt-2 border border-neutral-800 bg-neutral-950 hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] text-center cursor-pointer shadow-md"
-                    >
-                      Launch Tool ➔
-                    </button>
+              <div className="mt-20">
+                <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
+                  {/* Header Section */}
+                  <div className="text-center max-w-xl mx-auto mb-12">
+                    <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight">
+                      Our Digital Products
+                    </h2>
+                    <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+                      Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
+                    </p>
                   </div>
 
-                  {/* TOOL 2: UI/UX PREMIUM TEMPLATES (COMING SOON) - Delay 100ms */}
-                  <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:100ms] select-none">
-                    <div>
-                      <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 0 2.4 2.249h1.64a2.25 2.25 0 0 0 2.4-2.249 3 3 0 0 0-.66-1.128ZM9.53 16.122a3 3 0 1 1 4.94 0M9.53 16.122a3 3 0 0 0 .47.11h3.41a3 3 0 0 0 .47-.11m4.94 0a3 3 0 0 1-.66 1.128 2.25 2.25 0 0 1 2.4 2.249h1.64a2.25 2.25 0 0 1 2.4-2.249 3 3 0 0 1-5.78-1.128ZM15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                        </svg>
-                      </div>
-                      <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                        Premium UI Kit
-                      </h3>
-                      <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                        Sistem komponen visual, landing page template, dan kerangka desain UI/UX modern siap pakai untuk Figma dan React.
-                      </p>
-                    </div>
-                    <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                      Coming Soon
-                    </span>
-                  </div>
+                  {/* Grid Container untuk 4 Tools */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
 
-                  {/* TOOL 3: INSTANT LANDING GENERATOR (COMING SOON) - Delay 200ms */}
-                  <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:200ms] select-none">
-                    <div>
-                      <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
-                        </svg>
+                    {/* TOOL 1: AI VOICE GENERATOR (AKTIF) - Muncul Pertama */}
+                    <div className="bg-neutral-900/40 backdrop-blur-md p-6 rounded-2xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] opacity-0 animate-slide-up">
+                      <div>
+                        {/* Icon/Badge Area */}
+                        <div className="w-12 h-12 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
+                          AI Voice Generator
+                        </h3>
+                        <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">
+                          Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
+                        </p>
                       </div>
-                      <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                        Page Generator
-                      </h3>
-                      <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                        Rakit halaman landing page promosi produk atau portofolio bisnis Anda secara instan dalam hitungan menit tanpa koding.
-                      </p>
-                    </div>
-                    <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                      Coming Soon
-                    </span>
-                  </div>
 
-                  {/* TOOL 4: CINEMATIC MOTION ASSETS (COMING SOON) - Delay 300ms */}
-                  <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:300ms] select-none">
-                    <div>
-                      <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                          <path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25z" />
-                        </svg>
+                      {/* Action Button */}
+                      <button
+                        onClick={() => window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank")}
+                        className="w-full mt-2 border border-neutral-800 bg-neutral-950 hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] text-center cursor-pointer shadow-md"
+                      >
+                        Launch Tool ➔
+                      </button>
+                    </div>
+
+                    {/* TOOL 2: UI/UX PREMIUM TEMPLATES (COMING SOON) - Delay 100ms */}
+                    <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:100ms] select-none">
+                      <div>
+                        <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 0 2.4 2.249h1.64a2.25 2.25 0 0 0 2.4-2.249 3 3 0 0 0-.66-1.128ZM9.53 16.122a3 3 0 1 1 4.94 0M9.53 16.122a3 3 0 0 0 .47.11h3.41a3 3 0 0 0 .47-.11m4.94 0a3 3 0 0 1-.66 1.128 2.25 2.25 0 0 1 2.4 2.249h1.64a2.25 2.25 0 0 1 2.4-2.249 3 3 0 0 1-5.78-1.128ZM15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                          Premium UI Kit
+                        </h3>
+                        <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                          Sistem komponen visual, landing page template, dan kerangka desain UI/UX modern siap pakai untuk Figma dan React.
+                        </p>
                       </div>
-                      <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                        Motion Assets Pack
-                      </h3>
-                      <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                        Koleksi aset bumper video, overlay cinematic, sound effects, dan grafis gerak transisi premium untuk editor video.
-                      </p>
+                      <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                        Coming Soon
+                      </span>
                     </div>
-                    <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                      Coming Soon
-                    </span>
-                  </div>
 
+                    {/* TOOL 3: INSTANT LANDING GENERATOR (COMING SOON) - Delay 200ms */}
+                    <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:200ms] select-none">
+                      <div>
+                        <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                          Page Generator
+                        </h3>
+                        <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                          Rakit halaman landing page promosi produk atau portofolio bisnis Anda secara instan dalam hitungan menit tanpa koding.
+                        </p>
+                      </div>
+                      <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                        Coming Soon
+                      </span>
+                    </div>
+
+                    {/* TOOL 4: CINEMATIC MOTION ASSETS (COMING SOON) - Delay 300ms */}
+                    <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:300ms] select-none">
+                      <div>
+                        <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25z" />
+                          </svg>
+                        </div>
+                        <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                          Motion Assets Pack
+                        </h3>
+                        <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                          Koleksi aset bumper video, overlay cinematic, sound effects, dan grafis gerak transisi premium untuk editor video.
+                        </p>
+                      </div>
+                      <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                        Coming Soon
+                      </span>
+                    </div>
+
+                  </div>
                 </div>
               </div>
             }
@@ -446,7 +450,11 @@ function App() {
           {/* ABOUT */}
           <Route
             path="/about"
-            element={<AboutTabSection />}
+            element={
+              <div className="mt-20">
+                <AboutTabSection />
+              </div>
+            }
           />
 
         </Routes>
@@ -472,7 +480,7 @@ function App() {
 
       {/* FLOATING WHATSAPP CTA BUTTON */}
       <div
-        className="fixed bottom-6 right-6 z-50 animate-slide-up animate-wiggle-float focus:outline-none"
+        className="fixed bottom-6 right-6 z-50 animate-slide-up focus:outline-none"
         style={{ animationDelay: "0s, 0s" }}
       >
         <a
@@ -542,7 +550,7 @@ function TypewriterEffect({ services }) {
     <>
       <span>{currentText}</span>
       {/* Batang kursor berkedip ala mesin tik lama */}
-      <span className="w-[2px] h-[1em] bg-agency-orange animate-pulse font-bold ml-0.5">|</span>
+      <span className="w-0.5 h-[1em] bg-agency-orange animate-pulse font-bold ml-0.5">|</span>
     </>
   );
 }
@@ -709,7 +717,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
   return (
     <div
       // 🔥 UTAMA: px-0 di mobile dan px-4 di desktop diaktifkan penuh di sini, bray!
-      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center min-h-[calc(100vh-76px)] lg:h-screen pt-4 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
+      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center h-screen pt-16 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
       // 🔥 UTAMA: clipPath dilepas total di mobile (none) agar tidak memotong elemen/ornamen meluber keluar layar
       style={{ clipPath: isMobileDevice ? "none" : "inset(0px -100vw 0px -100vw)" }}
     >
@@ -763,7 +771,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
             </span>
           </h1>
         </div>
-        <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-[20px] flex items-center justify-center lg:justify-start gap-1 uppercase">
+        <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
           <TypewriterEffect
             services={[
               "WE BUILD PROFESSIONAL WEBSITES & SOFTWARE",
@@ -880,19 +888,19 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
                 transform: isMobileDevice && textContainerConfig.hpLeft === "50%" ? "translateX(-50%)" : "none"
               }}
             >
-              <h2 className="font-poppins font-bold text-lg sm:text-2xl text-white tracking-tight drop-shadow-md min-h-[28px] sm:min-h-[36px] flex items-center">
+              <h2 className="font-poppins font-bold text-lg sm:text-2xl text-white tracking-tight drop-shadow-md min-h-7 sm:min-h-9 flex items-center">
                 <span className={displayName && displayName.length < heroSlides[activeSlide].name.length ? "typewriter-cursor" : ""}>
                   {displayName}
                 </span>
               </h2>
-              <p className="font-mono text-[#FF5500] text-[10px] sm:text-xs uppercase tracking-wider font-semibold mt-0.5 drop-shadow-sm min-h-[16px] flex items-center">
+              <p className="font-mono text-[#FF5500] text-[10px] sm:text-xs uppercase tracking-wider font-semibold mt-0.5 drop-shadow-sm min-h-4 flex items-center">
                 <span className={displayRole ? "typewriter-cursor" : ""}>
                   {displayRole}
                 </span>
               </p>
             </div>
 
-            <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-gradient-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-linear-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
           </div>
         );
       })()}
@@ -944,9 +952,9 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
   };
 
   return (
-    <section id="services-area" ref={sec2Ref} className="relative min-h-[100vh] flex flex-col justify-center items-center py-24 px-6 md:px-12 bg-cover bg-center overflow-hidden" style={{ backgroundImage: `url(${bgSec2})` }}>
+    <section id="services-area" ref={sec2Ref} className="relative h-screen flex flex-col justify-center items-center py-24 px-6 md:px-12 bg-cover bg-center overflow-hidden" style={{ backgroundImage: `url(${bgSec2})` }}>
       <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0" />
-      <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#FF5500] via-[#FF5500]/35 to-transparent pointer-events-none z-0" />
+      <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-[#FF5500] via-[#FF5500]/35 to-transparent pointer-events-none z-0" />
 
       {/* SINKRONISASI INTERSECTION OBSERVER */}
       <div className={`max-w-5xl mx-auto w-full relative z-10 text-center select-none ${isSec2Visible ? 'animate-slide-down' : 'opacity-0'}`}>
@@ -964,7 +972,7 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
         bg-white/30 backdrop-blur-md px-8 py-6 rounded-xl border border-white/50
         flex items-center justify-between
         transition-all duration-500
-        hover:bg-white/60 hover:translate-y-[-4px]
+        hover:bg-white/60 hover:-translate-y-1
         hover:shadow-[0_15px_30px_rgba(255,85,0,0.08)]
         cursor-pointer group opacity-0
         ${index === servicesData.length - 1 ? 'md:col-span-2 md:max-w-[48%] md:mx-auto w-full' : ''}
@@ -1142,7 +1150,7 @@ function ProjectBriefModal({ isOpen, onClose }) {
               </div>
 
               <div className="space-y-1">
-                <label className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider block transition-colors duration-300 text-[#FF5500]">
+                <label className="text-[11px] font-mono #FF5500 uppercase tracking-wider block transition-colors duration-300 text-[#FF5500]">
                   {dynamicSetup.label}
                 </label>
                 <textarea
@@ -1151,7 +1159,7 @@ function ProjectBriefModal({ isOpen, onClose }) {
                   placeholder={dynamicSetup.placeholder}
                   value={formData.dynamicRequirement}
                   onChange={(e) => setFormData({ ...formData, dynamicRequirement: e.target.value })}
-                  className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light resize-none leading-relaxed transition-all duration-300 min-h-[140px]"
+                  className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light resize-none leading-relaxed transition-all duration-300 min-h-35"
                 />
               </div>
 
@@ -1453,7 +1461,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
                   </div>
                 ) : (
                   // JIKA KOSONG: Tampilkan gradasi luxury gelap minimalis polos
-                  <div className="w-full h-full bg-gradient-to-br from-neutral-950 to-neutral-900/40" />
+                  <div className="w-full h-full bg-linear-to-br from-neutral-950 to-neutral-900/40" />
                 )}
               </div>
 
@@ -1472,7 +1480,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
          ========================================== */}
       {activeVideoId && (
         <div
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
+          className="fixed inset-0 z-9999 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
           onClick={() => setActiveVideoId(null)}
         >
           <div
@@ -1552,7 +1560,7 @@ function AboutTabSection() {
             className="w-full h-full object-cover object-center opacity-80"
           />
           {/* Efek Overlay Teks Elegan di Atas Gambar */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-left">
+          <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-left">
 
             {/* FIX GLOW EFFECT: Menambahkan drop-shadow kustom dengan warna oranye agensimu */}
             <span className="font-poppins font-bold text-4xl text-[#ffb792] block drop-shadow-[0_0_15px_rgba(255,85,0,0.65)] select-none">
@@ -1562,6 +1570,59 @@ function AboutTabSection() {
             <span className="text-neutral-300 font-mono text-[10px] uppercase tracking-widest mt-2 block">
               From Simple Ideas to Meaningful Solutions
             </span>
+          </div>
+        </div>
+      </div>
+
+      {/* ==========================================
+   PROFILE COMPANY (VISI, MISI, NILAI)
+   ========================================== */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start select-none py-8 border-t border-neutral-900/60">
+
+        {/* Visi */}
+        <div className="md:col-span-4 space-y-3">
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
+            <h3 className="text-xl font-poppins font-bold text-white tracking-tight">Visi</h3>
+          </div>
+          <p className="text-neutral-400 text-sm font-light leading-relaxed pl-4">
+            Menjadi mitra kreatif digital terpercaya yang menghubungkan ide-ide brilian dengan eksekusi visual berkualitas tinggi, serta mendorong pertumbuhan bisnis di era digital.
+          </p>
+        </div>
+
+        {/* Misi */}
+        <div className="md:col-span-4 space-y-3">
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
+            <h3 className="text-xl font-poppins font-bold text-white tracking-tight">Misi</h3>
+          </div>
+          <ul className="text-neutral-400 text-sm font-light leading-relaxed pl-4 space-y-2 list-disc list-inside">
+            <li>Memberikan layanan pengembangan website & software yang responsif dan berkualitas.</li>
+            <li>Menghadirkan konten visual storytelling yang impactful dan berdaya jual tinggi.</li>
+            <li>Membangun strategi brand yang kuat dan identitas digital yang konsisten.</li>
+            <li>Terus berinovasi dan mengikuti perkembangan teknologi digital terkini.</li>
+          </ul>
+        </div>
+
+        {/* Nilai / Value */}
+        <div className="md:col-span-4 space-y-3">
+          <div className="flex items-center space-x-3 mb-2">
+            <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
+            <h3 className="text-xl font-poppins font-bold text-white tracking-tight">Nilai Kami</h3>
+          </div>
+          <div className="pl-4 space-y-3">
+            <div>
+              <h4 className="text-sm font-poppins font-semibold text-[#FF5500]">Kreatif & Inovatif</h4>
+              <p className="text-neutral-500 text-xs font-light">Selalu mencari pendekatan baru dalam setiap karya.</p>
+            </div>
+            <div>
+              <h4 className="text-sm font-poppins font-semibold text-[#FF5500]">Integritas & Tanggung Jawab</h4>
+              <p className="text-neutral-500 text-xs font-light">Bekerja dengan komitmen dan profesionalisme tinggi.</p>
+            </div>
+            <div>
+              <h4 className="text-sm font-poppins font-semibold text-[#FF5500]">Kolaborasi</h4>
+              <p className="text-neutral-500 text-xs font-light">Membangun sinergi dengan klien untuk hasil terbaik.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -1581,7 +1642,7 @@ function AboutTabSection() {
             <div key={i} className={`flex flex-col items-center text-center group opacity-0 animate-slide-up ${member.delay}`}>
 
               {/* BOX CONTAINER FOTO */}
-              <div className="w-full aspect-[4/5] bg-gradient-to-t from-neutral-900/60 to-transparent border border-neutral-850/40 rounded-2xl mb-4 relative flex items-end justify-center overflow-hidden transition-all duration-700 group-hover:border-[#FF5500]/30 group-hover:shadow-[0_15px_30px_rgba(255,85,0,0.04)]">
+              <div className="w-full aspect-4/5 bg-linear-to-t from-neutral-900/60 to-transparent border border-neutral-850/40 rounded-2xl mb-4 relative flex items-end justify-center overflow-hidden transition-all duration-700 group-hover:border-[#FF5500]/30 group-hover:shadow-[0_15px_30px_rgba(255,85,0,0.04)]">
                 <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
 
                 {member.image ? (
@@ -1598,7 +1659,7 @@ function AboutTabSection() {
                   </div>
                 )}
 
-                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
               </div>
 
               <h4 className="font-poppins font-bold text-sm sm:text-base text-neutral-200 group-hover:text-[#FF5500] transition-colors duration-300">{member.name}</h4>
@@ -1737,7 +1798,7 @@ function Footer({ setActiveTab, scrollToSection }) {
         </div>
 
         <div className="md:col-span-4 flex flex-col space-y-3 text-xs sm:text-sm">
-          <h4 className="font-poppins font-bold text-white tracking-wide uppercase text-xs text-[#FF5500]">Hubungi Kami</h4>
+          <h4 className="font-poppins font-bold text-#FF5500 tracking-wide uppercase text-xs text-[#FF5500]">Hubungi Kami</h4>
           <p className="font-poppins font-normal text-neutral-400 leading-relaxed">Kecamatan Muara Dua, Lhokseumawe,<br />Aceh, Indonesia.</p>
           <a
             href="mailto:mostuid@gmail.com"
@@ -1748,7 +1809,7 @@ function Footer({ setActiveTab, scrollToSection }) {
         </div>
 
         <div className="md:col-span-3 flex flex-col space-y-4">
-          <h4 className="font-poppins font-bold text-white tracking-wide uppercase text-xs text-[#FF5500]">Ikuti Kami</h4>
+          <h4 className="font-poppins font-bold text-#fff tracking-wide uppercase text-xs text-[#FF5500]">Ikuti Kami</h4>
           <div className="flex flex-col space-y-2 text-xs sm:text-sm font-chivo font-light text-neutral-400">
             <a href="https://www.instagram.com/mostu.id/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center space-x-2 cursor-pointer"><span>Instagram</span></a>
             <a href="https://www.tiktok.com/@mostu.id" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center space-x-2 cursor-pointer"><span>TikTok</span></a>
