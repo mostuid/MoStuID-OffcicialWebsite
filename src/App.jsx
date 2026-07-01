@@ -963,33 +963,33 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
           <h2 className="font-poppins font-bold text-2xl sm:text-3xl text-white tracking-tight">Solusi kreatif & digital untuk bisnis Anda.</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
           {servicesData.map((service, index) => (
             <div
               key={service.id}
               onClick={() => handleServiceClick(service.id)}
               className={`
-        bg-white/30 backdrop-blur-md px-8 py-6 rounded-xl border border-white/50
+        bg-white/30 backdrop-blur-md px-3 sm:px-5 py-3 sm:py-5 rounded-xl border border-white/50
         flex items-center justify-between
         transition-all duration-500
         hover:bg-white/60 hover:-translate-y-1
         hover:shadow-[0_15px_30px_rgba(255,85,0,0.08)]
         cursor-pointer group opacity-0
-        ${index === servicesData.length - 1 ? 'md:col-span-2 md:max-w-[48%] md:mx-auto w-full' : ''}
+        ${index === servicesData.length - 1 ? 'col-span-2 max-w-[calc(50%-0.75rem)] sm:max-w-[calc(50%-0.75rem)] mx-auto' : ''}
         ${isSec2Visible ? 'animate-slide-up ' + service.animDelay : ''}
       `}
             >
-              <div className="flex items-center space-x-6 text-left w-full">
-                <div className="flex justify-center items-center shrink-0 bg-transparent">
+              <div className="flex items-center space-x-2 sm:space-x-4 text-left w-full">
+                <div className="flex justify-center items-center shrink-0 bg-transparent w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20">
                   {service.icon}
                 </div>
 
-                <h3 className="font-poppins font-semibold text-base sm:text-lg text-neutral-200 group-hover:text-white transition-colors duration-300">
+                <h3 className="font-poppins font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg text-neutral-200 group-hover:text-white transition-colors duration-300 leading-tight">
                   {service.title}
                 </h3>
               </div>
 
-              <div className="flex items-center space-x-1 text-xs font-mono font-bold text-neutral-400 group-hover:text-black transition-colors duration-300 pl-4 shrink-0">
+              <div className="flex items-center space-x-1 text-[10px] sm:text-xs font-mono font-bold text-neutral-400 group-hover:text-black transition-colors duration-300 pl-1 sm:pl-2 shrink-0">
                 <span className="hidden sm:inline opacity-0 transform translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                   View <br /> Project
                 </span>
@@ -1000,7 +1000,7 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
                   viewBox="0 0 24 24"
                   strokeWidth={2.5}
                   stroke="currentColor"
-                  className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300"
+                  className="w-3 h-3 sm:w-4 sm:h-4 transform group-hover:translate-x-1 transition-transform duration-300 shrink-0"
                 >
                   <path
                     strokeLinecap="round"
