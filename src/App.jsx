@@ -1346,8 +1346,8 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       meta: "Videography Projects &bull; 2026",
       delay: "[animation-delay:300ms]",
       link: null,
-      image: videoPorto1Img, // 🔥 Diisi dengan asset .mp4 atau .gif lokal kamu
-      videoYoutubeId: "FbdM_EwI1pk" // ID Video YouTube untuk pop-up saat diklik
+      image: videoPorto1Img,
+      videoYoutubeId: "FbdM_EwI1pk"
     },
     {
       title: "Video Profil Prof. Dr. Ghazali Syamni",
@@ -1406,11 +1406,16 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
         </div>
 
         {/* Dropdown Kategori - Di sebelah kanan */}
-        <div className="relative self-start md:self-end animate-slide-left" ref={dropdownRef}>
+        <div className="relative self-start md:self-end animate-slide-left ml-0 md:ml-10" ref={dropdownRef}>
+          {/* Label di atas dropdown */}
+          <p className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1.5 -ml-6 text-center">
+            Projects Categories
+          </p>
+
           {/* Tombol Dropdown */}
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center gap-3 px-5 py-2.5 rounded-xl bg-neutral-900/40 border border-neutral-700/50 hover:border-[#FF5500]/40 text-neutral-300 hover:text-white font-poppins text-sm font-medium transition-all duration-300 cursor-pointer"
+            className="flex items-center gap-3 px-5 py-2.5 rounded-xl bg-neutral-900/40 border border-neutral-700/50 hover:border-[#FF5500]/40 text-neutral-300 hover:text-white font-poppins text-sm font-medium transition-all duration-300 cursor-pointer min-w-45 justify-between"
           >
             <span>
               {categories.find(cat => cat.id === currentFilter)?.name || "All Projects"}
@@ -1427,7 +1432,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
             </svg>
           </button>
 
-          {/* Menu Dropdown - dengan z-index tinggi */}
+          {/* Menu Dropdown */}
           {isDropdownOpen && (
             <div className="absolute right-0 mt-2 w-56 bg-neutral-950/95 backdrop-blur-lg border border-neutral-800 rounded-xl shadow-2xl py-2 z-100 animate-slide-down">
               {categories.map((cat) => (
@@ -1438,8 +1443,8 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
                     setIsDropdownOpen(false);
                   }}
                   className={`w-full text-left px-5 py-2.5 text-sm font-poppins transition-all duration-200 cursor-pointer ${currentFilter === cat.id
-                      ? "text-[#FF5500] bg-[#FF5500]/10 font-semibold"
-                      : "text-neutral-400 hover:text-white hover:bg-neutral-800/50"
+                    ? "text-[#FF5500] bg-[#FF5500]/10 font-semibold"
+                    : "text-neutral-400 hover:text-white hover:bg-neutral-800/50"
                     }`}
                 >
                   <div className="flex items-center gap-3">
@@ -1458,7 +1463,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       </div>
 
       {/* GRID DAFTAR PORTOFOLIO */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
         {filteredProjects.map((project, i) => (
           <div
             key={i}
@@ -1470,7 +1475,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
               <div className="h-44 bg-neutral-950 rounded-lg mb-4 border border-neutral-850 flex items-center justify-center overflow-hidden relative">
                 {project.image ? (
                   <div className="w-full h-full relative flex items-center justify-center">
-                    {/* 🔥 CEK APAPUN JIKA FILE ADALAH FORMAT MP4 LOKAL */}
+                    {/* CEK APAPUN JIKA FILE ADALAH FORMAT MP4 LOKAL */}
                     {typeof project.image === 'string' && project.image.endsWith('.mp4') ? (
                       <video
                         src={project.image}
@@ -1481,7 +1486,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
                         playsInline
                       />
                     ) : (
-                      // JIKA BUKAN MP4 (Berarti Gambar Biasa atau GIF Bergerak): Tampilkan tag img biasa
                       <img
                         src={project.image}
                         alt={project.title}
@@ -1499,7 +1503,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
                     )}
                   </div>
                 ) : project.videoYoutubeId ? (
-                  // JIKA TIDAK ADA PREVIEW LOKAL: Gunakan thumbnail bawaan YouTube otomatis
                   <div className="w-full h-full relative flex items-center justify-center">
                     <img
                       src={`https://img.youtube.com/vi/${project.videoYoutubeId}/hqdefault.jpg`}
@@ -1513,7 +1516,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
                     </div>
                   </div>
                 ) : (
-                  // JIKA KOSONG: Tampilkan gradasi luxury gelap minimalis polos
                   <div className="w-full h-full bg-linear-to-br from-neutral-950 to-neutral-900/40" />
                 )}
               </div>
@@ -1528,9 +1530,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
         ))}
       </div>
 
-      {/* ==========================================
-         🔥 POP-UP LIGHTBOX MODAL PENAYANG YOUTUBE
-         ========================================== */}
+      {/* POP-UP LIGHTBOX MODAL PENAYANG YOUTUBE */}
       {activeVideoId && (
         <div
           className="fixed inset-0 z-9999 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
