@@ -922,7 +922,7 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
     },
     {
       id: "ai-agent",
-      title: "AI Automation Services",
+      title: "AI Automation",
       icon: <img src={iconAIAgent} alt="AI Agent Icon" className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" />,
       animDelay: ""
     },
@@ -1310,9 +1310,9 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   }, []);
 
   const categories = [
-    { id: "all", name: "All Projects" },
+    { id: "all", name: "All Our Projects" },
     { id: "web-dev", name: "Web/Software" },
-    { id: "ai-agent", name: "AI Automation Services" },
+    { id: "ai-agent", name: "AI Automation" },
     { id: "visual-story", name: "Visual Storytelling" },
     { id: "animation", name: "Animation Services" },
     { id: "branding", name: "Branding Strategy" },
@@ -1399,25 +1399,25 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     <div className="py-12 min-h-[70vh]">
       {/* HEADER NAVIGASI KATEGORI - Dengan Dropdown */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 relative z-20">
-        {/* Sub Judul - Tetap di kiri atas */}
-        <div className="animate-slide-down">
+        {/* Sub Judul - Di mobile rata tengah, di desktop rata kiri */}
+        <div className="animate-slide-down text-center md:text-left">
           <h2 className="text-4xl font-black tracking-tight mb-2 font-poppins">Portofolio Kami</h2>
-          <p className="text-neutral-400 max-w-xl font-light text-sm">Silahkan eksplorasi karya terbaik pilihan kami.</p>
+          <p className="text-neutral-400 max-w-xl font-light text-sm mx-auto md:mx-0">Silahkan eksplorasi karya terbaik pilihan kami.</p>
         </div>
 
         {/* Dropdown Kategori - Di sebelah kanan */}
-        <div className="relative self-start md:self-end animate-slide-left ml-0 md:ml-10" ref={dropdownRef}>
-          {/* Label di atas dropdown */}
-          <p className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1.5 -ml-6 text-center">
+        <div className="relative self-center md:self-end animate-slide-left mx-auto md:mx-0 md:ml-10" ref={dropdownRef}>
+          {/* Label di atas dropdown - di desktop rata kiri, di mobile rata tengah */}
+          <p className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1.5 text-center md:text-left md:ml-5">
             Projects Categories
           </p>
 
-          {/* Tombol Dropdown */}
+          {/* Tombol Dropdown - width menyesuaikan konten */}
           <button
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className="flex items-center gap-3 px-5 py-2.5 rounded-xl bg-neutral-900/40 border border-neutral-700/50 hover:border-[#FF5500]/40 text-neutral-300 hover:text-white font-poppins text-sm font-medium transition-all duration-300 cursor-pointer min-w-45 justify-between"
+            className="flex items-center gap-3 px-5 py-2.5 rounded-xl bg-neutral-900/40 border border-neutral-700/50 hover:border-[#FF5500]/40 text-neutral-300 hover:text-white font-poppins text-sm font-medium transition-all duration-300 cursor-pointer justify-between mx-auto md:mx-0"
           >
-            <span>
+            <span className="whitespace-nowrap">
               {categories.find(cat => cat.id === currentFilter)?.name || "All Projects"}
             </span>
             <svg
@@ -1426,7 +1426,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
               viewBox="0 0 24 24"
               strokeWidth={2}
               stroke="currentColor"
-              className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+              className={`w-4 h-4 transition-transform duration-300 shrink-0 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
