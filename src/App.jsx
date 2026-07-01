@@ -568,6 +568,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
   const [isShiny, setIsShiny] = useState(true);
   const [mouseOpacity, setMouseOpacity] = useState(1);
   const [mouseTranslateY, setMouseTranslateY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   /* =========================================================================
      🔥 SLOT ANGGOTA BARU KUSTOM & KONFIGURASI LAYOUT CONTAINER NAMA
@@ -613,6 +614,16 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  // TEXT HERO MODE TABLET/PC
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // LOGIKA AUTO-LOOP SLIDE (Ganti tiap 5 detik)
   useEffect(() => {
@@ -751,8 +762,22 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
         .typewriter-cursor { border-right: 2px solid #FF5500; animation: cursorBlink 0.75s step-end infinite; }
       `}</style>
 
+
       {/* SISI KIRI: TEXT & ACTIONS */}
-      <div className="w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0">
+      <div className={`w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 ${isMobile ? 'absolute top-20 left-0 right-0' : ''
+        }`}
+        style={{
+          ...(isMobile && {
+            position: 'absolute',
+            top: '125px',
+            left: 0,
+            right: 0,
+            paddingLeft: '16px',
+            paddingRight: '16px',
+            zIndex: 20
+          })
+        }}
+      >
         <div className="relative mb-2 sm:mb-4">
           <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
             Digital & Creative
@@ -794,7 +819,6 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
             <div
               className="transition-all duration-500 ease-out"
               style={{
-                // 🔥 KUNCI UTAMA: Di HP diubah ke absolute agar terikat & terpotong di dalam container Hero Section saja
                 position: isMobileDevice ? "absolute" : "absolute",
                 zIndex: 100,
                 pointerEvents: mouseOpacity > 0 ? "auto" : "none",
@@ -820,11 +844,10 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 
         return (
           <div
-            // 🔥 UTAMA: px-0 ditambahkan tegas di sini agar sisi kanan-kiri container pembungkus gambar bersih tanpa padding bawaan
-            className="w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0"
+            className={`w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0 ${isMobile ? 'mt-48' : ''
+              }`}
             style={{
               height: isMobileDevice ? SETTING_HP.tinggiWadah : "100%",
-              // 🔥 UTAMA: overflow dipastikan 'visible' di mobile biar bayangan pudar foto atau sisi lingkaran jingga luar bebas mekar
               overflow: isMobileDevice ? "visible" : "visible"
             }}
           >
