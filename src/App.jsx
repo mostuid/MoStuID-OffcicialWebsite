@@ -752,7 +752,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
       `}</style>
 
       {/* SISI KIRI: TEXT & ACTIONS */}
-      <div className="w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0">
+      <div className="w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 mt-10 sm:mt-16 lg:mt-0">
         <div className="relative mb-2 sm:mb-4">
           <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
             Digital & Creative
@@ -815,16 +815,21 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 
       {/* SISI KANAN: ANIMATED SLIDER AREA */}
       {(() => {
-        const SETTING_HP = { tinggiWadah: "550px", lebarLingkaran: "400px", lebarMaxFoto: "550px" };
-        const SETTING_PC = { lebarLingkaran: "620px", lebarMaxFoto: "690px" };
+        const SETTING_HP = {
+          tinggiWadah: "600px", // Ubah dari 550px menjadi 600px (lebih tinggi)
+          lebarLingkaran: "450px", // Ubah dari 400px menjadi 450px (lebih besar)
+          lebarMaxFoto: "600px" // Ubah dari 550px menjadi 600px (lebih besar)
+        };
+        const SETTING_PC = {
+          lebarLingkaran: "620px",
+          lebarMaxFoto: "690px"
+        };
 
         return (
           <div
-            // 🔥 UTAMA: px-0 ditambahkan tegas di sini agar sisi kanan-kiri container pembungkus gambar bersih tanpa padding bawaan
             className="w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0"
             style={{
               height: isMobileDevice ? SETTING_HP.tinggiWadah : "100%",
-              // 🔥 UTAMA: overflow dipastikan 'visible' di mobile biar bayangan pudar foto atau sisi lingkaran jingga luar bebas mekar
               overflow: isMobileDevice ? "visible" : "visible"
             }}
           >
@@ -963,34 +968,34 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
           <h2 className="font-poppins font-bold text-2xl sm:text-3xl text-white tracking-tight">Solusi kreatif & digital untuk bisnis Anda.</h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
           {servicesData.map((service, index) => (
             <div
               key={service.id}
               onClick={() => handleServiceClick(service.id)}
               className={`
-        bg-white/30 backdrop-blur-md px-3 sm:px-5 py-3 sm:py-5 rounded-xl border border-white/50
+        bg-white/30 backdrop-blur-md px-5 sm:px-6 py-4 sm:py-6 rounded-xl border border-white/50
         flex items-center justify-between
         transition-all duration-500
         hover:bg-white/60 hover:-translate-y-1
         hover:shadow-[0_15px_30px_rgba(255,85,0,0.08)]
         cursor-pointer group opacity-0
-        ${index === servicesData.length - 1 ? 'col-span-2 max-w-[calc(50%-0.75rem)] sm:max-w-[calc(50%-0.75rem)] mx-auto' : ''}
+        ${index === servicesData.length - 1 ? 'md:col-span-2 md:max-w-[50%] md:mx-auto' : ''}
         ${isSec2Visible ? 'animate-slide-up ' + service.animDelay : ''}
       `}
             >
-              <div className="flex items-center space-x-2 sm:space-x-4 text-left w-full">
-                <div className="flex justify-center items-center shrink-0 bg-transparent w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20">
+              <div className="flex items-center space-x-4 sm:space-x-6 text-left w-full">
+                <div className="flex justify-center items-center shrink-0 bg-transparent w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24">
                   {service.icon}
                 </div>
 
-                <h3 className="font-poppins font-semibold text-[11px] sm:text-sm md:text-base lg:text-lg text-neutral-200 group-hover:text-white transition-colors duration-300 leading-tight">
+                <h3 className="font-poppins font-semibold text-sm sm:text-base md:text-lg text-neutral-200 group-hover:text-white transition-colors duration-300 leading-tight">
                   {service.title}
                 </h3>
               </div>
 
-              <div className="flex items-center space-x-1 text-[10px] sm:text-xs font-mono font-bold text-neutral-400 group-hover:text-black transition-colors duration-300 pl-1 sm:pl-2 shrink-0">
-                <span className="hidden sm:inline opacity-0 transform translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+              <div className="flex items-center space-x-1 text-xs font-mono font-bold text-neutral-400 group-hover:text-black transition-colors duration-300 pl-2 sm:pl-4 shrink-0">
+                <span className="hidden lg:inline opacity-0 transform translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
                   View <br /> Project
                 </span>
 
@@ -1000,7 +1005,7 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
                   viewBox="0 0 24 24"
                   strokeWidth={2.5}
                   stroke="currentColor"
-                  className="w-3 h-3 sm:w-4 sm:h-4 transform group-hover:translate-x-1 transition-transform duration-300 shrink-0"
+                  className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform duration-300 shrink-0"
                 >
                   <path
                     strokeLinecap="round"
