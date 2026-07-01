@@ -717,7 +717,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
   return (
     <div
       // 🔥 UTAMA: px-0 di mobile dan px-4 di desktop diaktifkan penuh di sini, bray!
-      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center h-screen pt-16 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
+      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center min-h-screen lg:h-screen pt-16 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
       // 🔥 UTAMA: clipPath dilepas total di mobile (none) agar tidak memotong elemen/ornamen meluber keluar layar
       style={{ clipPath: isMobileDevice ? "none" : "inset(0px -100vw 0px -100vw)" }}
     >
@@ -752,39 +752,39 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
       `}</style>
 
       {/* SISI KIRI: TEXT & ACTIONS */}
-      <div className="w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 mt-10 sm:mt-16 lg:mt-0">
-        <div className="relative mb-2 sm:mb-4">
-          <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
-            Digital & Creative
-          </p>
-          <h1 className="font-poppins font-bold text-[16vw] lg:text-[170px] tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left">
-            <span
-              className={`block bg-clip-text text-transparent ${isShiny ? "animate-classic-shiny" : ""}`}
-              style={{
-                WebkitTextFillColor: "transparent",
-                backgroundImage: "linear-gradient(90deg, #D7E1EA 0%, #D7E1EA 40%, #ffffff 50%, #D7E1EA 60%, #DBDEE9 100%)",
-                backgroundSize: "300% 100%",
-                backgroundPosition: isShiny ? "" : "0% center"
-              }}
-            >
-              AGENCY
-            </span>
-          </h1>
-        </div>
-        <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
-          <TypewriterEffect
-            services={[
-              "WE BUILD PROFESSIONAL WEBSITES & SOFTWARE",
-              "WE DELIVER CINEMATIC VISUAL STORYTELLING",
-              "WE PRODUCE ENGAGING ANIMATIONS",
-              "WE DEVELOP STRONG BRAND STRATEGIES"
-            ]}
-          />
-        </div>
-        <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
-          <button onClick={() => setIsBriefModalOpen(true)} className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5">Start a Project</button>
-          <a href={waLink} target="_blank" rel="noopener noreferrer" className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block">Get in Touch!</a>
-        </div>
+<div className="w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 mt-10 sm:mt-16 lg:mt-0">
+  <div className="relative mb-2 sm:mb-4">
+    <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
+      Digital & Creative
+    </p>
+    <h1 className="font-poppins font-bold text-[16vw] lg:text-[170px] tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left">
+      <span
+        className={`block bg-clip-text text-transparent ${isShiny ? "animate-classic-shiny" : ""}`}
+        style={{
+          WebkitTextFillColor: "transparent",
+          backgroundImage: "linear-gradient(90deg, #D7E1EA 0%, #D7E1EA 40%, #ffffff 50%, #D7E1EA 60%, #DBDEE9 100%)",
+          backgroundSize: "300% 100%",
+          backgroundPosition: isShiny ? "" : "0% center"
+        }}
+      >
+        AGENCY
+      </span>
+    </h1>
+  </div>
+  <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
+    <TypewriterEffect
+      services={[
+        "WE BUILD PROFESSIONAL WEBSITES & SOFTWARE",
+        "WE DELIVER CINEMATIC VISUAL STORYTELLING",
+        "WE PRODUCE ENGAGING ANIMATIONS",
+        "WE DEVELOP STRONG BRAND STRATEGIES"
+      ]}
+    />
+  </div>
+  <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
+    <button onClick={() => setIsBriefModalOpen(true)} className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5">Start a Project</button>
+    <a href={waLink} target="_blank" rel="noopener noreferrer" className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block">Get in Touch!</a>
+  </div>
 
         {/* IKON MOUSE */}
         {(() => {
@@ -815,21 +815,16 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 
       {/* SISI KANAN: ANIMATED SLIDER AREA */}
       {(() => {
-        const SETTING_HP = {
-          tinggiWadah: "600px", // Ubah dari 550px menjadi 600px (lebih tinggi)
-          lebarLingkaran: "450px", // Ubah dari 400px menjadi 450px (lebih besar)
-          lebarMaxFoto: "600px" // Ubah dari 550px menjadi 600px (lebih besar)
-        };
-        const SETTING_PC = {
-          lebarLingkaran: "620px",
-          lebarMaxFoto: "690px"
-        };
+        const SETTING_HP = { tinggiWadah: "550px", lebarLingkaran: "400px", lebarMaxFoto: "550px" };
+        const SETTING_PC = { lebarLingkaran: "620px", lebarMaxFoto: "690px" };
 
         return (
           <div
+            // 🔥 UTAMA: px-0 ditambahkan tegas di sini agar sisi kanan-kiri container pembungkus gambar bersih tanpa padding bawaan
             className="w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0"
             style={{
               height: isMobileDevice ? SETTING_HP.tinggiWadah : "100%",
+              // 🔥 UTAMA: overflow dipastikan 'visible' di mobile biar bayangan pudar foto atau sisi lingkaran jingga luar bebas mekar
               overflow: isMobileDevice ? "visible" : "visible"
             }}
           >
