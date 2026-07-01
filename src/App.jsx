@@ -1528,7 +1528,7 @@ function AboutTabSection() {
             <h2 className="text-4xl font-poppins font-black tracking-tight text-white">About MoStu</h2>
           </div>
           <p className="text-neutral-400 text-sm font-light leading-relaxed">
-            MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan freelance yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
+            MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan Agency yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
           </p>
           <p className="text-neutral-400 text-sm font-light leading-relaxed">
             Ide ini lahir dari sebuah meja warkop, ditemani segelas kopi pancung khas Aceh dan obrolan panjang tentang mimpi, kreativitas, serta harapan untuk membangun sesuatu yang bermanfaat. Hingga hari ini, Mostanir Studios masih dalam proses bertumbuh dan belajar.
