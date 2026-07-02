@@ -1356,7 +1356,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     {
       title: "Go Green Parallax Website",
       cat: "web-dev",
-      desc: "Website prototype buatan MoStu Agency untuk client yang tertarik memiliki website dengan desain dan animasi yang menarik.",
+      desc: "Website prototype untuk client yang tertarik memiliki website dengan desain dan animasi yang menarik.",
       meta: "Web Development Prototype &bull; 2026",
       delay: "",
       link: "https://go-green-paralax.vercel.app/",
@@ -1366,7 +1366,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     {
       title: "Core Pack Bussiness Website",
       cat: "web-dev",
-      desc: "Website prototype buatan MoStu Agency untuk client pebisnis yang bergerak di bidang penyediaan solusi kemasan.",
+      desc: "Website untuk client pebisnis yang bergerak di bidang penyediaan solusi kemasan.",
       meta: "Web Development Prototype &bull; 2026",
       delay: "",
       link: "https://corepack.vercel.app/",
