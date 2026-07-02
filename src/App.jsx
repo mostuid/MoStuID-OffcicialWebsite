@@ -8,6 +8,7 @@ import logoImg from "./assets/logo-mostu.png";
 import bgSec2 from './assets/bg-sec2.png';
 import webPorto1Img from "./assets/Web-Porto1.gif";
 import webPorto2Img from "./assets/Web-Porto2.gif";
+import webPorto3Img from "./assets/Web-Porto3.gif";
 import animPorto1Img from "./assets/Anim-Porto1.jpg";
 import videoPorto1Img from "./assets/Video-Porto1.png";
 
@@ -1360,6 +1361,16 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       delay: "",
       link: "https://go-green-paralax.vercel.app/",
       image: webPorto2Img,
+      videoYoutubeId: null
+    },
+    {
+      title: "Core Pack Bussiness Website",
+      cat: "web-dev",
+      desc: "Website prototype buatan MoStu Agency untuk client pebisnis yang bergerak di bidang penyediaan solusi kemasan.",
+      meta: "Web Development Prototype &bull; 2026",
+      delay: "",
+      link: "https://corepack.vercel.app/",
+      image: webPorto3Img,
       videoYoutubeId: null
     },
     {
