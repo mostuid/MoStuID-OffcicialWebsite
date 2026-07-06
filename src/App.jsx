@@ -11,6 +11,7 @@ import webPorto2Img from "./assets/Web-Porto2.gif";
 import webPorto3Img from "./assets/Web-Porto3.gif";
 import animPorto1Img from "./assets/Anim-Porto1.jpg";
 import videoPorto1Img from "./assets/Video-Porto1.png";
+import videoPorto2Img from "./assets/Video-Porto2.png";
 
 // IMPORT ASSET ICON
 import iconWebSoftware from "./assets/Icon Web-Software.png";
@@ -1375,7 +1376,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     },
     {
       title: "Digital Product Campaign",
-      cat: "visual-story",
+      cat: "visual-storytelling",
       desc: "Video promosi produk digital dengan visual menarik, komunikatif, dan berorientasi hasil.",
       meta: "Videography Projects &bull; 2026",
       delay: "[animation-delay:300ms]",
@@ -1384,14 +1385,34 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       videoYoutubeId: "FbdM_EwI1pk"
     },
     {
+      title: "Video Cinematic Aqiqah",
+      cat: "visual-storytelling",
+      desc: "Mengabadikan momen aqiqah melalui visual sinematik yang emosional, hangat, dan penuh makna.",
+      meta: "Videography Projects &bull; 2026",
+      delay: "[animation-delay:300ms]",
+      link: null,
+      image: videoPorto2Img,
+      videoYoutubeId: "bVjdp2FYwoI"
+    },
+    {
       title: "Video Profil Prof. Dr. Ghazali Syamni",
-      cat: "visual-story",
+      cat: "visual-storytelling",
       desc: "Video profil pengukuhan guru besar dengan mengangkat mengangkat perjalanan akademik, kontribusi keilmuan beliau.",
       meta: "Videography Projects &bull; 2026",
       delay: "[animation-delay:300ms]",
       link: null,
       image: null,
       videoYoutubeId: "zFJzxtdbuok"
+    },
+    {
+      title: "Video Profil Prof. Dr. drh. Farida Athaillah M.Si",
+      cat: "visual-storytelling",
+      desc: "Menghadirkan cerita perjalanan akademik melalui visual yang sinematik dan komunikatif.",
+      meta: "Videography Projects &bull; 2026",
+      delay: "[animation-delay:300ms]",
+      link: null,
+      image: null,
+      videoYoutubeId: "vSMJBn-kT_I"
     },
     {
       title: "PT Perta Arun Gas Animation",
