@@ -369,6 +369,7 @@ function App() {
           />
 
           <Route path="/prototype-airlines" element={<PrototypeRedirect />} />
+          <Route path="/prototype-gogreen" element={<PrototypeRedirect />} />
 
           {/* PRODUCTS */}
           <Route
@@ -1400,12 +1401,13 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     {
       title: "Go Green Parallax Website",
       cat: "web-dev",
-      desc: "Website interaktif untuk client yang tertarik memiliki website dengan desain dan animasi yang menarik.",
-      meta: "Web Development Prototype &bull; 2026",
+      desc: "Website interaktif dengan animasi parallax untuk campaign lingkungan",
+      meta: "Web Prototype &bull; 2026",
       delay: "",
-      link: "https://go-green-paralax.vercel.app/",
-      image: webPorto2Img,
-      videoYoutubeId: null
+      link: null,
+      image: webPorto2Img,  // Bisa pakai screenshot dari Go Green
+      isPrototype: true,
+      folderName: "prototype-gogreen"  // Folder di public/prototypes/
     },
     {
       title: "Core Pack Bussiness Website",
