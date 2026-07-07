@@ -1,8 +1,12 @@
 {
   "rewrites": [
-    { "source": "/prototype-airlines", "destination": "/prototypes/prototype-airlines/index.html" },
-    { "source": "/prototype-web-2", "destination": "/prototypes/prototype-web-2/index.html" },
-    { "source": "/prototype-web-3", "destination": "/prototypes/prototype-web-3/index.html" },
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/prototype-gogreen",
+      "destination": "/prototypes/prototype-gogreen/index.html"
+    },
+    {
+      "source": "/prototype-airlines",
+      "destination": "/prototypes/prototype-airlines/index.html"
+    }
   ]
 }
