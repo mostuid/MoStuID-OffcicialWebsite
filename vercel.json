@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/prototype-gogreen",
-      "destination": "/prototypes/prototype-gogreen/index.html"
+      "destination": "/portfolio/prototype-gogreen/index.html"
     },
     {
       "source": "/prototype-airlines",
-      "destination": "/prototypes/prototype-airlines/index.html"
+      "destination": "/portfolio/prototype-airlines/index.html"
     },
     {
       "source": "/(.*)",
