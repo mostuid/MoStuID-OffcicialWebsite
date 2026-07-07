@@ -33,10 +33,9 @@ function App() {
       const pathParts = location.pathname.split('/');
       const folderName = pathParts[pathParts.length - 1];
 
-      // Redirect ke file HTML
+      // ✅ Redirect ke file HTML yang benar
       const targetUrl = `/prototypes/${folderName}/index.html`;
 
-      // Gunakan setTimeout agar React selesai render dulu
       setTimeout(() => {
         window.location.href = targetUrl;
       }, 100);
