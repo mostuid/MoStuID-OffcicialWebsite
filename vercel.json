@@ -1,14 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/prototype-gogreen",
-      "destination": "/prototypes/prototype-gogreen/index.html"
-    },
-    {
-      "source": "/prototype-airlines",
-      "destination": "/prototypes/prototype-airlines/index.html"
-    },
-    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
