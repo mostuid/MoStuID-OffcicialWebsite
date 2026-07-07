@@ -28,16 +28,90 @@ function App() {
   // ==========================================
   function PrototypeRedirect() {
     const location = useLocation();
+    const [htmlContent, setHtmlContent] = useState('');
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
-    const pathParts = location.pathname.split('/');
-    const folderName = pathParts[pathParts.length - 1];
+    useEffect(() => {
+      const pathParts = location.pathname.split('/');
+      const folderName = pathParts[pathParts.length - 1];
+      const targetUrl = `/prototypes/${folderName}/index.html`;
 
-    // Redirect ke folder tanpa index.html
-    // Dari: /prototypes/prototype-airlines/index.html
-    // Menjadi: /prototypes/prototype-airlines/
-    const targetUrl = `/prototypes/${folderName}/`;
+      console.log('📄 Fetching prototype:', targetUrl);
 
-    window.location.href = targetUrl;
+      fetch(targetUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Prototype not found');
+          }
+          return response.text();
+        })
+        .then(html => {
+          setHtmlContent(html);
+          setLoading(false);
+        })
+        .catch(err => {
+          console.error('❌ Error loading prototype:', err);
+          setError(true);
+          setLoading(false);
+        });
+    }, [location.pathname]);
+
+    if (loading) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-darkBg">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-[#FF5500] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="text-neutral-400 mt-4">Memuat prototype...</p>
+          </div>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-darkBg">
+          <div className="text-center">
+            <div className="w-24 h-24 mx-auto mb-6 bg-[#FF5500]/10 rounded-full flex items-center justify-center">
+              <span className="text-5xl font-bold text-[#FF5500]">404</span>
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-4">Prototype Tidak Ditemukan</h1>
+            <p className="text-neutral-400 mb-2">Maaf, prototype yang Anda cari tidak tersedia.</p>
+            <button
+              onClick={() => window.location.href = '/portfolio'}
+              className="mt-6 bg-[#FF5500] hover:bg-[#e64a00] text-white px-6 py-2 rounded-lg transition-colors"
+            >
+              Kembali ke Portfolio
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div className="min-h-screen bg-darkBg">
+        {/* Tombol Kembali ke Portfolio */}
+        <div className="fixed top-0 left-0 right-0 z-50 bg-darkBg/90 backdrop-blur-md border-b border-white/5 px-4 md:px-6 py-3 flex items-center justify-between">
+          <button
+            onClick={() => window.location.href = '/portfolio'}
+            className="text-neutral-400 hover:text-white text-sm flex items-center gap-2 transition-colors"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+            </svg>
+            Back to Portfolio
+          </button>
+          <span className="text-white text-sm font-medium capitalize">
+            {location.pathname.split('/').pop()?.replace('prototype-', '').replace('-', ' ')}
+          </span>
+        </div>
+
+        {/* Konten Prototype */}
+        <div className="pt-14">
+          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+        </div>
+      </div>
+    );
   }
 
   const navigate = useNavigate();
