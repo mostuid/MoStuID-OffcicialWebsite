@@ -89,40 +89,41 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            padding: 0 24px;
+            padding: 80px 24px 0 24px;
         }
 
         /* ===== NAVBAR ===== */
         .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 0 20px 0;
-            flex-wrap: wrap;
-            gap: 16px;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
             background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            padding: 16px 24px;
-            margin: 0 -24px;
-            padding-left: 24px;
-            padding-right: 24px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
             transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
             transform: translateY(0);
             opacity: 1;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
         }
 
-        /* Navbar tersembunyi saat scroll ke bawah */
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
         .navbar.hidden {
-            transform: translateY(-120%);
+            transform: translateY(-100%);
             opacity: 0;
         }
 
-        /* Navbar muncul kembali saat scroll ke atas */
         .navbar.visible {
             transform: translateY(0);
             opacity: 1;
@@ -185,10 +186,15 @@
             letter-spacing: 1.5px;
             text-transform: uppercase;
             color: #1a2632;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
             user-select: none;
+        }
+
+        #search-icon {
+            transition: all 0.3s ease;
+        }
+
+        #search-icon:hover {
+            transform: rotate(45deg);
         }
 
         .navbar-center a {
@@ -252,7 +258,6 @@
 
         .btn-login:hover {
             background: #1a2d5a;
-            transform: translateY(-2px) scale(1.02);
             box-shadow: 0 8px 24px rgba(39, 62, 125, 0.35);
         }
 
@@ -520,7 +525,7 @@
         }
 
         .search-submit:hover i {
-            transform: translateX(4px) rotate(-4deg);
+            transform: translateX(4px);
         }
 
         .quick-links {
@@ -1010,8 +1015,15 @@
                 padding: 0 40px;
             }
 
+            .navbar-content {
+                position: relative;
+            }
+
             .navbar-center {
                 display: flex;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
             }
 
             .headline-sub {
@@ -1055,12 +1067,6 @@
                 grid-template-columns: 2fr 1fr 1fr 1fr;
             }
 
-            .navbar {
-                padding: 16px 40px;
-                margin: 0 -40px;
-                padding-left: 40px;
-                padding-right: 40px;
-            }
         }
 
         @media (min-width: 1024px) {
@@ -1085,12 +1091,6 @@
                 width: 45%;
             }
 
-            .navbar {
-                padding: 16px 64px;
-                margin: 0 -64px;
-                padding-left: 64px;
-                padding-right: 64px;
-            }
         }
 
         @media (max-width: 767px) {
@@ -1208,12 +1208,6 @@
                 padding: 40px 20px 20px;
             }
 
-            .navbar {
-                padding: 12px 16px;
-                margin: 0 -16px;
-                padding-left: 16px;
-                padding-right: 16px;
-            }
         }
 
         @media (max-width: 480px) {
@@ -1233,11 +1227,8 @@
                 font-size: 13px;
             }
 
-            .navbar {
-                padding: 10px 12px;
-                margin: 0 -12px;
-                padding-left: 12px;
-                padding-right: 12px;
+            .navbar-content {
+                padding: 12px 16px;
             }
 
             .logo-text {
@@ -1330,12 +1321,12 @@
 
         <div class="hero-gradient-overlay"></div>
 
-        <div class="content-layer">
-
-            <nav class="navbar" id="mainNavbar">
+        <nav class="navbar" id="mainNavbar">
+            <div class="navbar-content">
                 <div class="navbar-left">
                     <div class="navbar-logo">
-                        <img src="/prototypes/prototype-airlines/assets/Logo.png" alt="Logo Mostu Airlines" draggable="false">
+                        <img src="/prototypes/prototype-airlines/assets/Logo.png" alt="Logo Mostu Airlines"
+                            draggable="false">
                     </div>
                 </div>
 
@@ -1343,7 +1334,7 @@
                     <a href="#popular" draggable="false">Destinations</a>
                     <a href="#services" draggable="false">Services</a>
                     <a href="#stats" draggable="false">About</a>
-                    <a href="#" draggable="false"><i class="fas fa-search"></i> Search</a>
+                    <a href="#" draggable="false"><i class="fas fa-search" id="search-icon"></i></a>
                 </div>
 
                 <div class="navbar-right">
@@ -1351,7 +1342,10 @@
                         <i class="fas fa-user"></i> LOGIN
                     </button>
                 </div>
-            </nav>
+            </div>
+        </nav>
+
+        <div class="content-layer">
 
             <main class="main-content">
 
@@ -1421,7 +1415,7 @@
                         <button class="quick-link">
                             <span class="link-left">
                                 <i class="fas fa-suitcase"></i>
-                                Baggage Infor.
+                                Baggage Information
                             </span>
                             <i class="fas fa-chevron-right link-arrow"></i>
                         </button>
@@ -1429,7 +1423,8 @@
 
                 </div>
 
-                <img src="/prototypes/prototype-airlines/assets/Airplanes.png" alt="Airlines Plane" class="airplane-image">
+                <img src="/prototypes/prototype-airlines/assets/Airplanes.png" alt="Airlines Plane"
+                    class="airplane-image">
 
         </div>
 
@@ -1645,7 +1640,8 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="logo-text-footer">
-                        <img src="/prototypes/prototype-airlines/assets/Logo.png" alt="Logo Mostu Airlines" draggable="false">
+                        <img src="/prototypes/prototype-airlines/assets/Logo.png" alt="Logo Mostu Airlines"
+                            draggable="false">
                     </div>
                     <p style="user-select: none;">Fly Different with Turkish Airlines. Connecting the world with
                         exceptional service and
@@ -1704,31 +1700,55 @@
             const tabs = document.querySelectorAll('.tab-btn');
             tabs.forEach(tab => {
                 tab.addEventListener('click', function () {
-                    tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+                    tabs.forEach(t => {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
                     this.classList.add('active');
                     this.setAttribute('aria-selected', 'true');
                 });
             });
 
-            // ===== NAVBAR HIDE ON SCROLL DOWN, SHOW ON SCROLL UP =====
+            // ===== NAVBAR HIDE/SHOW DI SELURUH HALAMAN =====
             const navbar = document.getElementById('mainNavbar');
             let lastScrollTop = 0;
             let scrollThreshold = 30;
+            let isScrollingDown = false;
+
+            // Tentukan area hero untuk pengecekan tambahan
+            const heroContainer = document.querySelector('.hero-container');
+
+            function isHeroVisible() {
+                if (!heroContainer) return false;
+                const heroRect = heroContainer.getBoundingClientRect();
+                // Hero dianggap visible jika masih ada bagian yang terlihat
+                return heroRect.bottom > 0;
+            }
 
             window.addEventListener('scroll', function () {
                 let currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                let scrollDelta = currentScrollTop - lastScrollTop;
 
-                if (Math.abs(currentScrollTop - lastScrollTop) > scrollThreshold) {
-                    if (currentScrollTop > lastScrollTop) {
+                // Logika hide/show berlaku di seluruh halaman
+                if (Math.abs(scrollDelta) > scrollThreshold) {
+                    if (scrollDelta > 0) {
                         // Scroll ke bawah - sembunyikan navbar
                         navbar.classList.add('hidden');
                         navbar.classList.remove('visible');
+                        isScrollingDown = true;
                     } else {
                         // Scroll ke atas - tampilkan navbar
                         navbar.classList.remove('hidden');
                         navbar.classList.add('visible');
+                        isScrollingDown = false;
                     }
                     lastScrollTop = currentScrollTop;
+                }
+
+                // TAPI: Jika scroll ke atas sampai ke hero, pastikan navbar muncul
+                if (currentScrollTop < 100) {
+                    navbar.classList.remove('hidden');
+                    navbar.classList.add('visible');
                 }
             });
 
