@@ -33,24 +33,13 @@ function App() {
     useEffect(() => {
       // Ambil folder name dari path
       const pathParts = location.pathname.split('/');
-      // pathParts = ['', 'portfolio', 'prototype-airlines']
-      const folderName = pathParts[pathParts.length - 1]; // 'prototype-airlines'
-
-      // Target URL untuk file HTML
+      const folderName = pathParts[pathParts.length - 1];
       const targetUrl = `/prototypes/${folderName}/index.html`;
 
-      // Coba akses file
-      fetch(targetUrl)
-        .then(response => {
-          if (response.ok) {
-            window.location.href = targetUrl;
-          } else {
-            navigate('/portfolio');
-          }
-        })
-        .catch(() => {
-          navigate('/portfolio');
-        });
+      console.log('🔄 Redirecting to prototype:', targetUrl);
+
+      // Redirect ke file HTML
+      window.location.href = targetUrl;
     }, [location.pathname, navigate]);
 
     return (
@@ -505,7 +494,7 @@ function App() {
             }
           />
 
-          {/* 404 - HARUS DI POSISI PALING BAWAH */}
+          {/* 404 - POSISI PALING BAWAH */}
           <Route path="*" element={<NotFound />} />
 
         </Routes>
@@ -1400,19 +1389,9 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       meta: "Web Prototype &bull; 2026",
       delay: "",
       link: null,
-      image: webPorto4Img, // Bisa pakai gambar screenshot jika ada
+      image: webPorto4Img,
       isPrototype: true,
       folderName: "prototype-airlines"
-    },
-    {
-      title: "Terapi Kesehatan Sejati",
-      cat: "web-dev",
-      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
-      meta: "Web Development Project &bull; 2026",
-      delay: "",
-      link: "https://terapikesehatansejati.netlify.app/",
-      image: webPorto1Img,
-      videoYoutubeId: null
     },
     {
       title: "Go Green Parallax Website",
@@ -1424,6 +1403,16 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       image: webPorto2Img,  // Bisa pakai screenshot dari Go Green
       isPrototype: true,
       folderName: "prototype-gogreen"  // Folder di public/prototypes/
+    },
+    {
+      title: "Terapi Kesehatan Sejati",
+      cat: "web-dev",
+      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
+      meta: "Web Development Project &bull; 2026",
+      delay: "",
+      link: "https://terapikesehatansejati.netlify.app/",
+      image: webPorto1Img,
+      videoYoutubeId: null
     },
     {
       title: "Core Pack Bussiness Website",
@@ -1493,20 +1482,20 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   const handleCardClick = (e, project) => {
     e.stopPropagation();
 
-    // Skenario 0: Jika ada prototype web
+    // Skenario 0: Jika ada Video prototype web langsung dari path
     if (project.isPrototype) {
-      // Redirect ke route React dengan path baru
+      // ✅ Redirect ke route React, BUKAN langsung ke file HTML
       window.open(`/portfolio/${project.folderName}`, '_blank');
       return;
     }
 
-    // Skenario 1: Jika ada Video Youtube
+    // Skenario 1: Jika ada Video Youtube, buka jendela pop-up penayang
     if (project.videoYoutubeId) {
       setActiveVideoId(project.videoYoutubeId);
       return;
     }
 
-    // Skenario 2: Jika ada link web external
+    // Skenario 2: Jika ada link web external, buka tautan di tab baru
     if (project.link) {
       const hiddenAnchor = document.createElement("a");
       hiddenAnchor.href = project.link;
