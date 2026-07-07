@@ -28,25 +28,19 @@ function App() {
   // ==========================================
   function PrototypeRedirect() {
     const location = useLocation();
-    const navigate = useNavigate();
 
-    useEffect(() => {
-      // Ambil folder name dari path
-      const pathParts = location.pathname.split('/');
-      const folderName = pathParts[pathParts.length - 1];
-      const targetUrl = `/prototypes/${folderName}/index.html`;
-
-      console.log('🔄 Redirecting to prototype:', targetUrl);
-
-      // Redirect ke file HTML
-      window.location.href = targetUrl;
-    }, [location.pathname, navigate]);
+    const pathParts = location.pathname.split('/');
+    const folderName = pathParts[pathParts.length - 1];
+    const iframeSrc = `/prototypes/${folderName}/index.html`;
 
     return (
-      <div className="min-h-screen flex items-center justify-center bg-darkBg">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#FF5500] border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-neutral-400 mt-4">Mengalihkan ke prototype...</p>
+      <div className="min-h-screen bg-darkBg">
+        <div className="pt-20 px-4">
+          <iframe
+            src={iframeSrc}
+            className="w-full h-[calc(100vh-80px)] border-0 rounded-lg"
+            title="Prototype"
+          />
         </div>
       </div>
     );
