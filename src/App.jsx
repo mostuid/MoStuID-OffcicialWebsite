@@ -28,20 +28,42 @@ function App() {
   // ==========================================
   function PrototypeRedirect() {
     const location = useLocation();
+    const [loading, setLoading] = useState(true);
+
+    const pathParts = location.pathname.split('/');
+    const folderName = pathParts[pathParts.length - 1];
+    const iframeSrc = `/prototypes/${folderName}/index.html`;
 
     useEffect(() => {
-      const pathParts = location.pathname.split('/');
-      const folderName = pathParts[pathParts.length - 1];
+      // Set loading false setelah iframe selesai loading
+      const timer = setTimeout(() => setLoading(false), 500);
+      return () => clearTimeout(timer);
+    }, []);
 
-      // Redirect ke file HTML dengan target _blank
-      const targetUrl = `/prototypes/${folderName}/index.html`;
+    if (loading) {
+      return (
+        <div className="min-h-screen flex items-center justify-center bg-darkBg">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-[#FF5500] border-t-transparent rounded-full animate-spin mx-auto"></div>
+            <p className="text-neutral-400 mt-4">Memuat prototype...</p>
+          </div>
+        </div>
+      );
+    }
 
-      // Gunakan window.location.replace agar tidak ada history back
-      window.location.replace(targetUrl);
-    }, [location.pathname]);
-
-    // Tidak perlu render apapun karena akan langsung redirect
-    return null;
+    return (
+      <div
+        className="fixed inset-0 w-full h-full bg-white"
+        style={{ zIndex: 9999 }}
+      >
+        <iframe
+          src={iframeSrc}
+          className="w-full h-full border-0"
+          title="Prototype"
+          allowFullScreen
+        />
+      </div>
+    );
   }
 
   const navigate = useNavigate();
