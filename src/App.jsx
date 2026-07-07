@@ -47,7 +47,32 @@ function App() {
           return response.text();
         })
         .then(html => {
-          setHtmlContent(html);
+          // Inject CSS untuk reset styles dan full screen
+          const fullScreenHtml = `
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <style>
+                * { margin: 0; padding: 0; box-sizing: border-box; }
+                html, body { 
+                  width: 100%; 
+                  height: 100%; 
+                  overflow: auto;
+                }
+                body > *:not(iframe) { 
+                  width: 100%; 
+                  min-height: 100vh;
+                }
+              </style>
+            </head>
+            <body>
+              ${html.replace(/<head>.*?<\/head>/, '')}
+            </body>
+          </html>
+        `;
+          setHtmlContent(fullScreenHtml);
           setLoading(false);
         })
         .catch(err => {
@@ -89,27 +114,11 @@ function App() {
     }
 
     return (
-      <div className="min-h-screen bg-darkBg">
-        {/* Tombol Kembali ke Portfolio */}
-        <div className="fixed top-0 left-0 right-0 z-50 bg-darkBg/90 backdrop-blur-md border-b border-white/5 px-4 md:px-6 py-3 flex items-center justify-between">
-          <button
-            onClick={() => window.location.href = '/portfolio'}
-            className="text-neutral-400 hover:text-white text-sm flex items-center gap-2 transition-colors"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-            Back to Portfolio
-          </button>
-          <span className="text-white text-sm font-medium capitalize">
-            {location.pathname.split('/').pop()?.replace('prototype-', '').replace('-', ' ')}
-          </span>
-        </div>
-
-        {/* Konten Prototype */}
-        <div className="pt-14">
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-        </div>
+      <div
+        className="fixed inset-0 w-full h-full bg-white overflow-auto"
+        style={{ zIndex: 9999 }}
+      >
+        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
       </div>
     );
   }
