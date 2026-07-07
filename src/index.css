@@ -1,18 +1,126 @@
-/* Ambil font langsung dari Google Fonts */
 @import url("https://fonts.googleapis.com/css2?family=Chivo:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap");
-@import "tailwindcss";
 
-@theme {
-  --color-agency-orange: #e05a26;
-  --color-dark-bg: #120d0a;
-  --font-poppins: "Poppins", sans-serif;
-  --font-chivo: "Chivo", sans-serif;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0a0a0a;
+    color: #ffffff;
+    font-family: "Poppins", sans-serif;
+  }
 }
 
-/* KEYFRAMES SAPUAN HALUS RESPONSIF: KANAN KE KIRI */
-.animate-classic-shiny {
-  /* PERBAIKAN: Diubah dari 4s menjadi 3s agar selaras dengan durasi gerak alur baru */
-  animation: classicShinyWipe 3s cubic-bezier(0.42, 0, 0.58, 1) forwards !important;
+@layer utilities {
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .animate-slide-left {
+    animation: slideLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-slide-right {
+    animation: slideRight 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .animate-title-left {
+    animation: titleLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) both 0.1s;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .animate-fade-up {
+    animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .animate-classic-shiny {
+    animation: classicShinyWipe 3s cubic-bezier(0.42, 0, 0.58, 1) forwards !important;
+  }
+
+  .animate-wiggle-float {
+    animation: wiggleFloat 1.5s ease-in-out infinite;
+  }
+}
+
+/* KEYFRAMES */
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes titleLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(120px);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes classicShinyWipe {
@@ -26,104 +134,6 @@
   }
 }
 
-body {
-  background-color: var(--color-dark-bg);
-  color: #ffffff;
-  font-family: var(--font-poppins); /* Font utama default */
-}
-
-.grid-bg {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-/* --- UTILITY ANIMASI (TAILWIND v4 COMPLIANT) --- */
-@utility animate-slide-left {
-  animation: slideLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes slideLeft {
-  from {
-    opacity: 0;
-    transform: translateX(60px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@utility animate-slide-right {
-  animation: slideRight 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-@keyframes slideRight {
-  0% { opacity: 0; transform: translateX(-60px); }
-  100% { opacity: 1; transform: translateX(0); }
-}
-
-@utility animate-title-left {
-  animation: titleLeft 1.2s cubic-bezier(0.16, 1, 0.3, 1) both 0.1s; 
-}
-@keyframes titleLeft {
-  0% { 
-    opacity: 0; 
-    transform: translateX(120px);
-  }
-  50% {
-    opacity: 1;
-  }
-  100% { 
-    opacity: 1; 
-    transform: translateX(0);
-  }
-}
-
-@utility animate-slide-down {
-  animation: slideDown 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@utility animate-slide-up {
-  animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-@keyframes slideUp {
-  0% {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@utility animate-fade-up {
-  animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@utility animate-wiggle-float {
-  animation: wiggleFloat 1.5s ease-in-out infinite;
-}
 @keyframes wiggleFloat {
   0%, 100% {
     transform: translateY(0);
@@ -133,3 +143,15 @@ body {
   }
 }
 
+/* Tambahan warna */
+.bg-agency-orange {
+  background-color: #FF5500;
+}
+
+.text-agency-orange {
+  color: #FF5500;
+}
+
+.bg-darkBg {
+  background-color: #0a0a0a;
+}

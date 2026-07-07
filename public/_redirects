@@ -1,7 +1,0 @@
-# Redirect prototype ke file HTML sebenarnya
-/prototype-airlines   /prototypes/prototype-airlines/index.html   200
-/prototype-web-2      /prototypes/prototype-web-2/index.html      200
-/prototype-web-3      /prototypes/prototype-web-3/index.html      200
-
-# Fallback untuk React Router (PENTING!)
-/*    /index.html   200
