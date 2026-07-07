@@ -31,13 +31,15 @@ function App() {
     const navigate = useNavigate();
 
     useEffect(() => {
+      // Ambil folder name dari path
       const pathParts = location.pathname.split('/');
-      const folderName = pathParts[pathParts.length - 1];
+      // pathParts = ['', 'portfolio', 'prototype-airlines']
+      const folderName = pathParts[pathParts.length - 1]; // 'prototype-airlines'
 
-      // Gunakan window.location untuk redirect ke file HTML
+      // Target URL untuk file HTML
       const targetUrl = `/prototypes/${folderName}/index.html`;
 
-      // Coba akses file, jika gagal redirect ke portfolio
+      // Coba akses file
       fetch(targetUrl)
         .then(response => {
           if (response.ok) {
@@ -379,8 +381,8 @@ function App() {
           />
 
           {/* PROTOTYPES */}
-          <Route path="/prototype-airlines" element={<PrototypeRedirect />} />
-          <Route path="/prototype-gogreen" element={<PrototypeRedirect />} />
+          <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
+          <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
 
           {/* PRODUCTS */}
           <Route
@@ -1491,20 +1493,20 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   const handleCardClick = (e, project) => {
     e.stopPropagation();
 
-    // Skenario 0: Jika ada Video prototype web langsung dari path
+    // Skenario 0: Jika ada prototype web
     if (project.isPrototype) {
-      // Redirect ke route React, bukan langsung ke file HTML
-      window.open(`/${project.folderName}`, '_blank');
+      // Redirect ke route React dengan path baru
+      window.open(`/portfolio/${project.folderName}`, '_blank');
       return;
     }
 
-    // Skenario 1: Jika ada Video Youtube, buka jendela pop-up penayang
+    // Skenario 1: Jika ada Video Youtube
     if (project.videoYoutubeId) {
       setActiveVideoId(project.videoYoutubeId);
       return;
     }
 
-    // Skenario 2: Jika ada link web external, buka tautan di tab baru
+    // Skenario 2: Jika ada link web external
     if (project.link) {
       const hiddenAnchor = document.createElement("a");
       hiddenAnchor.href = project.link;
