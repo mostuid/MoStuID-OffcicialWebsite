@@ -28,47 +28,39 @@ function App() {
   // ==========================================
   function PrototypeRedirect() {
     const location = useLocation();
-    const [loading, setLoading] = useState(true);
 
     const pathParts = location.pathname.split('/');
     const folderName = pathParts[pathParts.length - 1];
     const iframeSrc = `/prototypes/${folderName}/index.html`;
 
-    useEffect(() => {
-      // Set loading false setelah iframe selesai loading
-      const timer = setTimeout(() => setLoading(false), 500);
-      return () => clearTimeout(timer);
-    }, []);
-
-    if (loading) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-darkBg">
-          <div className="text-center">
-            <div className="w-12 h-12 border-4 border-[#FF5500] border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-neutral-400 mt-4">Memuat prototype...</p>
-          </div>
-        </div>
-      );
-    }
-
     return (
-      <div
-        className="fixed inset-0 w-full h-full bg-white"
-        style={{ zIndex: 9999 }}
-      >
+      <div className="fixed inset-0 w-full h-full bg-white" style={{ zIndex: 9999 }}>
         <iframe
           src={iframeSrc}
           className="w-full h-full border-0"
           title="Prototype"
           allowFullScreen
         />
+        {/* Tombol WhatsApp - Tetap Tampil */}
+        <div className="fixed bottom-6 right-6 z-[10000]">
+          <a
+            href={`https://wa.me/62882016312643?text=${encodeURIComponent("Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/20 transition-all duration-300 hover:scale-110 hover:bg-[#20ba5a] active:scale95 group"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 transition-transform duration-300 group-hover:rotate-6">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.128.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-2.078l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.458h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+          </a>
+        </div>
       </div>
     );
   }
 
   const navigate = useNavigate();
   const location = useLocation();
-  const currentPath = location.pathname; // Ini akan membaca URL browser saat ini (misal: "/" atau "/portfolio")
+  const currentPath = location.pathname;
   const [activeTab, setActiveTab] = useState("home");
   const [portfolioFilter, setPortfolioFilter] = useState("all");
   const [isSec2Visible, setIsSec2Visible] = useState(false);
@@ -241,317 +233,329 @@ function App() {
     }
   };
 
+  // Cek apakah halaman saat ini adalah prototype
+  const isPrototypePage = location.pathname.includes('/portfolio/prototype-');
+
   return (
     <div className="min-h-screen grid-bg relative overflow-x-hidden bg-darkBg text-white selection:bg-agency-orange selection:text-white">
 
-      {/* NAVBAR HEADER: Auto-Hide on Scroll & Sticky Position (PC & HP) */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-50 bg-darkBg/80 backdrop-blur-md border-b border-white/5 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"
-          }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center relative">
-          {/* LOGO */}
-          <div className="flex items-center cursor-pointer select-none group" onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); }}>
-            <img src={logoImg} alt="MoStu Logo" className="h-9 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
-          </div>
-
-          {/* NAV LINK DESKTOP */}
-          <nav className="hidden md:flex items-center space-x-12 text-[13px] text-neutral-300 font-chivo font-normal uppercase tracking-widest">
-            {/* PERTAMA: Services */}
-            <button onClick={() => { ubahTabNavigasi("home"); setTimeout(() => scrollToSection("services-area"), 100); }} className="hover:text-white transition-colors py-1.5 cursor-pointer">
-              Services
-            </button>
-
-            {/* KEDUA: Portfolio */}
-            <button onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); }} className={`hover:text-white transition-colors relative py-1.5 cursor-pointer ${activeTab === "portfolio" ? "text-white" : ""}`}>
-              Portfolio
-              {activeTab === "portfolio" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
-            </button>
-
-            {/* KETIGA: Products */}
-            <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-white tracking-wide transition-colors relative py-1.5 cursor-pointer ${activeTab === "products" ? "text-white" : ""}`}>
-              Products
-              {activeTab === "products" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
-            </button>
-
-            {/* KEEMPAT: About Us */}
-            <button onClick={() => ubahTabNavigasi("about")} className={`hover:text-white tracking-wide transition-colors relative py-1.5 cursor-pointer ${activeTab === "about" ? "text-white" : ""}`}>
-              About Us
-              {activeTab === "about" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
-            </button>
-          </nav>
-
-          {/* CTA MEMBER (DESKTOP ONLY) */}
-          <div className="hidden md:block">
-            <button
-              onClick={() => setIsMemberModalOpen(true)}
-              className="bg-white text-black font-chivo font-bold px-6 py-2.5 rounded-full text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 shadow-md shadow-white/5 active:scale-95 text-center cursor-pointer"
-            >
-              Get Member
-            </button>
-          </div>
-
-          {/* TOMBOL PENGONTROL DROPDOWN MOBILE */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden flex items-center space-x-2 bg-neutral-900/60 border border-white/10 px-4 py-2 rounded-xl text-xs font-chivo uppercase tracking-wider text-neutral-200 hover:text-white hover:border-white/20 transition-all cursor-pointer select-none focus:outline-none"
-            aria-label="Toggle Menu"
+      {/* JIKA HALAMAN PROTOTYPE - TAMPILKAN FULL SCREEN TANPA ELEMEN LAIN */}
+      {isPrototypePage ? (
+        <Routes>
+          <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
+          <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
+        </Routes>
+      ) : (
+        <>
+          {/* NAVBAR HEADER: Auto-Hide on Scroll & Sticky Position (PC & HP) */}
+          <header
+            className={`fixed top-0 left-0 right-0 z-50 bg-darkBg/80 backdrop-blur-md border-b border-white/5 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"
+              }`}
           >
-            <span>Menu</span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2.5}
-              stroke="currentColor"
-              className={`w-3.5 h-3.5 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-180' : 'rotate-0'}`}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-            </svg>
-          </button>
+            <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center relative">
+              {/* LOGO */}
+              <div className="flex items-center cursor-pointer select-none group" onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); }}>
+                <img src={logoImg} alt="MoStu Logo" className="h-9 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
+              </div>
 
-          {/* DROPDOWN MENU INTERFACE: FIX LEBAR MENGIKUTI GARIS MERAH (HANYA SISI KANAN) */}
-          {isMobileMenuOpen && (
-            // GANTI KELAS DI SINI: left-0 dibuang, diganti left-auto w-[55vw] sm:w-[45vh] agar lebarnya proporsional di kanan
-            <div className="absolute top-full right-6 left-auto w-[40vw] max-w-70 bg-neutral-950/95 backdrop-blur-lg border border-white/5 rounded-2xl px-6 py-6 flex flex-col space-y-4 md:hidden animate-slide-down shadow-2xl z-50 overflow-y-auto text-right items-end mt-2">
-              <button
-                onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); setTimeout(() => scrollToSection("services-area"), 100); }}
-                className="w-full text-right text-neutral-300 hover:text-white font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer"
-              >
-                Services
-              </button>
-              <button
-                onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); setIsMobileMenuOpen(false); }}
-                className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "portfolio" ? "text-white font-bold" : "text-neutral-300"}`}
-              >
-                Portfolio
-              </button>
-              <button
-                onClick={() => { ubahTabNavigasi("products"); setIsMobileMenuOpen(false); }}
-                className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "products" ? "text-white font-bold" : "text-neutral-300"}`}
-              >
-                Products
-              </button>
-              <button
-                onClick={() => { ubahTabNavigasi("about"); setIsMobileMenuOpen(false); }}
-                className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "about" ? "text-white font-bold" : "text-neutral-300"}`}
-              >
-                About Us
-              </button>
+              {/* NAV LINK DESKTOP */}
+              <nav className="hidden md:flex items-center space-x-12 text-[13px] text-neutral-300 font-chivo font-normal uppercase tracking-widest">
+                {/* PERTAMA: Services */}
+                <button onClick={() => { ubahTabNavigasi("home"); setTimeout(() => scrollToSection("services-area"), 100); }} className="hover:text-white transition-colors py-1.5 cursor-pointer">
+                  Services
+                </button>
 
-              {/* CTA Get Member Mobile */}
-              <div className="pt-2 w-full">
+                {/* KEDUA: Portfolio */}
+                <button onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); }} className={`hover:text-white transition-colors relative py-1.5 cursor-pointer ${activeTab === "portfolio" ? "text-white" : ""}`}>
+                  Portfolio
+                  {activeTab === "portfolio" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
+                </button>
+
+                {/* KETIGA: Products */}
+                <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-white tracking-wide transition-colors relative py-1.5 cursor-pointer ${activeTab === "products" ? "text-white" : ""}`}>
+                  Products
+                  {activeTab === "products" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
+                </button>
+
+                {/* KEEMPAT: About Us */}
+                <button onClick={() => ubahTabNavigasi("about")} className={`hover:text-white tracking-wide transition-colors relative py-1.5 cursor-pointer ${activeTab === "about" ? "text-white" : ""}`}>
+                  About Us
+                  {activeTab === "about" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
+                </button>
+              </nav>
+
+              {/* CTA MEMBER (DESKTOP ONLY) */}
+              <div className="hidden md:block">
                 <button
-                  onClick={() => { setIsMemberModalOpen(true); setIsMobileMenuOpen(false); }}
-                  className="w-full bg-white text-black window-click font-chivo font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 active:scale-95 text-center cursor-pointer shadow-md"
+                  onClick={() => setIsMemberModalOpen(true)}
+                  className="bg-white text-black font-chivo font-bold px-6 py-2.5 rounded-full text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 shadow-md shadow-white/5 active:scale-95 text-center cursor-pointer"
                 >
                   Get Member
                 </button>
               </div>
-            </div>
-          )}
-        </div>
-      </header>
 
-      {/* AREA KONTEN UTAMA */}
-      <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 overflow-y-clip">
+              {/* TOMBOL PENGONTROL DROPDOWN MOBILE */}
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="md:hidden flex items-center space-x-2 bg-neutral-900/60 border border-white/10 px-4 py-2 rounded-xl text-xs font-chivo uppercase tracking-wider text-neutral-200 hover:text-white hover:border-white/20 transition-all cursor-pointer select-none focus:outline-none"
+                aria-label="Toggle Menu"
+              >
+                <span>Menu</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2.5}
+                  stroke="currentColor"
+                  className={`w-3.5 h-3.5 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-180' : 'rotate-0'}`}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                </svg>
+              </button>
 
-        <Routes>
+              {/* DROPDOWN MENU INTERFACE: FIX LEBAR MENGIKUTI GARIS MERAH (HANYA SISI KANAN) */}
+              {isMobileMenuOpen && (
+                // GANTI KELAS DI SINI: left-0 dibuang, diganti left-auto w-[55vw] sm:w-[45vh] agar lebarnya proporsional di kanan
+                <div className="absolute top-full right-6 left-auto w-[40vw] max-w-70 bg-neutral-950/95 backdrop-blur-lg border border-white/5 rounded-2xl px-6 py-6 flex flex-col space-y-4 md:hidden animate-slide-down shadow-2xl z-50 overflow-y-auto text-right items-end mt-2">
+                  <button
+                    onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); setTimeout(() => scrollToSection("services-area"), 100); }}
+                    className="w-full text-right text-neutral-300 hover:text-white font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer"
+                  >
+                    Services
+                  </button>
+                  <button
+                    onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); setIsMobileMenuOpen(false); }}
+                    className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "portfolio" ? "text-white font-bold" : "text-neutral-300"}`}
+                  >
+                    Portfolio
+                  </button>
+                  <button
+                    onClick={() => { ubahTabNavigasi("products"); setIsMobileMenuOpen(false); }}
+                    className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "products" ? "text-white font-bold" : "text-neutral-300"}`}
+                  >
+                    Products
+                  </button>
+                  <button
+                    onClick={() => { ubahTabNavigasi("about"); setIsMobileMenuOpen(false); }}
+                    className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "about" ? "text-white font-bold" : "text-neutral-300"}`}
+                  >
+                    About Us
+                  </button>
 
-          {/* HOME */}
-          <Route
-            path="/"
-            element={
-              <HeroSection
-                scrollToSection={scrollToSection}
-                setIsBriefModalOpen={setIsBriefModalOpen}
-              />
-            }
-          />
-
-          {/* PORTFOLIO */}
-          <Route
-            path="/portfolio"
-            element={
-              <div className="mt-20">
-                <PortfolioTabSection
-                  currentFilter={portfolioFilter}
-                  setFilter={setPortfolioFilter}
-                  setActiveTab={ubahTabNavigasi}
-                />
-              </div>
-            }
-          />
-
-          {/* PROTOTYPES */}
-          <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
-          <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
-
-          {/* PRODUCTS */}
-          <Route
-            path="/products"
-            element={
-              <div className="mt-20">
-                <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
-                  {/* Header Section */}
-                  <div className="text-center max-w-xl mx-auto mb-12">
-                    <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight">
-                      Our Digital Products
-                    </h2>
-                    <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
-                      Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
-                    </p>
-                  </div>
-
-                  {/* Grid Container untuk 4 Tools */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
-
-                    {/* TOOL 1: AI VOICE GENERATOR (AKTIF) - Muncul Pertama */}
-                    <div className="bg-neutral-900/40 backdrop-blur-md p-6 rounded-2xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] opacity-0 animate-slide-up">
-                      <div>
-                        {/* Icon/Badge Area */}
-                        <div className="w-12 h-12 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
-                          </svg>
-                        </div>
-                        <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
-                          AI Voice Generator
-                        </h3>
-                        <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">
-                          Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
-                        </p>
-                      </div>
-
-                      {/* Action Button */}
-                      <button
-                        onClick={() => window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank")}
-                        className="w-full mt-2 border border-neutral-800 bg-neutral-950 hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] text-center cursor-pointer shadow-md"
-                      >
-                        Launch Tool ➔
-                      </button>
-                    </div>
-
-                    {/* TOOL 2: UI/UX PREMIUM TEMPLATES (COMING SOON) - Delay 100ms */}
-                    <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:100ms] select-none">
-                      <div>
-                        <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 0 2.4 2.249h1.64a2.25 2.25 0 0 0 2.4-2.249 3 3 0 0 0-.66-1.128ZM9.53 16.122a3 3 0 1 1 4.94 0M9.53 16.122a3 3 0 0 0 .47.11h3.41a3 3 0 0 0 .47-.11m4.94 0a3 3 0 0 1-.66 1.128 2.25 2.25 0 0 1 2.4 2.249h1.64a2.25 2.25 0 0 1 2.4-2.249 3 3 0 0 1-5.78-1.128ZM15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                          </svg>
-                        </div>
-                        <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                          Premium UI Kit
-                        </h3>
-                        <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                          Sistem komponen visual, landing page template, dan kerangka desain UI/UX modern siap pakai untuk Figma dan React.
-                        </p>
-                      </div>
-                      <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                        Coming Soon
-                      </span>
-                    </div>
-
-                    {/* TOOL 3: INSTANT LANDING GENERATOR (COMING SOON) - Delay 200ms */}
-                    <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:200ms] select-none">
-                      <div>
-                        <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
-                          </svg>
-                        </div>
-                        <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                          Page Generator
-                        </h3>
-                        <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                          Rakit halaman landing page promosi produk atau portofolio bisnis Anda secara instan dalam hitungan menit tanpa koding.
-                        </p>
-                      </div>
-                      <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                        Coming Soon
-                      </span>
-                    </div>
-
-                    {/* TOOL 4: CINEMATIC MOTION ASSETS (COMING SOON) - Delay 300ms */}
-                    <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:300ms] select-none">
-                      <div>
-                        <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25z" />
-                          </svg>
-                        </div>
-                        <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                          Motion Assets Pack
-                        </h3>
-                        <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                          Koleksi aset bumper video, overlay cinematic, sound effects, dan grafis gerak transisi premium untuk editor video.
-                        </p>
-                      </div>
-                      <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                        Coming Soon
-                      </span>
-                    </div>
-
+                  {/* CTA Get Member Mobile */}
+                  <div className="pt-2 w-full">
+                    <button
+                      onClick={() => { setIsMemberModalOpen(true); setIsMobileMenuOpen(false); }}
+                      className="w-full bg-white text-black window-click font-chivo font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 active:scale-95 text-center cursor-pointer shadow-md"
+                    >
+                      Get Member
+                    </button>
                   </div>
                 </div>
-              </div>
-            }
-          />
+              )}
+            </div>
+          </header>
 
-          {/* ABOUT */}
-          <Route
-            path="/about"
-            element={
-              <div className="mt-20">
-                <AboutTabSection />
-              </div>
-            }
-          />
+          {/* AREA KONTEN UTAMA */}
+          <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 overflow-y-clip">
 
-          {/* 404 - POSISI PALING BAWAH */}
-          <Route path="*" element={<NotFound />} />
+            <Routes>
 
-        </Routes>
+              {/* HOME */}
+              <Route
+                path="/"
+                element={
+                  <HeroSection
+                    scrollToSection={scrollToSection}
+                    setIsBriefModalOpen={setIsBriefModalOpen}
+                  />
+                }
+              />
 
-      </main>
+              {/* PORTFOLIO */}
+              <Route
+                path="/portfolio"
+                element={
+                  <div className="mt-20">
+                    <PortfolioTabSection
+                      currentFilter={portfolioFilter}
+                      setFilter={setPortfolioFilter}
+                      setActiveTab={ubahTabNavigasi}
+                    />
+                  </div>
+                }
+              />
 
-      {/* SECTION 2: SERVICES CONTAINER */}
-      {currentPath === "/" && (
-        <ServicesSection sec2Ref={sec2Ref} isSec2Visible={isSec2Visible} setActiveTab={ubahTabNavigasi} />
+              {/* PROTOTYPES */}
+              <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
+              <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
+
+              {/* PRODUCTS */}
+              <Route
+                path="/products"
+                element={
+                  <div className="mt-20">
+                    <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
+                      {/* Header Section */}
+                      <div className="text-center max-w-xl mx-auto mb-12">
+                        <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight">
+                          Our Digital Products
+                        </h2>
+                        <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+                          Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
+                        </p>
+                      </div>
+
+                      {/* Grid Container untuk 4 Tools */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+
+                        {/* TOOL 1: AI VOICE GENERATOR (AKTIF) - Muncul Pertama */}
+                        <div className="bg-neutral-900/40 backdrop-blur-md p-6 rounded-2xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] opacity-0 animate-slide-up">
+                          <div>
+                            {/* Icon/Badge Area */}
+                            <div className="w-12 h-12 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+                              </svg>
+                            </div>
+                            <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
+                              AI Voice Generator
+                            </h3>
+                            <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">
+                              Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
+                            </p>
+                          </div>
+
+                          {/* Action Button */}
+                          <button
+                            onClick={() => window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank")}
+                            className="w-full mt-2 border border-neutral-800 bg-neutral-950 hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] text-center cursor-pointer shadow-md"
+                          >
+                            Launch Tool ➔
+                          </button>
+                        </div>
+
+                        {/* TOOL 2: UI/UX PREMIUM TEMPLATES (COMING SOON) - Delay 100ms */}
+                        <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:100ms] select-none">
+                          <div>
+                            <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 0 2.4 2.249h1.64a2.25 2.25 0 0 0 2.4-2.249 3 3 0 0 0-.66-1.128ZM9.53 16.122a3 3 0 1 1 4.94 0M9.53 16.122a3 3 0 0 0 .47.11h3.41a3 3 0 0 0 .47-.11m4.94 0a3 3 0 0 1-.66 1.128 2.25 2.25 0 0 1 2.4 2.249h1.64a2.25 2.25 0 0 1 2.4-2.249 3 3 0 0 1-5.78-1.128ZM15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                              </svg>
+                            </div>
+                            <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                              Premium UI Kit
+                            </h3>
+                            <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                              Sistem komponen visual, landing page template, dan kerangka desain UI/UX modern siap pakai untuk Figma dan React.
+                            </p>
+                          </div>
+                          <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                            Coming Soon
+                          </span>
+                        </div>
+
+                        {/* TOOL 3: INSTANT LANDING GENERATOR (COMING SOON) - Delay 200ms */}
+                        <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:200ms] select-none">
+                          <div>
+                            <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
+                              </svg>
+                            </div>
+                            <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                              Page Generator
+                            </h3>
+                            <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                              Rakit halaman landing page promosi produk atau portofolio bisnis Anda secara instan dalam hitungan menit tanpa koding.
+                            </p>
+                          </div>
+                          <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                            Coming Soon
+                          </span>
+                        </div>
+
+                        {/* TOOL 4: CINEMATIC MOTION ASSETS (COMING SOON) - Delay 300ms */}
+                        <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:300ms] select-none">
+                          <div>
+                            <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25z" />
+                              </svg>
+                            </div>
+                            <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
+                              Motion Assets Pack
+                            </h3>
+                            <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
+                              Koleksi aset bumper video, overlay cinematic, sound effects, dan grafis gerak transisi premium untuk editor video.
+                            </p>
+                          </div>
+                          <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                            Coming Soon
+                          </span>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                }
+              />
+
+              {/* ABOUT */}
+              <Route
+                path="/about"
+                element={
+                  <div className="mt-20">
+                    <AboutTabSection />
+                  </div>
+                }
+              />
+
+              {/* 404 - POSISI PALING BAWAH */}
+              <Route path="*" element={<NotFound />} />
+
+            </Routes>
+
+          </main>
+
+          {/* SECTION 2: SERVICES CONTAINER */}
+          {currentPath === "/" && (
+            <ServicesSection sec2Ref={sec2Ref} isSec2Visible={isSec2Visible} setActiveTab={ubahTabNavigasi} />
+          )}
+
+          {/* SECTION 3: QnA CONTAINER */}
+          {currentPath === "/" && <QnaSection />}
+
+          {/* FOOTER CONTAINER */}
+          <Footer setActiveTab={ubahTabNavigasi} scrollToSection={scrollToSection} />
+
+          {/* Modul Pop-up Formulir Project Brief */}
+          <ProjectBriefModal isOpen={isBriefModalOpen} onClose={() => setIsBriefModalOpen(false)} />
+
+          {/* Modul Pop-up Pendaftaran Member Eksklusif MoStu */}
+          <MemberRegistrationModal isOpen={isMemberModalOpen} onClose={() => setIsMemberModalOpen(false)} />
+
+          {/* FLOATING WHATSAPP CTA BUTTON */}
+          <div
+            className="fixed bottom-6 right-6 z-50 animate-slide-up focus:outline-none"
+            style={{ animationDelay: "0s, 0s" }}
+          >
+            <a
+              href={`https://wa.me/62882016312643?text=${encodeURIComponent(
+                "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda."
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Chat via WhatsApp"
+              className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/20 transition-all duration-300 hover:scale-110 hover:bg-[#20ba5a] active:scale95 group"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 transition-transform duration-300 group-hover:rotate-6">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.128.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-2.078l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.458h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+              </svg>
+            </a>
+          </div>
+        </>
       )}
-
-      {/* SECTION 3: QnA CONTAINER */}
-      {currentPath === "/" && <QnaSection />}
-
-      {/* FOOTER CONTAINER */}
-      <Footer setActiveTab={ubahTabNavigasi} scrollToSection={scrollToSection} />
-
-      {/* Modul Pop-up Formulir Project Brief */}
-      <ProjectBriefModal isOpen={isBriefModalOpen} onClose={() => setIsBriefModalOpen(false)} />
-
-      {/* Modul Pop-up Pendaftaran Member Eksklusif MoStu */}
-      <MemberRegistrationModal isOpen={isMemberModalOpen} onClose={() => setIsMemberModalOpen(false)} />
-
-      {/* FLOATING WHATSAPP CTA BUTTON */}
-      <div
-        className="fixed bottom-6 right-6 z-50 animate-slide-up focus:outline-none"
-        style={{ animationDelay: "0s, 0s" }}
-      >
-        <a
-          href={`https://wa.me/62882016312643?text=${encodeURIComponent(
-            "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda."
-          )}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Chat via WhatsApp"
-          className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/20 transition-all duration-300 hover:scale-110 hover:bg-[#20ba5a] active:scale95 group"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 transition-transform duration-300 group-hover:rotate-6">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.128.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-2.078l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.458h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-          </svg>
-        </a>
-      </div>
-
     </div>
   );
 }
@@ -1414,9 +1418,9 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       meta: "Web Prototype &bull; 2026",
       delay: "",
       link: null,
-      image: webPorto2Img,  // Bisa pakai screenshot dari Go Green
+      image: webPorto2Img,
       isPrototype: true,
-      folderName: "prototype-gogreen"  // Folder di public/prototypes/
+      folderName: "prototype-gogreen"
     },
     {
       title: "Terapi Kesehatan Sejati",
@@ -1498,7 +1502,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
     // Skenario 0: Jika ada Video prototype web langsung dari path
     if (project.isPrototype) {
-      // ✅ Redirect ke route React, BUKAN langsung ke file HTML
       window.open(`/portfolio/${project.folderName}`, '_blank');
       return;
     }
@@ -1601,7 +1604,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
               <div className="h-44 bg-neutral-950 rounded-lg mb-4 border border-neutral-850 flex items-center justify-center overflow-hidden relative">
                 {project.image ? (
                   <div className="w-full h-full relative flex items-center justify-center">
-                    {/* CEK APAPUN JIKA FILE ADALAH FORMAT MP4 LOKAL */}
                     {typeof project.image === 'string' && project.image.endsWith('.mp4') ? (
                       <video
                         src={project.image}
@@ -1618,8 +1620,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
                         className="w-full h-full object-cover opacity-100"
                       />
                     )}
-
-                    {/* Jika item ini merupakan penunjuk video YouTube, berikan tombol Play statis di tengahnya */}
                     {project.videoYoutubeId && (
                       <div className="absolute p-3 rounded-full bg-black/60 border border-white/20 text-white group-hover:scale-110 transition-transform duration-300 pointer-events-none z-30">
                         <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
@@ -1695,7 +1695,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
    KOMPONEN MANDIRI: TAB ABOUT US
    ==========================================  */
 function AboutTabSection() {
-  // SEGMEN TIM DIKEMBALIKAN SESUAI REQUEST-MU
   const team = [
     { role: "Founder / Lead Developer", name: "Mhd. Reza Erdiansyah", image: founderimg, delay: "" },
     { role: "Co-Founder / Art Director", name: "Mohd. Daniel", image: cofounderimg, delay: "[animation-delay:100ms]" },
@@ -1705,53 +1704,36 @@ function AboutTabSection() {
 
   return (
     <div className="py-12 max-w-5xl mx-auto space-y-20 animate-slide-up">
-
-      {/* ==========================================
-   TENTANG PERUSAHAAN (MENGGUNAKAN BG-SEC2.PNG) + TIMELINE
-   ========================================== */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch select-none">
         <div className="md:col-span-7 space-y-0 text-left relative">
-          {/* Judul About MoStu - Rata kiri tanpa garis */}
           <h2 className="text-4xl font-poppins font-black tracking-tight text-white mb-6">
             About MoStu
           </h2>
-
-          {/* Garis Vertikal Timeline - dimulai dari setelah judul */}
           <div className="absolute left-0 top-13 bottom-0 w-0.5 bg-[#FF5500]/30 rounded-full"></div>
-
-          {/* Paragraf 1 */}
           <div className="relative pl-6 pb-6">
             <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
             <p className="text-neutral-400 text-sm font-light leading-relaxed">
               MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan Agency yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
             </p>
           </div>
-
-          {/* Paragraf 2 */}
           <div className="relative pl-6 pb-6">
             <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
             <p className="text-neutral-400 text-sm font-light leading-relaxed">
               Ide ini lahir dari sebuah meja warkop, ditemani segelas kopi pancung khas Aceh dan obrolan panjang tentang mimpi, kreativitas, serta harapan untuk membangun sesuatu yang bermanfaat. Hingga hari ini, Mostanir Studios masih dalam proses bertumbuh dan belajar.
             </p>
           </div>
-
-          {/* Paragraf 3 */}
           <div className="relative pl-6 pb-6">
             <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
             <p className="text-neutral-400 text-sm font-light leading-relaxed">
               Kami memang bukan tim besar, bahkan belum memiliki perjalanan yang begitu panjang. Namun kami percaya, bahwa setiap karya yang dikerjakan dengan sungguh-sungguh akan menemukan jalannya sendiri.
             </p>
           </div>
-
-          {/* Paragraf 4 */}
           <div className="relative pl-6 pb-6">
             <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
             <p className="text-neutral-400 text-sm font-light leading-relaxed">
               Dari proyek ke proyek, kami terus mengembangkan kemampuan, memperluas pengalaman, dan berusaha memberikan hasil terbaik bagi setiap klien yang mempercayakan kebutuhannya kepada kami, dengan penuh tanggung jawab.
             </p>
           </div>
-
-          {/* Paragraf 5 (terakhir) */}
           <div className="relative pl-6">
             <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-1.75 shadow-lg shadow-[#FF5500]/30"></div>
             <p className="text-neutral-400 text-sm font-light leading-relaxed">
@@ -1759,15 +1741,12 @@ function AboutTabSection() {
             </p>
           </div>
         </div>
-
-        {/* WADAH FOTO PROFIL PERUSAHAAN - Tinggi menyesuaikan dengan konten kiri */}
         <div className="md:col-span-5 relative rounded-2xl overflow-hidden border border-neutral-850 flex items-center justify-center bg-neutral-900 h-full min-h-75">
           <img
             src={bgSec2}
             alt="MoStu Corporate Visual"
             className="w-full h-full object-cover object-center opacity-80 absolute inset-0"
           />
-          {/* Efek Overlay Teks Elegan di Atas Gambar */}
           <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-left z-10">
             <span className="font-poppins font-bold text-4xl text-[#ffb792] block drop-shadow-[0_0_15px_rgba(255,85,0,0.65)] select-none">
               Since 2024
@@ -1779,9 +1758,6 @@ function AboutTabSection() {
         </div>
       </div>
 
-      {/* ==========================================
-   TOMBOL DOWNLOAD COMPANY PROFILE
-   ========================================== */}
       <div className="flex justify-center border-t border-neutral-900/60">
         <a
           href="https://drive.google.com/file/d/18ZAaMazo9MeIC_VigtfQl1wHEcIoZ_uw/view?usp=sharing"
@@ -1789,24 +1765,17 @@ function AboutTabSection() {
           rel="noopener noreferrer"
           className="inline-flex items-center gap-3 bg-[#FF5500] hover:bg-[#e64a00] text-white font-poppins font-semibold px-8 py-4 rounded-xl text-sm tracking-wide transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-[#FF5500]/20 hover:shadow-[#FF5500]/40 cursor-pointer"
         >
-          {/* Icon PDF */}
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
           </svg>
           <span>Lihat Company Profile (G-Drive) </span>
-          {/* Icon Arrow */}
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6.5L21 12m0 0l-7.5 5.5M21 12H3" />
           </svg>
         </a>
       </div>
 
-      {/* ==========================================
-   PROFILE COMPANY (VISI, MISI, NILAI)
-   ========================================== */}
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start select-none py-8 border-t border-neutral-900/60">
-
-        {/* Visi */}
         <div className="md:col-span-4 space-y-3">
           <div className="flex items-center space-x-3 mb-2">
             <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
@@ -1816,8 +1785,6 @@ function AboutTabSection() {
             Menjadi mitra kreatif digital terpercaya yang menghubungkan ide-ide brilian dengan eksekusi visual berkualitas tinggi, serta mendorong pertumbuhan bisnis di era digital.
           </p>
         </div>
-
-        {/* Misi */}
         <div className="md:col-span-4 space-y-3">
           <div className="flex items-center space-x-3 mb-2">
             <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
@@ -1830,8 +1797,6 @@ function AboutTabSection() {
             <li>Terus berinovasi dan mengikuti perkembangan teknologi digital terkini.</li>
           </ul>
         </div>
-
-        {/* Nilai / Value */}
         <div className="md:col-span-4 space-y-3">
           <div className="flex items-center space-x-3 mb-2">
             <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
@@ -1854,24 +1819,16 @@ function AboutTabSection() {
         </div>
       </div>
 
-      {/* ==========================================
-         SEGMEN TIM MASTERMINDS
-         ========================================== */}
       <div>
-        {/* FIX UKURAN JUDUL: Disamakan text-4xl font-black agar seimbang dengan About MoStu */}
         <div className="text-left mb-12 select-none">
           <h3 className="text-4xl font-poppins font-black tracking-tight text-white">Our Masterminds</h3>
           <p className="text-neutral-400 font-light text-xs sm:text-sm mt-2">Sinergi para profesional di balik keandalan produk digital MoStu.</p>
         </div>
-
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {team.map((member, i) => (
             <div key={i} className={`flex flex-col items-center text-center group opacity-0 animate-slide-up ${member.delay}`}>
-
-              {/* BOX CONTAINER FOTO */}
               <div className="w-full aspect-4/5 bg-linear-to-t from-neutral-900/60 to-transparent border border-neutral-850/40 rounded-2xl mb-4 relative flex items-end justify-center overflow-hidden transition-all duration-700 group-hover:border-[#FF5500]/30 group-hover:shadow-[0_15px_30px_rgba(255,85,0,0.04)]">
                 <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
-
                 {member.image ? (
                   <img
                     src={member.image}
@@ -1885,17 +1842,14 @@ function AboutTabSection() {
                     </svg>
                   </div>
                 )}
-
                 <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
               </div>
-
               <h4 className="font-poppins font-bold text-sm sm:text-base text-neutral-200 group-hover:text-[#FF5500] transition-colors duration-300">{member.name}</h4>
               <p className="font-mono text-neutral-500 text-[10px] sm:text-xs mt-0.5 uppercase tracking-wide">{member.role}</p>
             </div>
           ))}
         </div>
       </div>
-
     </div>
   );
 }
@@ -1936,14 +1890,12 @@ function QnaSection() {
   return (
     <section id="qna-area" className="relative py-24 px-6 md:px-12 grid-bg bg-darkBg overflow-hidden border-t border-neutral-900">
       <div className="max-w-3xl mx-auto relative z-10 select-none">
-
         <ScrollAnimateWrapper qnaAnimationClass="animate-slide-down">
           <div className="text-center mb-16">
             <p className="font-chivo font-thin text-sm text-neutral-400 tracking-widest uppercase mb-2">Pertanyaan Umum</p>
             <h2 className="font-poppins font-bold text-2xl sm:text-3xl text-white tracking-tight">Pertanyaan Soal Jasa Kami</h2>
           </div>
         </ScrollAnimateWrapper>
-
         <div className="space-y-4">
           {qnaData.map((item, idx) => (
             <ScrollAnimateWrapper key={idx} qnaAnimationClass={item.animClass}>
@@ -1967,7 +1919,6 @@ function QnaSection() {
             </ScrollAnimateWrapper>
           ))}
         </div>
-
       </div>
     </section>
   );
@@ -2023,7 +1974,6 @@ function Footer({ setActiveTab, scrollToSection }) {
           </div>
           <p className="font-chivo font-thin text-xs sm:text-sm text-neutral-400 tracking-wide max-w-sm leading-relaxed">Menghadirkan solusi digital tangguh dengan eksekusi visual yang presisi. Kami membantu mentransformasikan ide kreatif menjadi identitas digital yang berdaya saing tinggi.</p>
         </div>
-
         <div className="md:col-span-4 flex flex-col space-y-3 text-xs sm:text-sm">
           <h4 className="font-poppins font-bold text-#FF5500 tracking-wide uppercase text-xs text-[#FF5500]">Hubungi Kami</h4>
           <p className="font-poppins font-normal text-neutral-400 leading-relaxed">Kecamatan Muara Dua, Lhokseumawe,<br />Aceh, Indonesia.</p>
@@ -2034,7 +1984,6 @@ function Footer({ setActiveTab, scrollToSection }) {
             📧 mostuid@gmail.com <br /> ☎︎ +62 882-0163-12643
           </a>
         </div>
-
         <div className="md:col-span-3 flex flex-col space-y-4">
           <h4 className="font-poppins font-bold text-#fff tracking-wide uppercase text-xs text-[#FF5500]">Ikuti Kami</h4>
           <div className="flex flex-col space-y-2 text-xs sm:text-sm font-chivo font-light text-neutral-400">
@@ -2054,11 +2003,9 @@ function NotFound() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Redirect ke home setelah 3 detik
     const timer = setTimeout(() => {
       navigate('/');
     }, 3000);
-
     return () => clearTimeout(timer);
   }, [navigate]);
 
