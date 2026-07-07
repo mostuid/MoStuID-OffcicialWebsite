@@ -28,43 +28,16 @@ function App() {
   // ==========================================
   function PrototypeRedirect() {
     const location = useLocation();
-    const [htmlContent, setHtmlContent] = useState('');
-    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-      const pathParts = location.pathname.split('/');
-      const folderName = pathParts[pathParts.length - 1];
-      const targetUrl = `/prototypes/${folderName}/index.html`;
+    const pathParts = location.pathname.split('/');
+    const folderName = pathParts[pathParts.length - 1];
 
-      fetch(targetUrl)
-        .then(res => res.text())
-        .then(html => {
-          setHtmlContent(html);
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
-    }, [location.pathname]);
+    // Redirect ke folder tanpa index.html
+    // Dari: /prototypes/prototype-airlines/index.html
+    // Menjadi: /prototypes/prototype-airlines/
+    const targetUrl = `/prototypes/${folderName}/`;
 
-    if (loading) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-darkBg">
-          <div className="text-center">
-            <div className="w-12 h-12 border-4 border-[#FF5500] border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-neutral-400 mt-4">Memuat prototype...</p>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div className="min-h-screen bg-darkBg">
-        <div className="pt-20">
-          <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-        </div>
-      </div>
-    );
+    window.location.href = targetUrl;
   }
 
   const navigate = useNavigate();
