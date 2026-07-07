@@ -244,6 +244,7 @@ function App() {
         <Routes>
           <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
           <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
+          <Route path="/portfolio/prototype-corepack" element={<PrototypeRedirect />} />
         </Routes>
       ) : (
         <>
@@ -1423,6 +1424,17 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       folderName: "prototype-gogreen"
     },
     {
+      title: "Go Green Parallax Website",
+      cat: "web-dev",
+      desc: "Website interaktif dengan animasi parallax untuk campaign lingkungan",
+      meta: "Web Prototype &bull; 2026",
+      delay: "",
+      link: null,
+      image: webPorto3Img,
+      isPrototype: true,
+      folderName: "prototype-corepack"
+    },
+    {
       title: "Terapi Kesehatan Sejati",
       cat: "web-dev",
       desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
@@ -1430,16 +1442,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       delay: "",
       link: "https://terapikesehatansejati.netlify.app/",
       image: webPorto1Img,
-      videoYoutubeId: null
-    },
-    {
-      title: "Core Pack Bussiness Website",
-      cat: "web-dev",
-      desc: "Website Bussiness Company untuk client pebisnis kami yang bergerak di bidang penyediaan solusi kemasan.",
-      meta: "Web Development Prototype &bull; 2026",
-      delay: "",
-      link: "https://corepack.vercel.app/",
-      image: webPorto3Img,
       videoYoutubeId: null
     },
     {
