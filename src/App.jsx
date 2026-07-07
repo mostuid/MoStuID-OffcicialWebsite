@@ -28,99 +28,20 @@ function App() {
   // ==========================================
   function PrototypeRedirect() {
     const location = useLocation();
-    const [htmlContent, setHtmlContent] = useState('');
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(false);
 
     useEffect(() => {
       const pathParts = location.pathname.split('/');
       const folderName = pathParts[pathParts.length - 1];
+
+      // Redirect ke file HTML dengan target _blank
       const targetUrl = `/prototypes/${folderName}/index.html`;
 
-      console.log('📄 Fetching prototype:', targetUrl);
-
-      fetch(targetUrl)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error('Prototype not found');
-          }
-          return response.text();
-        })
-        .then(html => {
-          // Inject CSS untuk reset styles dan full screen
-          const fullScreenHtml = `
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <meta charset="UTF-8">
-              <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <style>
-                * { margin: 0; padding: 0; box-sizing: border-box; }
-                html, body { 
-                  width: 100%; 
-                  height: 100%; 
-                  overflow: auto;
-                }
-                body > *:not(iframe) { 
-                  width: 100%; 
-                  min-height: 100vh;
-                }
-              </style>
-            </head>
-            <body>
-              ${html.replace(/<head>.*?<\/head>/, '')}
-            </body>
-          </html>
-        `;
-          setHtmlContent(fullScreenHtml);
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error('❌ Error loading prototype:', err);
-          setError(true);
-          setLoading(false);
-        });
+      // Gunakan window.location.replace agar tidak ada history back
+      window.location.replace(targetUrl);
     }, [location.pathname]);
 
-    if (loading) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-darkBg">
-          <div className="text-center">
-            <div className="w-12 h-12 border-4 border-[#FF5500] border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-neutral-400 mt-4">Memuat prototype...</p>
-          </div>
-        </div>
-      );
-    }
-
-    if (error) {
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-darkBg">
-          <div className="text-center">
-            <div className="w-24 h-24 mx-auto mb-6 bg-[#FF5500]/10 rounded-full flex items-center justify-center">
-              <span className="text-5xl font-bold text-[#FF5500]">404</span>
-            </div>
-            <h1 className="text-3xl font-bold text-white mb-4">Prototype Tidak Ditemukan</h1>
-            <p className="text-neutral-400 mb-2">Maaf, prototype yang Anda cari tidak tersedia.</p>
-            <button
-              onClick={() => window.location.href = '/portfolio'}
-              className="mt-6 bg-[#FF5500] hover:bg-[#e64a00] text-white px-6 py-2 rounded-lg transition-colors"
-            >
-              Kembali ke Portfolio
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    return (
-      <div
-        className="fixed inset-0 w-full h-full bg-white overflow-auto"
-        style={{ zIndex: 9999 }}
-      >
-        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-      </div>
-    );
+    // Tidak perlu render apapun karena akan langsung redirect
+    return null;
   }
 
   const navigate = useNavigate();
