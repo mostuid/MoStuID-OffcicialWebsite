@@ -29,25 +29,15 @@ function App() {
   function PrototypeRedirect() {
     const location = useLocation();
 
-    useEffect(() => {
-      const pathParts = location.pathname.split('/');
-      const folderName = pathParts[pathParts.length - 1];
-      const targetUrl = `/prototypes/${folderName}/index.html`;
+    const pathParts = location.pathname.split('/');
+    const folderName = pathParts[pathParts.length - 1];
 
-      // Redirect dengan sedikit delay untuk memastikan React selesai render
-      setTimeout(() => {
-        window.location.replace(targetUrl);
-      }, 100);
-    }, [location.pathname]);
+    // Redirect ke folder tanpa index.html
+    // Dari: /prototypes/prototype-airlines/index.html
+    // Menjadi: /prototypes/prototype-airlines/
+    const targetUrl = `/prototypes/${folderName}/`;
 
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-darkBg">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#FF5500] border-t-transparent rounded-full animate-spin mx-auto"></div>
-          <p className="text-neutral-400 mt-4">Mengalihkan ke prototype...</p>
-        </div>
-      </div>
-    );
+    window.location.href = targetUrl;
   }
 
   const navigate = useNavigate();
