@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {  HashRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import founderimg from "./assets/founder.png";
 import cofounderimg from "./assets/co-founder.png";
 import markeximg from "./assets/marketing-executive.png";
@@ -34,16 +34,15 @@ function App() {
       const pathParts = location.pathname.split('/');
       const folderName = pathParts[pathParts.length - 1];
 
-      // ✅ Gunakan window.open atau navigate dengan state
+      // Gunakan window.location untuk redirect ke file HTML
       const targetUrl = `/prototypes/${folderName}/index.html`;
 
-      // Coba cek apakah file ada dengan fetch, jika tidak redirect ke halaman error
-      fetch(targetUrl, { method: 'HEAD' })
+      // Coba akses file, jika gagal redirect ke portfolio
+      fetch(targetUrl)
         .then(response => {
           if (response.ok) {
             window.location.href = targetUrl;
           } else {
-            // Fallback ke halaman portfolio jika file tidak ditemukan
             navigate('/portfolio');
           }
         })
@@ -353,8 +352,6 @@ function App() {
       <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 overflow-y-clip">
 
         <Routes>
-          
-          <Route path="*" element={<NotFound />} />
 
           {/* HOME */}
           <Route
@@ -381,6 +378,7 @@ function App() {
             }
           />
 
+          {/* PROTOTYPES */}
           <Route path="/prototype-airlines" element={<PrototypeRedirect />} />
           <Route path="/prototype-gogreen" element={<PrototypeRedirect />} />
 
@@ -504,6 +502,9 @@ function App() {
               </div>
             }
           />
+
+          {/* 404 - HARUS DI POSISI PALING BAWAH */}
+          <Route path="*" element={<NotFound />} />
 
         </Routes>
 
@@ -2041,6 +2042,38 @@ function Footer({ setActiveTab, scrollToSection }) {
         &copy; {new Date().getFullYear()} MoStu Agency. All rights reserved.
       </div>
     </footer>
+  );
+}
+
+function NotFound() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect ke home setelah 3 detik
+    const timer = setTimeout(() => {
+      navigate('/');
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-darkBg">
+      <div className="text-center">
+        <div className="w-24 h-24 mx-auto mb-6 bg-[#FF5500]/10 rounded-full flex items-center justify-center">
+          <span className="text-5xl font-bold text-[#FF5500]">404</span>
+        </div>
+        <h1 className="text-3xl font-bold text-white mb-4">Halaman Tidak Ditemukan</h1>
+        <p className="text-neutral-400 mb-2">Maaf, halaman yang Anda cari tidak tersedia.</p>
+        <p className="text-neutral-500 text-sm">Mengalihkan ke beranda dalam 3 detik...</p>
+        <button
+          onClick={() => navigate('/')}
+          className="mt-6 bg-[#FF5500] hover:bg-[#e64a00] text-white px-6 py-2 rounded-lg transition-colors"
+        >
+          Kembali ke Beranda
+        </button>
+      </div>
+    </div>
   );
 }
 
