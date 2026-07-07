@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Turkish Airlines Clone</title>
-    <!-- ✅ PATH ICON MENGGUNAKAN ASSETS -->
-    <link rel="icon" type="image/x-icon" href="assets/tab-icon.png">
+    <link rel="icon" type="image/x-icon" href="/prototypes/prototype-airlines/assets/tab-icon.png">
     <!-- Font Awesome untuk ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
@@ -117,11 +116,13 @@
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
         }
 
+        /* Navbar tersembunyi saat scroll ke bawah */
         .navbar.hidden {
             transform: translateY(-120%);
             opacity: 0;
         }
 
+        /* Navbar muncul kembali saat scroll ke atas */
         .navbar.visible {
             transform: translateY(0);
             opacity: 1;
@@ -455,6 +456,7 @@
             transform: rotate(180deg);
         }
 
+        /* Style untuk date input */
         .input-group input[type="date"] {
             font-weight: 600;
             color: #1a2632;
@@ -1323,8 +1325,7 @@
 
     <div class="hero-container">
 
-        <!-- ✅ PATH GAMBAR MENGGUNAKAN ASSETS -->
-        <img src="assets/background.png" alt="Background" class="hero-bg-image"
+        <img src="/prototypes/prototype-airlines//assets/background.png" alt="Background" class="hero-bg-image"
             onerror="this.style.display='none'; this.parentElement.classList.add('bg-fallback');">
 
         <div class="hero-gradient-overlay"></div>
@@ -1334,8 +1335,7 @@
             <nav class="navbar" id="mainNavbar">
                 <div class="navbar-left">
                     <div class="navbar-logo">
-                        <!-- ✅ PATH LOGO MENGGUNAKAN ASSETS -->
-                        <img src="assets/Logo.png" alt="Logo Mostu Airlines" draggable="false">
+                        <img src="/prototypes/prototype-airlines/assets/Logo.png" alt="Logo Mostu Airlines" draggable="false">
                     </div>
                 </div>
 
@@ -1429,8 +1429,7 @@
 
                 </div>
 
-                <!-- ✅ PATH GAMBAR PESAWAT MENGGUNAKAN ASSETS -->
-                <img src="assets/Airplanes.png" alt="Turkish Airlines Plane" class="airplane-image">
+                <img src="/prototypes/prototype-airlines/assets/airplanes.png" alt="Turkish Airlines Plane" class="airplane-image">
 
         </div>
 
@@ -1646,8 +1645,7 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <div class="logo-text-footer">
-                        <!-- ✅ PATH LOGO FOOTER MENGGUNAKAN ASSETS -->
-                        <img src="assets/Logo.png" alt="Logo Mostu Airlines" draggable="false">
+                        <img src="/prototypes/prototype-airlines/assets/Logo.png" alt="Logo Mostu Airlines" draggable="false">
                     </div>
                     <p style="user-select: none;">Fly Different with Turkish Airlines. Connecting the world with
                         exceptional service and
@@ -1722,9 +1720,11 @@
 
                 if (Math.abs(currentScrollTop - lastScrollTop) > scrollThreshold) {
                     if (currentScrollTop > lastScrollTop) {
+                        // Scroll ke bawah - sembunyikan navbar
                         navbar.classList.add('hidden');
                         navbar.classList.remove('visible');
                     } else {
+                        // Scroll ke atas - tampilkan navbar
                         navbar.classList.remove('hidden');
                         navbar.classList.add('visible');
                     }
@@ -1732,6 +1732,7 @@
                 }
             });
 
+            // Pastikan navbar terlihat saat halaman dimuat
             navbar.classList.add('visible');
 
             // ===== PARALLAX PESAWAT =====
@@ -1813,6 +1814,7 @@
             // ===== SET DEFAULT DATE TO TODAY =====
             const dateInput = document.getElementById('date');
             if (dateInput) {
+                // Set default to today's date
                 const today = new Date();
                 const year = today.getFullYear();
                 const month = String(today.getMonth() + 1).padStart(2, '0');
