@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^prototype-airlines$ /prototypes/prototype-airlines/index.html [L]

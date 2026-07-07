@@ -1,0 +1,1831 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turkish Airlines Clone</title>
+    <link rel="icon" type="image/x-icon" href="assets/tab-icon.png">
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ===== SCROLLBAR DISABLE ===== */
+        ::-webkit-scrollbar {
+            width: 0px;
+            height: 0px;
+            display: none;
+        }
+
+        * {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        /* ===== RESET & DASAR ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            color: #1a2632;
+            min-height: 100vh;
+        }
+
+        /* ===== KONTAINER UTAMA ===== */
+        .hero-container {
+            position: relative;
+            min-height: 100vh;
+            overflow: hidden;
+            background: #a0c4d8;
+        }
+
+        .hero-bg-image {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: right center;
+        }
+
+        .hero-gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 55%;
+            height: 100%;
+            background: linear-gradient(to right,
+                    rgba(255, 255, 255, 1) 0%,
+                    rgba(255, 255, 255, 0.9) 50%,
+                    rgba(255, 255, 255, 0) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .airplane-image {
+            position: absolute;
+            right: -5%;
+            top: 35%;
+            transform: translateY(-50%);
+            width: 50%;
+            max-width: 800px;
+            z-index: 2;
+            pointer-events: none;
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.15));
+            transition: transform 0.1s ease-out;
+        }
+
+        .content-layer {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 0 24px;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0 20px 0;
+            flex-wrap: wrap;
+            gap: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 16px 24px;
+            margin: 0 -24px;
+            padding-left: 24px;
+            padding-right: 24px;
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease;
+            transform: translateY(0);
+            opacity: 1;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+        }
+
+        /* Navbar tersembunyi saat scroll ke bawah */
+        .navbar.hidden {
+            transform: translateY(-120%);
+            opacity: 0;
+        }
+
+        /* Navbar muncul kembali saat scroll ke atas */
+        .navbar.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .navbar-logo img {
+            height: 50px;
+            width: auto;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            filter: brightness(90%);
+            user-select: none;
+        }
+
+        .navbar-logo img:hover {
+            transform: scale(1.05);
+            filter: brightness(100%);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: #273E7D;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            transform: rotate(-45deg);
+            flex-shrink: 0;
+        }
+
+        .logo-icon i {
+            transform: rotate(45deg);
+        }
+
+        .logo-text {
+            font-size: 18px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #1a2632;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* ===== NAVLINK ===== */
+        .navbar-center {
+            display: none;
+            align-items: center;
+            gap: 32px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #1a2632;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            user-select: none;
+        }
+
+        .navbar-center a {
+            color: inherit;
+            text-decoration: none;
+            position: relative;
+            padding-bottom: 4px;
+            transition: color 0.2s;
+        }
+
+        .navbar-center a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #273E7D;
+            transition: width 0.3s ease;
+        }
+
+        .navbar-center a:hover {
+            color: #273E7D;
+        }
+
+        .navbar-center a:hover::after {
+            width: 100%;
+        }
+
+        .navbar-center a i {
+            font-size: 12px;
+            margin-right: 6px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* ===== TOMBOL LOGIN MODERN ===== */
+        .btn-login {
+            background: #273E7D;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(39, 62, 125, 0.25);
+            min-width: 48px;
+            min-height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-login:hover {
+            background: #1a2d5a;
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(39, 62, 125, 0.35);
+        }
+
+        .btn-login:active {
+            transform: scale(0.96);
+        }
+
+        .btn-login i {
+            margin-right: 8px;
+            font-size: 14px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 20px 0 40px 0;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* ===== HEADLINE ===== */
+        .headline {
+            margin-bottom: 50px;
+            user-select: none;
+        }
+
+        .headline-sub {
+            font-size: 28px;
+            font-weight: 300;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #1a2632;
+            line-height: 1.2;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease forwards;
+        }
+
+        .headline-sub:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .headline-main {
+            font-size: 64px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            color: #5b7dd9;
+            line-height: 1;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease 0.4s forwards;
+        }
+
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== WIDGET PEMESANAN ===== */
+        .booking-widget {
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeSlideUp 0.8s ease 0.6s forwards;
+        }
+
+        .booking-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            z-index: 1;
+        }
+
+        .tab-btn {
+            padding: 10px 24px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.25s ease;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            color: #6b7a8a;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.7);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: #1a2632;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .search-form:hover {
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.12);
+        }
+
+        .search-inputs {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .input-group {
+            padding: 18px 20px;
+            cursor: text;
+            transition: background 0.2s;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .input-group:last-of-type {
+            border-bottom: none;
+        }
+
+        .input-group:hover,
+        .input-group:focus-within {
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7a8a9a;
+            margin-bottom: 4px;
+            transition: color 0.2s;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .input-group:focus-within label {
+            color: #273E7D;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1a2632;
+            padding: 0;
+        }
+
+        .input-group input::placeholder {
+            color: #b0bec5;
+            font-weight: 400;
+        }
+
+        .input-group .input-with-icon {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .input-group .input-with-icon i {
+            color: #b0bec5;
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .input-group .input-with-icon:hover i {
+            transform: rotate(180deg);
+        }
+
+        /* Style untuk date input */
+        .input-group input[type="date"] {
+            font-weight: 600;
+            color: #1a2632;
+            cursor: pointer;
+        }
+
+        .input-group input[type="date"]::-webkit-calendar-picker-indicator {
+            opacity: 0.5;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .input-group input[type="date"]::-webkit-calendar-picker-indicator:hover {
+            opacity: 1;
+        }
+
+        .input-group input[type="date"]::-webkit-datetime-edit {
+            color: #1a2632;
+        }
+
+        .input-group input[type="date"]:invalid::-webkit-datetime-edit {
+            color: #b0bec5;
+        }
+
+        .search-submit {
+            background: #5b7dd9;
+            border: none;
+            color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+            min-height: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-submit::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .search-submit:hover {
+            background: rgb(57, 83, 153);
+            transform: scale(1.02);
+        }
+
+        .search-submit:hover::after {
+            opacity: 1;
+        }
+
+        .search-submit i {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .search-submit:hover i {
+            transform: translateX(4px) rotate(-4deg);
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 18px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #1a2632;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 140px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            position: relative;
+        }
+
+        .quick-link:hover {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .quick-link .link-left i {
+            transition: transform 0.3s ease;
+        }
+
+        .quick-link:hover .link-left i {
+            transform: scale(1.2) rotate(-5deg);
+        }
+
+        .quick-link .link-arrow {
+            transition: transform 0.3s ease;
+        }
+
+        .quick-link:hover .link-arrow {
+            transform: translateX(6px);
+        }
+
+        /* ============================================ */
+        /* ===== SECTION 2: DESTINASI POPULER ===== */
+        /* ============================================ */
+        .section-popular {
+            padding: 80px 24px;
+            background: #ffffff;
+            position: relative;
+        }
+
+        .section-popular::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #c5ddff, #3973c6);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-header .badge {
+            display: inline-block;
+            background: rgba(25, 104, 232, 0.1);
+            color: #273E7D;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 20px;
+            border-radius: 50px;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .section-header .badge:hover {
+            transform: scale(1.05);
+            background: rgba(25, 104, 232, 0.2);
+        }
+
+        .section-header h2 {
+            font-size: 40px;
+            font-weight: 800;
+            color: #5b7dd9;
+            margin-bottom: 12px;
+        }
+
+        .section-header p {
+            font-size: 18px;
+            color: #6b7a8a;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .destination-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .destination-card {
+            background: #f2f8ff;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .destination-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .destination-card:hover {
+            transform: translateY(-12px) scale(1.02) !important;
+            background: #d3dbf1;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+        }
+
+        .destination-card .card-image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            transition: transform 0.6s ease;
+        }
+
+        .destination-card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        .destination-card .card-image .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px 20px 20px;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+        }
+
+        .destination-card .card-image .overlay .price {
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .destination-card .card-image .overlay .price span {
+            font-size: 22px;
+            font-weight: 800;
+            text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.6);
+        }
+
+        .destination-card .card-body {
+            padding: 20px 24px 24px;
+        }
+
+        .destination-card .card-body h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a2632;
+            margin-bottom: 4px;
+        }
+
+        .destination-card .card-body .location {
+            font-size: 14px;
+            color: #8a9aa8;
+            margin-bottom: 12px;
+        }
+
+        .destination-card .card-body .location i {
+            margin-right: 6px;
+        }
+
+        .destination-card .card-body .tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .destination-card .card-body .tags span {
+            background: #5b7dd9;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .destination-card:hover .card-body .tags span {
+            background: #273E7D;
+            transform: scale(1.05) translateY(-2px);
+        }
+
+        /* ============================================ */
+        /* ===== SECTION 3: LAYANAN UNGGULAN ===== */
+        /* ============================================ */
+        .section-services {
+            padding: 80px 24px;
+            background: #f0f2f5;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            user-select: none;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(50px);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-12px) scale(1.03) !important;
+            background: #d3dbf1;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+        }
+
+        .service-card .icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(25, 104, 232, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: #273E7D;
+            transition: all 0.4s ease;
+        }
+
+        .service-card:hover .icon {
+            background: #273E7D;
+            color: white;
+            transform: rotate(10deg) scale(1.1);
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1a2632;
+            margin-bottom: 10px;
+        }
+
+        .service-card p {
+            font-size: 15px;
+            color: #6b7a8a;
+            line-height: 1.6;
+        }
+
+        /* ============================================ */
+        /* ===== SECTION 4: TESTIMONIAL / STATS ===== */
+        /* ============================================ */
+        .section-stats {
+            padding: 80px 24px;
+            background: #273E7D;
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .stat-item.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .stat-item .number {
+            font-size: 52px;
+            font-weight: 900;
+            color: #ffffff;
+            display: block;
+            margin-bottom: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .stat-item .label {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        .stat-item .sub-label {
+            font-size: 13px;
+            opacity: 0.5;
+            margin-top: 4px;
+        }
+
+        /* ============================================ */
+        /* ===== FOOTER ===== */
+        /* ============================================ */
+        .logo-text-footer img {
+            height: 80px;
+            width: auto;
+            filter: brightness(500%);
+            user-select: none;
+            transition: filter 0.3s ease, transform 0.3s ease;
+        }
+
+        .logo-text-footer img:hover {
+            filter: brightness(600%);
+            transform: scale(1.02);
+        }
+
+        .footer {
+            background: #0d1420;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 60px 24px 30px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand .logo-text-footer {
+            font-size: 24px;
+            font-weight: 900;
+            color: white;
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            font-size: 14px;
+            line-height: 1.8;
+            max-width: 320px;
+        }
+
+        .footer-col h4 {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-col h4::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: #5b7dd9;
+            transition: width 0.3s ease;
+        }
+
+        .footer-col:hover h4::after {
+            width: 60px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .footer-col ul li a:hover {
+            color: #5b7dd9;
+            transform: translateX(6px);
+        }
+
+        .footer-col .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .footer-col .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.6);
+            transition: all 0.4s ease;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .footer-col .social-links a:hover {
+            background: #273E7D;
+            color: white;
+            transform: translateY(-6px) rotate(8deg);
+            box-shadow: 0 8px 24px rgba(39, 62, 125, 0.4);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 13px;
+        }
+
+        .footer-bottom a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            margin-left: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-bottom a:hover {
+            color: white;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 768px) {
+            .content-layer {
+                padding: 0 40px;
+            }
+
+            .navbar-center {
+                display: flex;
+            }
+
+            .headline-sub {
+                font-size: 36px;
+            }
+
+            .headline-main {
+                font-size: 80px;
+            }
+
+            .search-form {
+                flex-direction: row;
+            }
+
+            .search-inputs {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .input-group {
+                flex: 1;
+                border-bottom: none;
+                border-right: 1px solid rgba(0, 0, 0, 0.06);
+                min-width: 140px;
+            }
+
+            .input-group:last-of-type {
+                border-right: none;
+            }
+
+            .search-submit {
+                min-width: 72px;
+                padding: 20px 24px;
+            }
+
+            .hero-gradient-overlay {
+                width: 50%;
+            }
+
+            .footer-grid {
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+            }
+
+            .navbar {
+                padding: 16px 40px;
+                margin: 0 -40px;
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .content-layer {
+                padding: 0 64px;
+            }
+
+            .headline-sub {
+                font-size: 42px;
+            }
+
+            .headline-main {
+                font-size: 96px;
+            }
+
+            .airplane-image {
+                right: 0;
+                width: 50%;
+            }
+
+            .hero-gradient-overlay {
+                width: 45%;
+            }
+
+            .navbar {
+                padding: 16px 64px;
+                margin: 0 -64px;
+                padding-left: 64px;
+                padding-right: 64px;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .navbar-center {
+                display: none;
+            }
+
+            .navbar-center.mobile-open {
+                display: flex !important;
+                flex-direction: column;
+                position: absolute;
+                top: 90px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: calc(100% - 48px);
+                background: rgba(255, 255, 255, 0.97);
+                backdrop-filter: blur(12px);
+                padding: 24px 28px;
+                border-radius: 12px;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+                gap: 20px;
+                z-index: 100;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                text-align: center;
+            }
+
+            .navbar-center.mobile-open a {
+                font-size: 15px;
+                padding: 8px 0;
+                text-align: center;
+            }
+
+            .footer-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 30px 20px;
+            }
+
+            .footer-brand {
+                grid-column: 1 / -1;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+                padding-bottom: 20px;
+            }
+
+            .footer-col:nth-child(2) {
+                grid-column: 1 / 2;
+            }
+
+            .footer-col:nth-child(3) {
+                grid-column: 2 / 3;
+            }
+
+            .footer-col:nth-child(4) {
+                grid-column: 1 / -1;
+                border-top: 1px solid rgba(255, 255, 255, 0.06);
+                padding-top: 20px;
+                margin-top: 10px;
+            }
+
+            .footer-col h4 {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+
+            .footer-col ul li {
+                margin-bottom: 8px;
+            }
+
+            .footer-col ul li a {
+                font-size: 13px;
+            }
+
+            .footer-col .social-links {
+                gap: 8px;
+                margin-top: 8px;
+                justify-content: flex-start;
+            }
+
+            .footer-col .social-links a {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+
+            .footer-brand p {
+                font-size: 13px;
+                max-width: 100%;
+            }
+
+            .footer-brand .logo-text-footer {
+                font-size: 20px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+                gap: 8px;
+                font-size: 12px;
+                padding-top: 20px;
+            }
+
+            .footer-bottom a {
+                margin: 0 8px;
+                font-size: 12px;
+            }
+
+            .footer-bottom div {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 4px;
+            }
+
+            .footer {
+                padding: 40px 20px 20px;
+            }
+
+            .navbar {
+                padding: 12px 16px;
+                margin: 0 -16px;
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .headline-sub {
+                font-size: 20px;
+            }
+
+            .headline-main {
+                font-size: 44px;
+            }
+
+            .input-group {
+                padding: 14px 16px;
+            }
+
+            .input-group input {
+                font-size: 13px;
+            }
+
+            .navbar {
+                padding: 10px 12px;
+                margin: 0 -12px;
+                padding-left: 12px;
+                padding-right: 12px;
+            }
+
+            .logo-text {
+                font-size: 14px;
+            }
+
+            .logo-icon {
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+            }
+
+            .airplane-image {
+                width: 80%;
+                right: -30%;
+                top: 45%;
+            }
+
+            .hero-gradient-overlay {
+                width: 70%;
+            }
+
+            .quick-link {
+                min-width: 120px;
+                padding: 10px 14px;
+                font-size: 11px;
+            }
+
+            .btn-login {
+                padding: 8px 16px;
+                font-size: 12px;
+                min-width: 40px;
+                min-height: 40px;
+            }
+
+            .btn-login i {
+                margin-right: 6px;
+                font-size: 12px;
+            }
+
+            .section-header h2 {
+                font-size: 28px;
+            }
+
+            .destination-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 20px;
+            }
+
+            .stat-item .number {
+                font-size: 36px;
+            }
+        }
+
+        .bg-fallback {
+            background: linear-gradient(135deg, #b8d4e3 0%, #8bb3c9 100%);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="hero-container">
+
+        <img src="assets/background.png" alt="Background" class="hero-bg-image"
+            onerror="this.style.display='none'; this.parentElement.classList.add('bg-fallback');">
+
+        <div class="hero-gradient-overlay"></div>
+
+        <div class="content-layer">
+
+            <nav class="navbar" id="mainNavbar">
+                <div class="navbar-left">
+                    <div class="navbar-logo">
+                        <img src="assets/Logo.png" alt="Logo Mostu Airlines" draggable="false">
+                    </div>
+                </div>
+
+                <div class="navbar-center" id="navLinks">
+                    <a href="#popular" draggable="false">Destinations</a>
+                    <a href="#services" draggable="false">Services</a>
+                    <a href="#stats" draggable="false">About</a>
+                    <a href="#" draggable="false"><i class="fas fa-search"></i> Search</a>
+                </div>
+
+                <div class="navbar-right">
+                    <button class="btn-login" id="loginBtn">
+                        <i class="fas fa-user"></i> LOGIN
+                    </button>
+                </div>
+            </nav>
+
+            <main class="main-content">
+
+                <div class="headline">
+                    <div class="headline-sub">Where</div>
+                    <div class="headline-sub">Do you want to</div>
+                    <div class="headline-main">Explore?</div>
+                </div>
+
+                <div class="booking-tabs" role="tablist">
+                    <button class="tab-btn active" role="tab" aria-selected="true">Round Trip</button>
+                    <button class="tab-btn" role="tab" aria-selected="false">One Way</button>
+                    <button class="tab-btn" role="tab" aria-selected="false">Multi City</button>
+                </div>
+
+                <div class="booking-widget">
+
+                    <form class="search-form" action="#" method="get">
+                        <div class="search-inputs">
+                            <div class="input-group">
+                                <label for="destination">Where?</label>
+                                <input type="text" id="destination" placeholder="Your Destination" value="">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="from">From</label>
+                                <input type="text" id="from" placeholder="Your point of origin" value="">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date" value="2018-07-29">
+                            </div>
+
+                            <div class="input-group" style="user-select: none; cursor: pointer;">
+                                <label for="cabin">Cabin</label>
+                                <div class="input-with-icon">
+                                    <input type="text" id="cabin" style="user-select: none; cursor: pointer;"
+                                        value="Economy" readonly>
+                                    <i class="fas fa-chevron-down" style="cursor: pointer;"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="search-submit" aria-label="Cari">
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+
+                    <div class="quick-links">
+                        <button class="quick-link">
+                            <span class="link-left">
+                                <i class="fas fa-chair"></i>
+                                Check-in
+                            </span>
+                            <i class="fas fa-chevron-right link-arrow"></i>
+                        </button>
+
+                        <button class="quick-link">
+                            <span class="link-left">
+                                <i class="far fa-clock"></i>
+                                Flight Status
+                            </span>
+                            <i class="fas fa-chevron-right link-arrow"></i>
+                        </button>
+
+                        <button class="quick-link">
+                            <span class="link-left">
+                                <i class="fas fa-suitcase"></i>
+                                Baggage Infor.
+                            </span>
+                            <i class="fas fa-chevron-right link-arrow"></i>
+                        </button>
+                    </div>
+
+                </div>
+
+                <img src="assets/Airplanes.png" alt="Turkish Airlines Plane" class="airplane-image">
+
+        </div>
+
+    </div>
+
+    <!-- ============================================ -->
+    <!-- ===== SECTION 2: DESTINASI POPULER ===== -->
+    <!-- ============================================ -->
+    <section class="section-popular" id="popular">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="badge"><i class="fas fa-globe-americas"></i> Explore</span>
+                <h2>Popular Destinations</h2>
+                <p>Discover the most sought-after destinations with Turkish Airlines</p>
+            </div>
+
+            <div class="destination-grid">
+                <div class="destination-card">
+                    <div class="card-image"
+                        style="background-image: url('https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcR5w0JQlyly5Zcx9MrN1VPUqmLBSYkqsVAWhcCHIwiyn1xr8yxv16yZzRml0zkJbUya53TeX4cPmbSjeGOcbHmowyE&s=19');">
+                        <div class="overlay">
+                            <div class="price">From <span>$299</span></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>Bali</h3>
+                        <div class="location"><i class="fas fa-map-pin" style="color: red;"></i> Indonesia</div>
+                        <div class="tags">
+                            <span>Beach</span>
+                            <span>Culture</span>
+                            <span>Adventure</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="card-image"
+                        style="background-image: url('https://a.storyblok.com/f/239725/4096x2731/9eacb27b6d/hero-paris.jpg/m/3840x2560/filters:quality(70)');">
+                        <div class="overlay">
+                            <div class="price">From <span>$399</span></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>Paris</h3>
+                        <div class="location"><i class="fas fa-map-pin" style="color: red;"></i> France</div>
+                        <div class="tags">
+                            <span>Romance</span>
+                            <span>Art</span>
+                            <span>Gastronomy</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="card-image"
+                        style="background-image: url('https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSsgg2llPI2qAtdx4lJLGi7F4NhjPjRK025SfbltoTvKShPBKS4r_s5ZxkRNQ32MZne1eYYx5mNxo1vJs79yiMVyeQ&s=19');">
+                        <div class="overlay">
+                            <div class="price">From <span>$459</span></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>Tokyo</h3>
+                        <div class="location"><i class="fas fa-map-pin" style="color: red;"></i> Japan</div>
+                        <div class="tags">
+                            <span>Modern</span>
+                            <span>Tradition</span>
+                            <span>Food</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="card-image"
+                        style="background-image: url('https://www.grayline.com/wp-content/uploads/2025/12/shutterstock_151616084-scaled.jpg');">
+                        <div class="overlay">
+                            <div class="price">From <span>$349</span></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>Dubai</h3>
+                        <div class="location"><i class="fas fa-map-pin" style="color: red;"></i> UAE</div>
+                        <div class="tags">
+                            <span>Luxury</span>
+                            <span>Shopping</span>
+                            <span>Desert</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="destination-card">
+                    <div class="card-image"
+                        style="background-image: url('https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRJpaKIjftiWjsEdAGWwl8Nj32nItpoodcVCOLisAW_4LvJV-PS0NygxFzRKO6HQHk7hD3m0BvVjIL1QWUEYFZJq_s&s=19');">
+                        <div class="overlay">
+                            <div class="price">From <span>$379</span></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>London</h3>
+                        <div class="location"><i class="fas fa-map-pin" style="color: red;"></i> United Kingdom</div>
+                        <div class="tags">
+                            <span>History</span>
+                            <span>Royal</span>
+                            <span>Museums</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="destination-card">
+                    <div class="card-image"
+                        style="background-image: url('https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQ19nRalhfbVMIn3TKE5A0Rjl8N_gdJeWyBCCY5UK8z5RtibBRlx5Q7eKb0qaMO25Z8YSxXfaasO0R95wjyi-fehFRD&s=19');">
+                        <div class="overlay">
+                            <div class="price">From <span>$429</span></div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h3>Singapore</h3>
+                        <div class="location"><i class="fas fa-map-pin" style="color: red;"></i> Singapore</div>
+                        <div class="tags">
+                            <span>Modern</span>
+                            <span>Food</span>
+                            <span>Gardens</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ===== SECTION 3: LAYANAN UNGGULAN ===== -->
+    <!-- ============================================ -->
+    <section class="section-services" id="services">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="badge"><i class="fas fa-star"></i> Services</span>
+                <h2>Fly Different With Us</h2>
+                <p>Experience exceptional service and comfort with Turkish Airlines</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-wifi"></i></div>
+                    <h3>In-Flight Wi-Fi</h3>
+                    <p>Stay connected at 35,000 feet with high-speed internet throughout your journey.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-utensils"></i></div>
+                    <h3>Fine Dining</h3>
+                    <p>Enjoy world-class cuisine prepared by award-winning chefs, served on board.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-tv"></i></div>
+                    <h3>Premium Entertainment</h3>
+                    <p>Choose from thousands of movies, TV shows, and music on your personal screen.</p>
+                </div>
+
+                <div class="service-card">
+                    <div class="icon"><i class="fas fa-suitcase"></i></div>
+                    <h3>Extra Baggage Allowance</h3>
+                    <p>Enjoy generous baggage allowance and priority handling for your belongings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ===== SECTION 4: STATISTIK ===== -->
+    <!-- ============================================ -->
+    <section class="section-stats" id="stats">
+        <div class="section-container">
+            <div class="section-header" style="margin-bottom: 40px;">
+                <span class="badge" style="background: #5b7dd99b; color: #FFF;">
+                    <i class="fas fa-chart-bar" style="margin-right: 6px;"></i> Our Numbers
+                </span>
+
+                <h2 style="color: white;">Turkish Airlines By The Numbers</h2>
+                <p style="color: rgba(255,255,255,0.6);">Over 80 years of excellence in aviation</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-item" style="user-select: none;">
+                    <span class="number" data-target="300">0</span>
+                    <span class="label">Destinations</span><br>
+                    <span class="sub-label">Across 120+ countries</span>
+                </div>
+
+                <div class="stat-item" style="user-select: none;">
+                    <span class="number" data-target="450">0</span>
+                    <span class="label">Aircraft Fleet</span><br>
+                    <span class="sub-label">Modern &amp; comfortable</span>
+                </div>
+
+                <div class="stat-item" style="user-select: none;">
+                    <span class="number" data-target="80">0</span>
+                    <span class="label">Years of Service</span><br>
+                    <span class="sub-label">Since 1933</span>
+                </div>
+
+                <div class="stat-item" style="user-select: none;">
+                    <span class="number" data-target="99.8">0</span>
+                    <span class="label">Customer Satisfaction</span><br>
+                    <span class="sub-label">Award-winning service</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- ===== FOOTER ===== -->
+    <!-- ============================================ -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo-text-footer">
+                        <img src="assets/Logo.png" alt="Logo Mostu Airlines" draggable="false">
+                    </div>
+                    <p style="user-select: none;">Fly Different with Turkish Airlines. Connecting the world with
+                        exceptional service and
+                        hospitality since 1933.</p>
+                </div>
+
+                <div class="footer-col" style="user-select: none;">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#" draggable="false">Book a Flight</a></li>
+                        <li><a href="#" draggable="false">Check-in</a></li>
+                        <li><a href="#" draggable="false">Flight Status</a></li>
+                        <li><a href="#" draggable="false">Manage Booking</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" style="user-select: none;">
+                    <h4>Information</h4>
+                    <ul>
+                        <li><a href="#" draggable="false">About Us</a></li>
+                        <li><a href="#" draggable="false">Career</a></li>
+                        <li><a href="#" draggable="false">Press Room</a></li>
+                        <li><a href="#" draggable="false">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col" style="user-select: none;">
+                    <h4>Connect With Us</h4>
+                    <p style="font-size:14px; margin-bottom:12px;">Follow us on social media</p>
+                    <div class="social-links">
+                        <a href="#" draggable="false"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" draggable="false"><i class="fab fa-twitter"></i></a>
+                        <a href="#" draggable="false"><i class="fab fa-instagram"></i></a>
+                        <a href="#" draggable="false"><i class="fab fa-youtube"></i></a>
+                        <a href="#" draggable="false"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 Turkish Airlines. All rights reserved.</span>
+                <div>
+                    <a href="#" draggable="false" style="user-select: none;">Terms of Service</a>
+                    <a href="#" draggable="false" style="user-select: none;">Privacy Policy</a>
+                    <a href="#" draggable="false" style="user-select: none;">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // ===== TAB INTERAKSI =====
+            const tabs = document.querySelectorAll('.tab-btn');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function () {
+                    tabs.forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+                });
+            });
+
+            // ===== NAVBAR HIDE ON SCROLL DOWN, SHOW ON SCROLL UP =====
+            const navbar = document.getElementById('mainNavbar');
+            let lastScrollTop = 0;
+            let scrollThreshold = 30;
+
+            window.addEventListener('scroll', function () {
+                let currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (Math.abs(currentScrollTop - lastScrollTop) > scrollThreshold) {
+                    if (currentScrollTop > lastScrollTop) {
+                        // Scroll ke bawah - sembunyikan navbar
+                        navbar.classList.add('hidden');
+                        navbar.classList.remove('visible');
+                    } else {
+                        // Scroll ke atas - tampilkan navbar
+                        navbar.classList.remove('hidden');
+                        navbar.classList.add('visible');
+                    }
+                    lastScrollTop = currentScrollTop;
+                }
+            });
+
+            // Pastikan navbar terlihat saat halaman dimuat
+            navbar.classList.add('visible');
+
+            // ===== PARALLAX PESAWAT =====
+            const airplane = document.querySelector('.airplane-image');
+            window.addEventListener('scroll', function () {
+                if (airplane) {
+                    let scrollPos = window.scrollY;
+                    let moveX = -(scrollPos * 2);
+                    let moveY = scrollPos * 0.8;
+                    airplane.style.transform = `translate(${moveX}px, calc(-50% + ${moveY}px))`;
+                }
+            });
+
+            // ===== INTERSECTION OBSERVER UNTUK KARTU =====
+            const cards = document.querySelectorAll('.destination-card, .service-card, .stat-item');
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        if (entry.target.classList.contains('stat-item')) {
+                            animateNumber(entry.target.querySelector('.number'));
+                        }
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // ===== ANIMASI ANGKA =====
+            function animateNumber(el) {
+                if (!el) return;
+                const target = parseFloat(el.getAttribute('data-target'));
+                if (isNaN(target)) return;
+                const isFloat = target % 1 !== 0;
+                const duration = 2000;
+                const startTime = performance.now();
+
+                function updateNumber(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = eased * target;
+                    if (isFloat) {
+                        el.textContent = current.toFixed(1);
+                    } else {
+                        el.textContent = Math.round(current);
+                    }
+                    if (progress < 1) {
+                        requestAnimationFrame(updateNumber);
+                    } else {
+                        if (isFloat) {
+                            el.textContent = target.toFixed(1);
+                        } else {
+                            el.textContent = target;
+                        }
+                    }
+                }
+                requestAnimationFrame(updateNumber);
+            }
+
+            // ===== CEK STATS YANG SUDAH TERLIHAT SAAT LOAD =====
+            const stats = document.querySelectorAll('.stat-item');
+            stats.forEach(stat => {
+                const rect = stat.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    stat.classList.add('visible');
+                    animateNumber(stat.querySelector('.number'));
+                }
+            });
+
+            // ===== LOGIN BUTTON CLICK =====
+            document.getElementById('loginBtn').addEventListener('click', function () {
+                alert('Login functionality would be implemented here.');
+            });
+
+            // ===== SET DEFAULT DATE TO TODAY =====
+            const dateInput = document.getElementById('date');
+            if (dateInput) {
+                // Set default to today's date
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                dateInput.value = `${year}-${month}-${day}`;
+            }
+
+            console.log('✨ Turkish Airlines Clone with Enhanced Animations & Auto-hide Navbar!');
+        });
+    </script>
+
+</body>
+
+</html>

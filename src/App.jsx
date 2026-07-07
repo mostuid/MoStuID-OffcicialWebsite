@@ -9,6 +9,7 @@ import bgSec2 from './assets/bg-sec2.png';
 import webPorto1Img from "./assets/Web-Porto1.gif";
 import webPorto2Img from "./assets/Web-Porto2.gif";
 import webPorto3Img from "./assets/Web-Porto3.gif";
+import webPorto4Img from "./assets/Web-Porto4.png";
 import animPorto1Img from "./assets/Anim-Porto1.jpg";
 import videoPorto1Img from "./assets/Video-Porto1.png";
 import videoPorto2Img from "./assets/Video-Porto2.png";
@@ -21,6 +22,36 @@ import iconBrandingStrategy from "./assets/Icon Branding Strategy.png";
 import iconAnimationServices from "./assets/Icon Animation Services.png";
 
 function App() {
+
+  // ==========================================
+  // KOMPONEN REDIRECT UNTUK PROTOTYPE
+  // ==========================================
+  function PrototypeRedirect() {
+    const location = useLocation();
+
+    useEffect(() => {
+      const pathParts = location.pathname.split('/');
+      const folderName = pathParts[pathParts.length - 1];
+
+      // Redirect ke file HTML
+      const targetUrl = `/prototypes/${folderName}/index.html`;
+
+      // Gunakan setTimeout agar React selesai render dulu
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 100);
+    }, [location.pathname]);
+
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-darkBg">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#FF5500] border-t-transparent rounded-full animate-spin mx-auto"></div>
+          <p className="text-neutral-400 mt-4">Mengalihkan ke prototype...</p>
+        </div>
+      </div>
+    );
+  }
+
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname; // Ini akan membaca URL browser saat ini (misal: "/" atau "/portfolio")
@@ -337,6 +368,8 @@ function App() {
               </div>
             }
           />
+
+          <Route path="/prototype-airlines" element={<PrototypeRedirect />} />
 
           {/* PRODUCTS */}
           <Route
@@ -1345,6 +1378,17 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
   const projects = [
     {
+      title: "MoStu Airline Prototype",
+      cat: "web-dev",
+      desc: "Prototype landing page modern dengan animasi parallax",
+      meta: "Web Prototype &bull; 2026",
+      delay: "",
+      link: null,
+      image: webPorto4Img, // Bisa pakai gambar screenshot jika ada
+      isPrototype: true,
+      folderName: "prototype-airlines"
+    },
+    {
       title: "Terapi Kesehatan Sejati",
       cat: "web-dev",
       desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
@@ -1431,6 +1475,13 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   // Aksi ketika kartu portofolio diklik
   const handleCardClick = (e, project) => {
     e.stopPropagation();
+
+    // Skenario 0: Jika ada Video prototype web langsung dari path
+    if (project.isPrototype) {
+      // Buka URL bersih (tanpa /prototypes/ dan tanpa /index.html)
+      window.open(`/${project.folderName}`, '_blank');
+      return;
+    }
 
     // Skenario 1: Jika ada Video Youtube, buka jendela pop-up penayang
     if (project.videoYoutubeId) {
@@ -1523,7 +1574,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
           <div
             key={i}
             onClick={(e) => handleCardClick(e, project)}
-            className={`bg-neutral-900/40 backdrop-blur-md p-6 rounded-xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between opacity-0 animate-slide-up ${project.delay} ${project.link || project.videoYoutubeId ? 'hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] cursor-pointer' : ''}`}
+            className={`bg-neutral-900/40 backdrop-blur-md p-6 rounded-xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between opacity-0 animate-slide-up ${project.delay} ${(project.link || project.videoYoutubeId || project.isPrototype) ? 'hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] cursor-pointer' : ''}`}
           >
             <div>
               {/* AREA PREVIEW GAMBAR ATAU MOCKUP */}

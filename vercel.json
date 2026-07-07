@@ -1,8 +1,8 @@
 {
   "rewrites": [
     {
-      "source": "/(.*)",
-      "destination": "/"
+      "source": "/prototype-airlines",
+      "destination": "/prototypes/prototype-airlines/index.html"
     }
   ]
 }
