@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import {  HashRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import founderimg from "./assets/founder.png";
 import cofounderimg from "./assets/co-founder.png";
 import markeximg from "./assets/marketing-executive.png";
@@ -28,18 +28,29 @@ function App() {
   // ==========================================
   function PrototypeRedirect() {
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
       const pathParts = location.pathname.split('/');
       const folderName = pathParts[pathParts.length - 1];
 
-      // ✅ Redirect ke file HTML yang benar
+      // ✅ Gunakan window.open atau navigate dengan state
       const targetUrl = `/prototypes/${folderName}/index.html`;
 
-      setTimeout(() => {
-        window.location.href = targetUrl;
-      }, 100);
-    }, [location.pathname]);
+      // Coba cek apakah file ada dengan fetch, jika tidak redirect ke halaman error
+      fetch(targetUrl, { method: 'HEAD' })
+        .then(response => {
+          if (response.ok) {
+            window.location.href = targetUrl;
+          } else {
+            // Fallback ke halaman portfolio jika file tidak ditemukan
+            navigate('/portfolio');
+          }
+        })
+        .catch(() => {
+          navigate('/portfolio');
+        });
+    }, [location.pathname, navigate]);
 
     return (
       <div className="min-h-screen flex items-center justify-center bg-darkBg">
@@ -342,6 +353,8 @@ function App() {
       <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 overflow-y-clip">
 
         <Routes>
+          
+          <Route path="*" element={<NotFound />} />
 
           {/* HOME */}
           <Route

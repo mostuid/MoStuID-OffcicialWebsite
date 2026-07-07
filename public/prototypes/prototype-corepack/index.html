@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CorePack.com</title>
+
+    <link rel="icon" type="image/png" sizes="32x32" href="https://horizontal-red-xqq5ydm6.edgeone.dev/icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://horizontal-red-xqq5ydm6.edgeone.dev/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://horizontal-red-xqq5ydm6.edgeone.dev/icon.png">
+    <link rel="shortcut icon" href="https://horizontal-red-xqq5ydm6.edgeone.dev/icon.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            dark: '#000000',
+                            green: '#104a25',
+                            greenHover: '#0a3118',
+                            grayBg: '#c4bdb7',
+                            lightGray: '#f4f4f4'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        #navbar.overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: transparent;
+        }
+
+        #navbar.normal {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            background: #000;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, .2);
+        }
+
+        .navbar-logo {
+            margin-left: 100px;
+            opacity: 0;
+            animation: logoFadeIn 1s ease forwards;
+        }
+
+        @keyframes logoFadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hero-text {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Animasi slide up untuk packaging title */
+        .packaging-title {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideUp 1s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+
+        /* Efek bertahap untuk setiap baris teks di hero */
+        .hero-line-1 {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideUp 0.8s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero-line-2 {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideUp 0.8s ease-out forwards;
+            animation-delay: 0.4s;
+        }
+
+        .hero-line-3 {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideUp 0.8s ease-out forwards;
+            animation-delay: 0.6s;
+        }
+
+        .hero-line-4 {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideUp 0.8s ease-out forwards;
+            animation-delay: 0.8s;
+        }
+
+        .hero-home {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1627309366653-2dedc084cdf1?q=80&w=2866&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-packaging {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('https://plus.unsplash.com/premium_photo-1661302828763-4ec9b91d9ce3?q=80&w=1744&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-contact {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .section-parallax-1 {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1605600659908-0ef719419d41?q=80&w=2072&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .section-parallax-2 {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        .custom-list li {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .custom-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #104a25;
+            font-weight: bold;
+        }
+
+        /* Reset animasi saat halaman berganti */
+        .page-view {
+            transition: opacity 0.3s ease;
+        }
+
+        .page-view.hidden {
+            display: none;
+        }
+
+        .page-view.block {
+            display: block;
+        }
+
+        #navbar {
+            transition: transform 0.35s ease;
+        }
+
+        #navbar.nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        /* Contact Card Styles */
+        .contact-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .contact-info-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 14px 20px;
+            background: #f8f8f8;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid #104a25;
+        }
+
+        .contact-info-item:hover {
+            background: #f0f0f0;
+            transform: translateX(8px);
+        }
+
+        .contact-info-item i {
+            width: 24px;
+            color: #104a25;
+            font-size: 1.1rem;
+        }
+
+        .contact-divider {
+            height: 2px;
+            background: linear-gradient(to right, #104a25, transparent);
+            margin: 24px 0;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #104a25;
+            color: white;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .social-icon:hover {
+            background: #0a3118;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(16, 74, 37, 0.3);
+        }
+
+        .contact-hero-text {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: slideUp 1s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+    </style>
+</head>
+
+<body class="bg-white text-gray-800 antialiased font-sans flex flex-col min-h-screen">
+
+    <header id="navbar" class="overlay z-50 text-white transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-28">
+
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#" onclick="switchPage('home')"
+                        class="nav-link text-sm font-semibold tracking-wider hover:text-brand-grayBg transition">HOME</a>
+                    <a href="#" onclick="switchPage('packaging')"
+                        class="nav-link text-sm font-semibold tracking-wider hover:text-brand-grayBg transition">PACKAGING</a>
+                </nav>
+
+                <div class="flex-shrink-0 flex items-center justify-center cursor-pointer" onclick="switchPage('home')">
+                    <img class="w-auto object-contain navbar-logo"
+                        src="https://financial-tomato-rkkqw9ne.edgeone.dev/COREPACK%20LOGO.png"
+                        alt="CorePack Solutions Logo" style="height: 80px;">
+                </div>
+
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#" onclick="switchPage('product-detail')"
+                        class="nav-link text-sm font-semibold tracking-wider hover:text-brand-grayBg transition text-brand-green bg-white px-3 py-1 rounded">DETAIL
+                        SPECS</a>
+                    <a href="#" onclick="switchPage('contact')"
+                        class="nav-link text-sm font-semibold tracking-wider hover:text-brand-grayBg transition">CONTACT</a>
+                    <button class="text-white hover:text-brand-grayBg"><i class="fas fa-search"></i></button>
+                </nav>
+
+                <div class="md:hidden flex items-center">
+                    <button class="text-white hover:text-gray-300 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+
+        <div id="home" class="page-view block">
+
+            <section class="hero-home h-screen flex flex-col items-center justify-center text-center px-4">
+                <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg leading-tight">
+                    <span class="hero-line-1 block">Custom Solutions</span>
+                    <span class="hero-line-2 block">Premium Quality</span>
+                    <span class="hero-line-3 block">Global Supply Chain</span>
+                    <span class="hero-line-4 block">Reliable Partnership</span>
+                </h1>
+
+                <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+                    <img src="https://static.thenounproject.com/png/496855-200.png" alt="Scroll down"
+                        class="h-auto opacity-60 hover:opacity-100 transition-opacity cursor-pointer invert brightness-0"
+                        style="filter: invert(100%); width: 50px; transform: translateX(-26px);"
+                        onclick="window.scrollBy({ top: window.innerHeight, behavior: 'smooth' })">
+                </div>
+            </section>
+
+            <section class="py-16 bg-white text-center px-4 max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-brand-green mb-4">A GLOBAL TRADING PARTNER YOU CAN TRUST</h2>
+                <div class="w-24 h-1 bg-brand-grayBg mx-auto mb-6"></div>
+                <p class="text-gray-600 leading-relaxed">
+                    We specialize in delivering high-quality custom flexible packaging and supplementary industrial
+                    solutions.
+                    Our experienced team works closely with clients worldwide to source, develop, and deliver packaging
+                    materials
+                    that protect your products and elevate your brand.
+                </p>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+                    <div class="group cursor-pointer shadow-lg overflow-hidden flex flex-col h-full"
+                        onclick="switchPage('packaging')">
+                        <div class="h-48 overflow-hidden bg-gray-200">
+                            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=800&auto=format&fit=crop"
+                                alt="Flexible Packaging"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="bg-brand-green text-white text-center py-3 font-semibold uppercase tracking-wide">
+                            Flexible Packaging
+                        </div>
+                    </div>
+
+                    <div class="group cursor-pointer shadow-lg overflow-hidden flex flex-col h-full">
+                        <div class="h-48 overflow-hidden bg-gray-200">
+                            <img src="https://principal-teal-8pbd4y39.edgeone.dev/Stretch-Film.png" alt="Stretch Film"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="bg-brand-green text-white text-center py-3 font-semibold uppercase tracking-wide">
+                            Stretch Film
+                        </div>
+                    </div>
+
+                    <div class="group cursor-pointer shadow-lg overflow-hidden flex flex-col h-full">
+                        <div class="h-48 overflow-hidden bg-gray-200">
+                            <img src="https://images.unsplash.com/photo-1602850152657-3bd1351c7f15?q=80&w=1766&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                alt="Strapping & Banding"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="bg-brand-green text-white text-center py-3 font-semibold uppercase tracking-wide">
+                            Strapping/Banding
+                        </div>
+                    </div>
+
+                    <div class="group cursor-pointer shadow-lg overflow-hidden flex flex-col h-full">
+                        <div class="h-48 overflow-hidden bg-gray-200">
+                            <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=800&auto=format&fit=crop"
+                                alt="Safety Supplies"
+                                class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        </div>
+                        <div class="bg-brand-green text-white text-center py-3 font-semibold uppercase tracking-wide">
+                            Safety Supplies
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex justify-center space-x-4">
+                    <button onclick="switchPage('packaging')"
+                        class="bg-brand-green hover:bg-brand-greenHover text-white px-6 py-2 font-semibold shadow transition">View
+                        Full Line Card</button>
+                </div>
+            </section>
+
+            <section class="section-parallax-1 py-32 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="bg-black bg-opacity-70 p-8 md:p-12 max-w-2xl text-white border-l-4 border-brand-green">
+                        <h3 class="text-3xl font-bold mb-4">Industry Experience</h3>
+                        <p class="mb-6 leading-relaxed">
+                            Experience is the difference between a secure supply chain and operational delays.
+                            Our packaging experts possess decades of combined experience, ensuring we understand the
+                            nuances
+                            of custom pouches, films, and protective materials to deliver optimal value to our partners.
+                        </p>
+                        <button
+                            class="bg-brand-green hover:bg-brand-greenHover text-white px-6 py-2 text-sm font-semibold transition">LEARN
+                            MORE</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section-parallax-2 py-32 relative">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex justify-end">
+                    <div
+                        class="bg-black bg-opacity-70 p-8 md:p-12 max-w-2xl text-white border-r-4 border-brand-green text-right">
+                        <h3 class="text-3xl font-bold mb-4">Quality & Compliance</h3>
+                        <p class="mb-6 leading-relaxed">
+                            Navigating material specifications and regulatory requirements is complex.
+                            We prioritize quality assurance and offer recyclable/green material options, acting as your
+                            trusted advisor
+                            to mitigate risks and ensure your packaging meets all necessary standards.
+                        </p>
+                        <button
+                            class="bg-brand-green hover:bg-brand-greenHover text-white px-6 py-2 text-sm font-semibold transition">LEARN
+                            MORE</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <div id="packaging" class="page-view hidden">
+
+            <section class="hero-packaging h-80 md:h-[500px] flex items-center justify-center">
+                <h1
+                    class="packaging-title text-4xl md:text-5xl font-bold text-white drop-shadow-md text-center px-8 py-4">
+                    Packaging Products
+                </h1>
+            </section>
+
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+                <div class="flex flex-col md:flex-row gap-12">
+
+                    <div class="w-full md:w-2/3">
+                        <p class="text-lg text-gray-700 mb-8 font-medium">
+                            We supply a comprehensive range of packaging solutions globally.
+                            Relationships built on service, honesty, and quality are the foundation of our success.
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
+
+                            <div>
+                                <h3 class="text-xl font-bold text-brand-green mb-3 border-b-2 border-brand-grayBg pb-1">
+                                    Flexible Packaging</h3>
+                                <ul class="custom-list">
+                                    <li>Vacuum Pouches</li>
+                                    <li>Stand Up Pouches</li>
+                                    <li>Custom Pouches & Bags</li>
+                                    <li>Roll Stock Films</li>
+                                    <li>Shrink Films</li>
+                                    <li>Shrink Bags</li>
+                                    <li>Fruit Pouches</li>
+                                    <li>Poly Products: Mattress Films, Box Liners, Tote Liners, Poly Bags</li>
+                                    <li>Plastic & Glass Bottles</li>
+                                    <li>Sprayers & Pumps</li>
+                                    <li>Droppers, Caps, & Lids</li>
+                                    <li>Agriculture Films & Bags</li>
+                                    <li>Recyclable / Green Material Options Available</li>
+                                    <li>Clamshell Packaging</li>
+                                </ul>
+                            </div>
+
+                            <div class="space-y-8">
+                                <div>
+                                    <h3
+                                        class="text-xl font-bold text-brand-green mb-3 border-b-2 border-brand-grayBg pb-1">
+                                        Stretch Film</h3>
+                                    <ul class="custom-list">
+                                        <li>Machine Film</li>
+                                        <li>Hand Film</li>
+                                        <li>Coreless Hand Film</li>
+                                        <li>Vented Films</li>
+                                        <li>Banding Film</li>
+                                    </ul>
+                                </div>
+
+                                <div>
+                                    <h3
+                                        class="text-xl font-bold text-brand-green mb-3 border-b-2 border-brand-grayBg pb-1">
+                                        Safety Supplies</h3>
+                                    <ul class="custom-list">
+                                        <li>Hand Protection</li>
+                                        <li>Protective Garments</li>
+                                        <li>Eye Protection</li>
+                                        <li>Head Protection</li>
+                                        <li>Face Masks</li>
+                                        <li>Sleeves</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-bold text-brand-green mb-3 border-b-2 border-brand-grayBg pb-1">
+                                    Strapping/Banding</h3>
+                                <ul class="custom-list">
+                                    <li>Polypropylene</li>
+                                    <li>Polyester</li>
+                                    <li>Steel</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h3 class="text-xl font-bold text-brand-green mb-3 border-b-2 border-brand-grayBg pb-1">
+                                    Other Packaging</h3>
+                                <ul class="custom-list">
+                                    <li>Corrugated Boxes</li>
+                                    <li>Rigid Setup Boxes</li>
+                                    <li>Folding Carton</li>
+                                    <li>V-Board / Corner Board</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <p class="mt-10 text-sm font-bold text-gray-500 italic">
+                            **ADDITIONAL PACKAGING PRODUCTS AVAILABLE UPON REQUEST**
+                        </p>
+                    </div>
+
+                    <div class="w-full md:w-1/3 space-y-8">
+
+                        <div class="bg-brand-green text-white p-8 shadow-lg text-center">
+                            <h3 class="text-xl font-bold mb-4 border-b border-brand-greenHover pb-2">Packaging Sales
+                            </h3>
+                            <div class="space-y-2">
+                                <p class="font-bold text-lg">Ryan Harris</p>
+                                <p class="text-sm"><i class="fas fa-mobile-alt mr-2"></i> M: 503-509-5324</p>
+                                <a href="mailto:Ryan.Harris@Core-Pack.com"
+                                    class="text-sm underline hover:text-gray-300 transition">
+                                    <i class="fas fa-envelope mr-2"></i> Ryan.Harris@Core-Pack.com
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6 pt-4 border-t border-gray-200">
+                            <div>
+                                <h4 class="text-lg font-bold text-brand-green mb-2">The Custom Difference</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    Our packaging commodity experts work directly with customers and suppliers to help
+                                    boost efficiency, control quality, develop new products, and manage logistics. We
+                                    collaborate
+                                    with a worldwide network to create successful transactions.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="text-lg font-bold text-brand-green mb-2">Supply Chain Management</h4>
+                                <p class="text-sm text-gray-600 leading-relaxed">
+                                    We offer expertise in logistics, JIT inventory, spot and long-term contracting, and
+                                    manufacturing solutions.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="product-detail" class="page-view hidden">
+
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+                <div class="mb-10">
+                    <h2 class="text-3xl font-bold text-brand-green">Custom Flexible Packaging Details</h2>
+                    <div class="w-16 h-1 bg-brand-green mt-4"></div>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-12">
+
+                    <div class="w-full lg:w-1/3 space-y-8">
+
+                        <div>
+                            <div class="flex items-center text-brand-green mb-3">
+                                <i class="fas fa-box-open text-xl mr-3"></i>
+                                <h3 class="text-lg font-bold">Primary Categories</h3>
+                            </div>
+                            <ul class="custom-list ml-8">
+                                <li>Vacuum & Stand Up Pouches</li>
+                                <li>Roll Stock & Shrink Films</li>
+                                <li>Poly Bags & Liners</li>
+                                <li>Agriculture Films</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center text-brand-green mb-3">
+                                <i class="fas fa-list-check text-xl mr-3"></i>
+                                <h3 class="text-lg font-bold">Key Options</h3>
+                            </div>
+                            <ul class="custom-list ml-8">
+                                <li>Custom Pouches & Bags</li>
+                                <li>Fruit Pouches</li>
+                                <li>Clamshell Packaging</li>
+                                <li class="text-brand-green font-semibold">Recyclable / Green Materials</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center text-brand-green mb-3">
+                                <i class="fas fa-spray-can text-xl mr-3"></i>
+                                <h3 class="text-lg font-bold">Components</h3>
+                            </div>
+                            <ul class="custom-list ml-8">
+                                <li>Plastic & Glass Bottles</li>
+                                <li>Sprayers & Pumps</li>
+                                <li>Droppers, Caps, & Lids</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center text-brand-green mb-3">
+                                <i class="fas fa-industry text-xl mr-3"></i>
+                                <h3 class="text-lg font-bold">Industries Served</h3>
+                            </div>
+                            <ul class="custom-list ml-8">
+                                <li>Food & Beverage</li>
+                                <li>Agriculture</li>
+                                <li>Industrial / Manufacturing</li>
+                                <li>Retail & Consumer Goods</li>
+                            </ul>
+                        </div>
+
+                        <p class="text-xs text-gray-500 mt-6">* Custom sizing and printing available upon request.</p>
+                    </div>
+
+                    <div class="w-full lg:w-2/3">
+
+                        <div class="relative bg-gray-100 p-2 border border-gray-200 mb-4 shadow-sm">
+                            <img src="https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=1000&auto=format&fit=crop"
+                                alt="Flexible Packaging Rolls" class="w-full h-[500px] object-cover">
+                            <button
+                                class="absolute top-4 right-4 bg-white p-2 rounded-full shadow-md text-gray-600 hover:text-brand-green">
+                                <i class="fas fa-search-plus"></i>
+                            </button>
+                            <div
+                                class="absolute bottom-4 right-4 bg-white bg-opacity-90 px-4 py-2 flex items-center shadow">
+                                <span class="text-brand-green font-bold text-xl italic tracking-tighter">Core<span
+                                        class="text-gray-800">Pack</span></span>
+                                <span class="ml-2 text-xs text-gray-500 uppercase tracking-widest">Specialist</span>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-4">
+                            <div class="w-32 h-32 border-2 border-brand-green p-1 cursor-pointer">
+                                <img src="https://images.unsplash.com/photo-1605600659873-d808a13e4d2a?q=80&w=300&auto=format&fit=crop"
+                                    alt="Thumb 1" class="w-full h-full object-cover">
+                            </div>
+                            <div
+                                class="w-32 h-32 border border-gray-300 p-1 cursor-pointer opacity-60 hover:opacity-100 transition">
+                                <img src="https://images.unsplash.com/photo-1577705998148-6da4f3963bc8?q=80&w=300&auto=format&fit=crop"
+                                    alt="Thumb 2" class="w-full h-full object-cover">
+                            </div>
+                            <div
+                                class="w-32 h-32 border border-gray-300 p-1 cursor-pointer opacity-60 hover:opacity-100 transition">
+                                <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=300&auto=format&fit=crop"
+                                    alt="Thumb 3" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+
+                        <div class="mt-12 text-center">
+                            <button onclick="switchPage('packaging')"
+                                class="bg-brand-green hover:bg-brand-greenHover text-white px-8 py-3 font-semibold shadow transition">See
+                                All Packaging Products</button>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- CONTACT PAGE -->
+        <div id="contact" class="page-view hidden">
+
+            <section class="hero-contact h-80 md:h-[500px] flex items-center justify-center">
+                <h1 class="contact-hero-text text-4xl md:text-5xl font-bold text-white drop-shadow-md text-center px-8 py-4">
+                    Get in Touch!
+                </h1>
+            </section>
+
+            <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+                <div class="mb-12 text-center max-w-3xl mx-auto">
+                    <h2 class="text-3xl font-bold text-brand-green mb-4">We're Here to Help</h2>
+                    <div class="w-24 h-1 bg-brand-green mx-auto mb-6"></div>
+                    <p class="text-gray-600 leading-relaxed">
+                        Have questions about our packaging solutions? Need a custom quote?
+                        Reach out to our team and we'll respond within 24 hours.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+                    <!-- Contact Card -->
+                    <div class="contact-card p-8 md:p-12">
+                        <div class="flex flex-col items-center text-center">
+
+                            <!-- Logo -->
+                            <div class="mb-8">
+                                <img class="h-20 w-auto object-contain"
+                                    src="https://financial-tomato-rkkqw9ne.edgeone.dev/COREPACK%20LOGO.png"
+                                    alt="CorePack Solutions Logo">
+                            </div>
+
+                            <div class="contact-divider w-full max-w-xs"></div>
+
+                            <!-- Owner Info -->
+                            <div class="w-full max-w-sm">
+                                <div class="contact-info-item mb-3">
+                                    <i class="fas fa-user"></i>
+                                    <div class="text-left">
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider">Owner</p>
+                                        <p class="font-semibold text-gray-800">Ryan Harris</p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-info-item mb-3">
+                                    <i class="fas fa-phone-alt"></i>
+                                    <div class="text-left">
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider">Phone</p>
+                                        <p class="font-semibold text-gray-800">503-509-5324</p>
+                                    </div>
+                                </div>
+
+                                <div class="contact-info-item mb-3">
+                                    <i class="fas fa-envelope"></i>
+                                    <div class="text-left">
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider">Email</p>
+                                        <a href="mailto:Ryan.Harris@Core-Pack.com"
+                                            class="font-semibold text-brand-green hover:underline">Ryan.Harris@Core-Pack.com</a>
+                                    </div>
+                                </div>
+
+                                <div class="contact-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <div class="text-left">
+                                        <p class="text-xs text-gray-500 uppercase tracking-wider">Corporate Office</p>
+                                        <p class="font-semibold text-gray-800">123 Packaging Way, Suite 100</p>
+                                        <p class="font-semibold text-gray-800">Portland, OR 97204 U.S.A</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="contact-divider w-full max-w-xs"></div>
+
+                            <!-- Social Links -->
+                            <div class="flex gap-4 mt-4">
+                                <a href="#" class="social-icon">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="#" class="social-icon">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="social-icon">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="social-icon">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="bg-white p-8 md:p-12 rounded-2xl shadow-lg border border-gray-100">
+                        <h3 class="text-2xl font-bold text-brand-green mb-6">Send a Message</h3>
+                        <form class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
+                                <input type="text" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition"
+                                    placeholder="Your full name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
+                                <input type="email" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition"
+                                    placeholder="you@example.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
+                                <input type="text" 
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition"
+                                    placeholder="How can we help?">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                                <textarea rows="4"
+                                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green focus:border-transparent transition resize-none"
+                                    placeholder="Tell us about your packaging needs..."></textarea>
+                            </div>
+                            <button type="submit"
+                                class="w-full bg-brand-green hover:bg-brand-greenHover text-white font-semibold py-3 px-6 rounded-lg transition shadow-md hover:shadow-lg">
+                                <i class="fas fa-paper-plane mr-2"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+
+    </main>
+
+    <footer class="bg-brand-grayBg text-gray-800 pt-16 pb-8 border-t-8 border-brand-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+
+                <div class="space-y-4">
+                    <img class="h-12 w-auto object-contain mb-6"
+                        src="https://existing-fuchsia-eqizlymw.edgeone.dev/COREPACK%20LOGO.png"
+                        alt="CorePack Solutions Logo">
+                    <div>
+                        <p class="font-bold text-brand-green">Owner: Ryan Harris</p>
+                        <p class="text-sm font-semibold text-brand-green">503-509-5324</p>
+                    </div>
+                    <div class="text-sm leading-relaxed text-gray-700 pt-4">
+                        <p>Corporate Office</p>
+                        <p>123 Packaging Way, Suite 100</p>
+                        <p>Portland, OR 97204 U.S.A</p>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <a href="#" onclick="switchPage('home')"
+                        class="block text-sm hover:text-brand-green transition">Home</a>
+                    <a href="#" onclick="switchPage('packaging')"
+                        class="block text-sm hover:text-brand-green transition">All Packaging Products</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Sourcing & Distribution</a>
+                    <a href="#" onclick="switchPage('product-detail')"
+                        class="block text-sm hover:text-brand-green transition">Flexible Pouches & Films</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Stretch Film</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Strapping/Banding</a>
+                </div>
+
+                <div class="space-y-3">
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Safety Supplies</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Corrugated & Boxes</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Recyclable Options</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Components & Lids</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Agriculture Films</a>
+                </div>
+
+                <div class="space-y-3">
+                    <a href="#" onclick="switchPage('packaging')"
+                        class="block text-sm hover:text-brand-green transition">Packaging Line Card</a>
+                    <a href="#" onclick="switchPage('contact')"
+                        class="block text-sm hover:text-brand-green transition">Contact</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Sustainability</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">Privacy Policy</a>
+                    <a href="#" class="block text-sm hover:text-brand-green transition">About</a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bg-black text-gray-400 text-xs py-4 px-4 sm:px-6 lg:px-8 mt-8">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
+                <p>&copy; 2026 Core-Pack, All Rights Reserved.</p>
+                <p class="mt-2 md:mt-0">Website design concept by <b>MoStu Agency</b></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Variabel untuk scroll
+        let lastScrollTop = 0;
+        let currentPage = 'home';
+
+        function updateNavbar(pageId) {
+            const navbar = document.getElementById("navbar");
+
+            // Hapus semua class terlebih dahulu
+            navbar.classList.remove("overlay", "normal", "nav-hidden");
+
+            if (pageId === "product-detail") {
+                // DETAIL SPECS: background hitam, sticky, tidak hide
+                navbar.classList.add("normal");
+                // Hapus event listener scroll untuk detail specs
+                window.removeEventListener("scroll", handleScroll);
+            } else {
+                // HOME, PACKAGING, dan CONTACT: transparan, hide saat scroll ke bawah, muncul saat scroll ke atas
+                navbar.classList.add("overlay");
+                // Tambahkan event listener scroll
+                window.addEventListener("scroll", handleScroll);
+            }
+        }
+
+        function handleScroll() {
+            const navbar = document.getElementById("navbar");
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Hanya jalankan jika navbar dalam mode overlay (transparan)
+            if (!navbar.classList.contains("overlay")) {
+                return;
+            }
+
+            if (currentScroll <= 0) {
+                navbar.classList.remove("nav-hidden");
+                lastScrollTop = 0;
+                return;
+            }
+
+            if (currentScroll > lastScrollTop && currentScroll > 50) {
+                navbar.classList.add("nav-hidden");
+            } else {
+                navbar.classList.remove("nav-hidden");
+            }
+
+            lastScrollTop = currentScroll;
+        }
+
+        function switchPage(pageId) {
+            const pages = document.querySelectorAll('.page-view');
+            pages.forEach(page => {
+                page.classList.add('hidden');
+                page.classList.remove('block');
+                // Reset animasi dengan reflow
+                page.style.animation = 'none';
+                page.offsetHeight; // Trigger reflow
+                page.style.animation = '';
+            });
+
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.remove('hidden');
+                target.classList.add('block');
+                // Trigger ulang animasi untuk elemen di dalam halaman
+                const animatedElements = target.querySelectorAll('.hero-line-1, .hero-line-2, .hero-line-3, .hero-line-4, .packaging-title, .contact-hero-text');
+                animatedElements.forEach(el => {
+                    el.style.animation = 'none';
+                    el.offsetHeight; // Trigger reflow
+                    el.style.animation = '';
+                });
+            }
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('text-brand-grayBg');
+            });
+
+            if (pageId === 'home') {
+                if (navLinks[0]) navLinks[0].classList.add('text-brand-grayBg');
+            } else if (pageId === 'packaging') {
+                if (navLinks[1]) navLinks[1].classList.add('text-brand-grayBg');
+            } else if (pageId === 'contact') {
+                // Find the CONTACT link in nav
+                const contactLink = document.querySelector('a[onclick*="contact"]');
+                if (contactLink) contactLink.classList.add('text-brand-grayBg');
+            }
+
+            // Update navbar berdasarkan halaman
+            updateNavbar(pageId);
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            switchPage('home');
+        });
+    </script>
+</body>
+
+</html>

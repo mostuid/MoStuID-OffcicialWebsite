@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terapi Kesehatan Sejati - Jaga Sehatmu</title>
+    
+    <!-- Dependencies: Tailwind, Fonts, and Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        emerald: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                            950: '#022c22',
+                        },
+                        gold: {
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .reveal {
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+            pointer-events: none;
+        }
+        .reveal-up { transform: translateY(50px); }
+        .reveal-left { transform: translateX(-50px); }
+        .reveal-right { transform: translateX(50px); }
+        .reveal.active {
+            opacity: 1;
+            transform: translate(0, 0);
+            pointer-events: auto;
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+        .animate-wiggle-smooth {
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        html {
+            scroll-padding-top: 80px;
+            scroll-behavior: smooth;
+        }
+
+        .ts-wrapper {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #1f2937;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .faq-accordion summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-accordion[open] summary i {
+            transform: rotate(180deg);
+        }
+        .faq-accordion summary i {
+            transition: transform 0.3s ease;
+        }
+        
+        .video-card:hover .play-btn {
+            background-color: #f59e0b;
+            color: #064e3b;
+            transform: scale(1.1);
+        }
+
+        /* Slider Custom Styles */
+        #slider-container {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: grab;
+            user-select: none;
+            touch-action: pan-y;
+        }
+        #slider-container:active {
+            cursor: grabbing;
+        }
+        .slider-item {
+            flex: 0 0 100%;
+            pointer-events: none; 
+        }
+        .slider-item > div {
+            pointer-events: auto;
+        }
+        @media (min-width: 768px) {
+            .slider-item {
+                flex: 0 0 33.3333%;
+            }
+        }
+        
+        /* Indikator Carousel */
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: #d1d5db;
+            border-radius: 50%;
+            display: inline-block;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .dot.active {
+            width: 24px;
+            border-radius: 4px;
+            background-color: #059669;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+<div class="ts-wrapper" id="top">
+    <!-- Navigasi -->
+    <nav class="fixed top-0 left-0 w-full z-[9999] transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#top" class="block">
+                        <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/ce1e40bc981d8c63ebdfb617bc28dc044634ef71/LOGO%20SEJATI.png" alt="Terapi Kesehatan Sejati" class="h-14 md:h-16 w-auto transition-opacity hover:opacity-80">
+                    </a>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden lg:flex space-x-6 xl:space-x-8 items-center">
+                    <a href="#layanan" class="text-gray-600 hover:text-emerald-600 font-medium transition">Layanan</a>
+                    <a href="#galeri" class="text-gray-600 hover:text-emerald-600 font-medium transition">Dokumentasi</a>
+                    <a href="#testimoni" class="text-gray-600 hover:text-emerald-600 font-medium transition">Testimoni</a>
+                    <a href="#tentang" class="text-gray-600 hover:text-emerald-600 font-medium transition">Tentang</a>
+                    <a href="#faq" class="text-gray-600 hover:text-emerald-600 font-medium transition">FAQ</a>
+                    
+                    <div class="flex items-center gap-4 ml-2">
+                        <a href="#kontak" class="bg-emerald-700 hover:bg-emerald-800 text-white px-6 py-2.5 rounded-full font-medium transition flex items-center gap-2 whitespace-nowrap">
+                            <i class="fa-solid fa-address-book"></i> Kontak Kami
+                        </a>
+                    </div>
+                </div>
+                <!-- Mobile Toggle Button -->
+                <button id="menu-toggle" class="lg:hidden text-emerald-900 text-2xl focus:outline-none p-2">
+                    <i class="fa-solid fa-bars" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Container -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-l border-b border-gray-100 absolute w-fit min-w-[200px] right-0 shadow-2xl py-6 px-6 space-y-4 rounded-bl-3xl">
+            <a href="#layanan" class="mobile-link block text-right text-gray-600 font-medium border-b border-gray-50 pb-3">Layanan</a>
+            <a href="#galeri" class="mobile-link block text-right text-gray-600 font-medium border-b border-gray-50 pb-3">Dokumentasi</a>
+            <a href="#testimoni" class="mobile-link block text-right text-gray-600 font-medium border-b border-gray-50 pb-3">Testimoni</a>
+            <a href="#tentang" class="mobile-link block text-right text-gray-600 font-medium border-b border-gray-50 pb-3">Tentang</a>
+            <a href="#faq" class="mobile-link block text-right text-gray-600 font-medium border-b border-gray-50 pb-3">FAQ</a>
+            
+            <div class="pt-2">
+                <a href="#kontak" class="mobile-link bg-emerald-700 text-white px-6 py-3 rounded-xl font-medium flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-address-book"></i> Kontak Kami
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 1. Bagian Hero -->
+    <section class="relative pt-24 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-emerald-900">
+        <div class="absolute inset-0 opacity-70">
+            <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/Hero%20Image.jpeg" class="w-full h-full object-cover">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-b lg:bg-gradient-to-r from-emerald-950 via-emerald-900/80 to-transparent"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <div class="reveal reveal-left inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-emerald-100 text-xs md:text-sm font-medium mb-6 backdrop-blur-md">
+                        <i class="fa-solid fa-heart text-gold-400"></i>
+                        Investasi Terbaik Adalah Kesehatan
+                    </div>
+                    <h1 class="reveal reveal-left delay-100 text-4xl md:text-5xl lg:text-7xl font-serif font-bold text-white leading-tight mb-8">
+                        Sehat itu perlu <br class="hidden md:block"> dijaga dan <br class="hidden md:block"> <span class="text-gold-400">diikhtiarkan.</span>
+                    </h1>
+                    <p class="reveal reveal-left delay-200 text-lg md:text-xl text-emerald-50/80 mb-10 leading-relaxed font-light max-w-xl mx-auto lg:mx-0">
+                        Tubuh adalah amanah. Jangan biarkan keluhan kesehatan menghambat produktivitas dan kebahagiaan Anda bersama orang tercinta.
+                    </p>
+                    <div class="reveal reveal-up delay-300 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="https://api.whatsapp.com/send?phone=+62%20877-1679-8265&text=Assalamu%E2%80%99alaikum.%20Saya%20tertarik%20dengan%20layanan%20terapi%20yang%20Anda%20tawarkan.%20Apakah%20saat%20ini%20saya%20dapat%20memulai%20sesi%20konsultasi%3F" target="_blank" class="flex items-center justify-center gap-2 bg-gold-500 hover:bg-gold-600 text-emerald-950 px-10 py-5 rounded-full font-bold text-lg transition shadow-xl transform hover:-translate-y-1">
+                            Konsultasi Gratis!
+                        </a>
+                        <a href="#layanan" class="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-5 rounded-full font-medium text-lg transition backdrop-blur-sm">
+                            Layanan Terapi <i class="fa-solid fa-arrow-right-long ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="reveal reveal-right delay-200 relative px-4 lg:px-0 hidden lg:block">
+                    <div class="relative rounded-[32px] md:rounded-[40px] overflow-hidden border-4 md:border-8 border-white shadow-2xl">
+                        <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/rev-image-2.jpeg" alt="Sesi Terapi" class="w-full h-[350px] md:h-[550px] object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. Bagian Layanan -->
+    <section id="layanan" class="py-20 md:py-24 bg-gray-50 border-y border-gray-100">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center lg:text-center mb-16">
+                <span class="reveal reveal-up text-emerald-600 font-bold tracking-widest text-xs uppercase mb-3 block">Pelayanan Terapi</span>
+                <h2 class="reveal reveal-up delay-100 text-3xl md:text-4xl font-serif font-bold text-emerald-950 mb-4">Kami Melayani Terapi</h2>
+                <div class="reveal reveal-up delay-200 w-20 h-1.5 bg-gold-500 mx-auto rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <!-- Card 1: Zamatera -->
+                <div class="reveal reveal-up delay-100 bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-gray-100 group text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all mx-auto">
+                        <i class="fa-solid fa-bone"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-emerald-950 mb-4 font-serif">Zamatera</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Terapi perbaikan postur dan relaksasi tulang belakang agar badan kembali bugar.</p>
+                </div>
+                <!-- Card 2: Fasdu -->
+                <div class="reveal reveal-up delay-200 bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-gray-100 group text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all mx-auto">
+                        <i class="fa-solid fa-heart-pulse"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-emerald-950 mb-4 font-serif">Fasdu</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Terapi yang membantu mengoptimalkan kondisi darah untuk kesehatan jantung dan sirkulasi.</p>
+                </div>
+                <!-- Card 3: Bioelectric -->
+                <div class="reveal reveal-up delay-300 bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-gray-100 group text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all mx-auto">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-emerald-950 mb-4 font-serif">Bioelectric</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Stimulasi saraf menggunakan energi listrik mikro untuk membantu pemulihan otot dan rasa nyeri.</p>
+                </div>
+                <!-- Card 4: Bekam -->
+                <div class="reveal reveal-up delay-400 bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all border border-gray-100 group text-center flex flex-col items-center">
+                    <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all mx-auto">
+                        <i class="fa-solid fa-droplet"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-emerald-950 mb-4 font-serif">Bekam</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Membantu melancarkan peredaran darah dan membuang racun (detoksifikasi) dari dalam tubuh.</p>
+                </div>
+            </div>
+
+            <div class="space-y-8">
+                <div class="reveal reveal-up delay-500 max-w-7xl mx-auto bg-white rounded-[32px] p-8 md:p-12 shadow-xl border border-emerald-50">
+                    <div class="text-center mb-12">
+                        <h4 class="text-xl md:text-2xl font-serif font-bold text-emerald-950">Sangat cocok untuk Anda yang mengalami gejala :</h4>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-left max-w-5xl mx-auto">
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 text-xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-person-dots-from-line"></i>
+                            </div>
+                            <p class="font-medium text-gray-700">Pegal-pegal, nyeri otot & sendi</p>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 text-xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-vial-circle-check"></i>
+                            </div>
+                            <p class="font-medium text-gray-700">Mengurangi asam urat & kolesterol</p>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 text-xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-brain"></i>
+                            </div>
+                            <p class="font-medium text-gray-700">Gangguan saraf seperti stroke ringan</p>
+                        </div>
+                        <div class="flex items-center gap-4 group">
+                            <div class="w-12 h-12 bg-emerald-50 rounded-full flex items-center justify-center text-emerald-600 text-xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-battery-half"></i>
+                            </div>
+                            <p class="font-medium text-gray-700">Badan lemas, kurang stamina</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="reveal reveal-up delay-[600ms] max-w-7xl mx-auto bg-emerald-50/50 rounded-[32px] p-8 md:p-12 border border-emerald-100">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-emerald-600 mb-4">
+                                <i class="fa-solid fa-user-check text-xl"></i>
+                            </div>
+                            <p class="text-sm font-semibold text-emerald-900 leading-relaxed">Ditangani oleh terapis berpengalaman.</p>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-emerald-600 mb-4">
+                                <i class="fa-solid fa-hand-holding-heart text-xl"></i>
+                            </div>
+                            <p class="text-sm font-semibold text-emerald-900 leading-relaxed">Proses aman, higienis & nyaman.</p>
+                        </div>
+                        <div class="flex flex-col items-center text-center">
+                            <div class="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center text-emerald-600 mb-4">
+                                <i class="fa-solid fa-star-and-crescent text-xl"></i>
+                            </div>
+                            <p class="text-sm font-semibold text-emerald-900 leading-relaxed">InsyaAllah menjadi ikhtiar agar tubuh lebih sehat.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Bagian Galeri Dokumentasi -->
+    <section id="galeri" class="py-20 bg-white overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="reveal reveal-up text-3xl font-serif font-bold text-emerald-950">Galeri Dokumentasi</h2>
+            </div>
+            
+            <div class="relative group">
+                <div class="overflow-hidden">
+                    <div id="slider-container" class="flex">
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.10.jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.11.jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.12.jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.13%20(1).jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.14%20(1).jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.13.jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.14%20(1).jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.14.jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.55%20(1).jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.55%20(2).jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.55%20(3).jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/Header-Image.jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/WhatsApp%20Image%202026-04-21%20at%2015.28.13%20(1).jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/WhatsApp%20Image%202026-04-21%20at%2015.28.13%20(2).jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/WhatsApp%20Image%202026-04-21%20at%2015.28.13.jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                        <div class="slider-item px-3 py-4">
+                            <div class="bg-white p-3 rounded-[32px] shadow-xl border-2 border-emerald-50">
+                                <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/WhatsApp%20Image%202026-04-21%20at%2015.28.131.jpeg" class="h-[300px] md:h-[400px] w-full object-cover rounded-[24px]" loading="lazy">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Indikator Dots -->
+                <div id="slider-dots" class="flex justify-center flex-wrap gap-2 mt-8 px-4">
+                    <!-- Dinamis via JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Bagian Testimoni Video -->
+    <section id="testimoni" class="py-20 md:py-24 bg-emerald-950 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-60">
+            <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/Header-BG.jpeg" class="w-full h-full object-cover">
+        </div>
+        <div class="absolute inset-0 bg-emerald-950/80"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="reveal reveal-up text-3xl md:text-5xl font-serif font-bold text-white mb-6">Testimoni Customer</h2>
+                <p class="reveal reveal-up delay-100 text-emerald-300/80">Pasien yang telah merasakan manfaat nyata setelah menjalani terapi bersama kami.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12 max-w-5xl mx-auto">
+                <!-- Testimoni Pak Slamet -->
+                <div class="reveal reveal-up delay-100 flex flex-col items-center">
+                    <div class="video-card aspect-video bg-emerald-900 rounded-[32px] relative overflow-hidden group cursor-pointer border border-white/10 shadow-2xl w-full" onclick="toggleVideo(this)">
+                        <video class="w-full h-full object-cover opacity-60" preload="metadata">
+                            <source src="/prototypes/prototype-terapysunnah/assets/testi-pak-slamet" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 flex items-center justify-center play-overlay">
+                            <div class="play-btn w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all duration-300">
+                                <i class="fa-solid fa-play text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-white font-bold text-lg md:text-xl tracking-wide font-sans">Testimoni Pak Slamet</div>
+                </div>
+
+                <!-- Testimoni Pak Budi -->
+                <div class="reveal reveal-up delay-200 flex flex-col items-center">
+                    <div class="video-card aspect-video bg-emerald-900 rounded-[32px] relative overflow-hidden group cursor-pointer border border-white/10 shadow-2xl w-full" onclick="toggleVideo(this)">
+                        <video class="w-full h-full object-cover opacity-60" preload="metadata">
+                            <source src="/prototypes/prototype-terapysunnah/assets/testi-pak-budi.mp4" type="video/mp4">
+                        </video>
+                        <div class="absolute inset-0 flex items-center justify-center play-overlay">
+                            <div class="play-btn w-16 h-16 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all duration-300">
+                                <i class="fa-solid fa-play text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-white font-bold text-lg md:text-xl tracking-wide font-sans">Testimoni Pak Budi</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. Bagian Tentang Kami -->
+    <section id="tentang" class="py-20 md:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal reveal-up relative">
+                    <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/WhatsApp%20Image%202026-04-20%20at%2022.40.13%20(2).jpeg" alt="Layanan Kami" class="rounded-[40px] shadow-2xl w-full h-[500px] object-cover border-4 border-white">
+                </div>
+                <div class="text-center lg:text-left">
+                    <span class="reveal reveal-up text-emerald-600 font-bold tracking-widest text-xs uppercase mb-4 block">Tentang Kami</span>
+                    <h2 class="reveal reveal-up delay-100 text-3xl md:text-5xl font-serif font-bold text-emerald-950 mb-8 leading-tight">Terapi Kesehatan Sejati</h2>
+                    <p class="reveal reveal-up delay-200 text-lg text-gray-600 mb-8 leading-relaxed">
+                        Terapi Kesehatan Sejati hadir untuk membantu Anda yang sedang mengalami keluhan kesehatan, baik nyeri, kelelahan, maupun gangguan yang menghambat aktivitas sehari-hari. Kami memahami bahwa setiap pasien memiliki kondisi yang berbeda, karena itu kami menggabungkan keahlian terapis berpengalaman dengan pendekatan yang nyaman, aman, dan menyesuaikan kebutuhan Anda—agar proses pemulihan terasa lebih ringan dan optimal.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Bagian Filosofi -->
+    <section id="filosofi" class="py-20 md:py-24 bg-emerald-50 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <span class="reveal reveal-up text-emerald-600 font-bold tracking-widest text-xs uppercase mb-4 block">Filosofi Kami</span>
+                <h2 class="reveal reveal-up delay-100 text-3xl md:text-4xl font-serif font-bold text-emerald-950 mb-8">Kesehatan yang Menyeluruh</h2>
+                <p class="reveal reveal-up delay-200 text-lg text-gray-600 leading-relaxed mb-12">
+                    Kesehatan fisik dan pikiran adalah aset paling berharga dalam kehidupan, ia juga menjadi kunci kualitas hidup yang lebih baik. Kami hadir untuk membantu Anda menjaga keseimbangan tubuh melalui berbagai metode terapi yang aman, profesional, dan berfokus pada pemulihan kebugaran secara alami.
+                </p>
+                <!-- Quote Box -->
+                <div class="reveal reveal-up delay-300 p-12 md:p-16 rounded-[40px] relative text-white overflow-hidden">
+                    <div class="absolute inset-0">
+                        <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/9495c11227b5fa46874cd65839ca38ca2dd1a75a/WhatsApp%20Image%202026-04-20%20at%2022.40.55%20(3).jpeg" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-emerald-900/80"></div>
+                    </div>
+                    <i class="fa-solid fa-quote-left absolute top-6 left-6 md:top-10 md:left-10 text-4xl md:text-5xl text-white z-10 opacity-60"></i>
+                    <p class="text-xl md:text-2xl font-serif italic relative z-10 leading-relaxed pt-4">
+                        "Mencegah jauh lebih baik daripada mengobati. Rawat tubuh Anda sebelum ia meminta perhatian melalui rasa sakit."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. FAQ Section -->
+    <section id="faq" class="py-20 md:py-24 bg-white">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-16 flex flex-col items-center">
+                <span class="reveal reveal-up bg-emerald-50 text-emerald-600 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-6">FAQ</span>
+                <h2 class="reveal reveal-up delay-100 text-3xl md:text-5xl font-serif font-bold text-emerald-950 mb-6 px-2">Pertanyaan yang Sering Diajukan</h2>
+                <p class="reveal reveal-up delay-200 text-gray-500 text-sm md:text-lg">Temukan jawaban untuk pertanyaan umum terkait layanan terapi kami.</p>
+            </div>
+
+            <div class="space-y-4 mb-16">
+                <!-- FAQ Items -->
+                <details name="faq-accordion" class="reveal reveal-up delay-100 faq-accordion group bg-white rounded-2xl border border-gray-200 transition-all hover:border-emerald-200">
+                    <summary class="flex items-center justify-between cursor-pointer list-none p-5 md:p-6">
+                        <h4 class="font-bold text-emerald-950 text-base md:text-lg pr-4">Berapa biaya untuk sekali terapi zamatera/fasdu/bioelectric/bekam?</h4>
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100 group-open:bg-emerald-600 transition-all">
+                            <i class="fa-solid fa-chevron-down text-gray-400 group-open:text-white transition-all text-xs md:text-base"></i>
+                        </div>
+                    </summary>
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 text-sm md:text-base text-gray-600 leading-relaxed border-t border-gray-50 pt-4">
+                        Biaya konsultasi dan terapi dapat Anda diskusikan langsung dengan terapis melalui WhatsApp. Kami tidak mematok tarif kaku karena prinsip kami adalah membantu proses pemulihan kesehatan Anda (biasanya seikhlasnya).
+                    </div>
+                </details>
+
+                <details name="faq-accordion" class="reveal reveal-up delay-200 faq-accordion group bg-white rounded-2xl border border-gray-200 transition-all hover:border-emerald-200">
+                    <summary class="flex items-center justify-between cursor-pointer list-none p-5 md:p-6">
+                        <h4 class="font-bold text-emerald-950 text-base md:text-lg pr-4">Apakah tersedia pelatihan khusus bagi yang ingin belajar terapi secara mandiri?</h4>
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100 group-open:bg-emerald-600 transition-all">
+                            <i class="fa-solid fa-chevron-down text-gray-400 group-open:text-white transition-all text-xs md:text-base"></i>
+                        </div>
+                    </summary>
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 text-sm md:text-base text-gray-600 leading-relaxed border-t border-gray-50 pt-4">
+                        Tentu, kami menyediakan program pelatihan terapi seperti Zamatera, Fasdu, Bioelectric, hingga Bekam yang dirancang praktis dan aplikatif dengan metode belajar langsung (hands-on) bersama terapis berpengalaman. Kami juga terbiasa mencetak terapis untuk DKM masjid, perkantoran, serta berbagai lembaga lainnya.
+                    </div>
+                </details>
+
+                <details name="faq-accordion" class="reveal reveal-up delay-300 faq-accordion group bg-white rounded-2xl border border-gray-200 transition-all hover:border-emerald-200">
+                    <summary class="flex items-center justify-between cursor-pointer list-none p-5 md:p-6">
+                        <h4 class="font-bold text-emerald-950 text-base md:text-lg pr-4">Bisakah aktivitas terapi dilakukan di rumah (home visit) pasien?</h4>
+                        <div class="w-8 h-8 md:w-10 md:h-10 bg-gray-50 rounded-full flex items-center justify-center border border-gray-100 group-open:bg-emerald-600 transition-all">
+                            <i class="fa-solid fa-chevron-down text-gray-400 group-open:text-white transition-all text-xs md:text-base"></i>
+                        </div>
+                    </summary>
+                    <div class="px-5 md:px-6 pb-5 md:pb-6 text-sm md:text-base text-gray-600 leading-relaxed border-t border-gray-50 pt-4">
+                        Ya, kami melayani kunjungan ke rumah (Home Visit) pasien untuk wilayah Duren Sawit dan sekitarnya. Silakan hubungi kami melalui WhatsApp untuk informasi ketersediaan jadwal terapis.
+                    </div>
+                </details>
+            </div>
+
+            <div class="reveal reveal-up bg-emerald-50 rounded-[28px] md:rounded-[32px] p-8 md:p-10 text-center border border-emerald-100">
+                <h3 class="text-emerald-900 font-bold text-lg md:text-xl mb-6 font-sans">Masih punya pertanyaan?</h3>
+                <a href="https://api.whatsapp.com/send?phone=+62%20877-1679-8265&text=Assalamu%E2%80%99alaikum.%20Saya%20tertarik%20dengan%20layanan%20terapi%20yang%20Anda%20tawarkan.%20Apakah%20saat%20ini%20saya%20dapat%20memulai%20sesi%20konsultasi%3F" target="_blank" class="inline-flex items-center gap-3 bg-emerald-700 hover:bg-emerald-800 text-white px-6 md:px-10 py-3 md:py-4 rounded-2xl font-bold text-sm md:text-base transition-all shadow-lg hover:scale-105 active:scale-95">
+                    <i class="fa-brands fa-whatsapp text-xl md:text-2xl"></i>
+                    Tanya Langsung ke Terapis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. Kontak & Lokasi -->
+    <section id="kontak" class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal reveal-left">
+                    <h2 class="text-3xl font-serif font-bold text-emerald-950 mb-8">Alamat / Kontak Kami:</h2>
+                    <div class="space-y-6">
+                        <div class="flex gap-4 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+                            <i class="fa-solid fa-location-dot text-emerald-600 mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-emerald-950">Alamat</h4>
+                                <p class="text-gray-500">Komplek DDN, Duren Sawit, Jakarta Timur.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 p-6 bg-white rounded-2xl shadow-sm border border-gray-100">
+                            <i class="fa-solid fa-phone text-emerald-600 mt-1"></i>
+                            <div>
+                                <h4 class="font-bold text-emerald-950">Telepon</h4>
+                                <p class="text-gray-500">+62 877-1679-8265 (Dede Rosadi)</p>
+                                <p class="text-gray-500">+62 815-5351-6400 (Ust. Gusman Koto)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reveal reveal-right h-[350px]">
+                    <a href="https://maps.app.goo.gl/CQ7Co2uVRbfeyXAu9" target="_blank" class="block w-full h-full bg-emerald-100 rounded-[40px] overflow-hidden shadow-xl relative group">
+                        <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/G-Maps.png" class="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0">
+                        <div class="absolute inset-0 bg-emerald-900/30 flex items-center justify-center">
+                            <div class="bg-white text-emerald-950 px-6 py-3 rounded-full font-bold shadow-lg flex items-center gap-2">
+                                <i class="fa-solid fa-map-marker-alt text-emerald-600"></i> Lihat Lokasi
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 9. Footer Banner & Footer -->
+    <section class="py-20 relative overflow-hidden bg-emerald-900">
+        <div class="absolute inset-0 opacity-60">
+            <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/Dokumentasi-Terapi/WhatsApp%20Image%202026-04-20%20at%2022.40.14%20(1).jpeg" class="w-full h-full object-cover">
+        </div>
+        <div class="absolute inset-0 bg-emerald-950/80"></div>
+
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <h2 class="reveal reveal-up text-3xl md:text-5xl font-serif font-bold text-white mb-8">
+                Rawat kesehatan Anda <br>
+                <span class="text-gold-400">untuk masa depan yang lebih baik.</span>
+            </h2>
+            <a href="https://api.whatsapp.com/send?phone=+62%20877-1679-8265&text=Assalamu%E2%80%99alaikum.%20Saya%20tertarik%20dengan%20layanan%20terapi%20yang%20Anda%20tawarkan.%20Apakah%20saat%20ini%20saya%20dapat%20memulai%20sesi%20konsultasi%3F" target="_blank" class="reveal reveal-up delay-200 inline-flex items-center gap-3 bg-white text-emerald-950 px-10 py-5 rounded-full font-black text-xl hover:bg-gold-500 transition shadow-2xl">
+                <i class="fa-brands fa-whatsapp"></i> Konsultasi Gratis Sekarang!
+            </a>
+        </div>
+    </section>
+
+    <footer class="bg-white py-12 md:py-20 overflow-hidden">
+        <div class="max-w-[1400px] mx-auto px-4 md:px-8">
+            <div class="flex flex-col items-center justify-center p-12 md:p-16 rounded-[40px] overflow-hidden shadow-2xl border border-gray-100 bg-white">
+                <a href="#top" class="block transform hover:scale-105 transition-transform duration-500">
+                    <img src="https://raw.githubusercontent.com/netiziyyun/TerapySunnah/ce1e40bc981d8c63ebdfb617bc28dc044634ef71/LOGO%20SEJATI.png" alt="Logo Sejati" class="w-80 md:w-[450px] h-auto">
+                </a>
+            </div>
+            <div class="mt-12 text-center text-gray-400 text-[10px] uppercase tracking-widest font-bold">
+                &copy; 2026 TerapiKesehatanSejati.com • All Rights Reserved
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- Floating WhatsApp -->
+<a href="https://api.whatsapp.com/send?phone=+62%20877-1679-8265&text=Assalamu%E2%80%99alaikum.%20Saya%20tertarik%20dengan%20layanan%20terapi%20yang%20Anda%20tawarkan.%20Apakah%20saat%20ini%20saya%20dapat%20memulai%20sesi%20konsultasi%3F" target="_blank" class="group fixed bottom-6 right-6 z-[9999] flex items-center">
+    <span class="mr-3 bg-white text-emerald-900 px-4 py-2 rounded-xl shadow-xl font-bold text-sm opacity-0 translate-x-4 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 hidden lg:block border border-emerald-50">
+        Konsultasi Gratis!
+    </span>
+    <div class="bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all duration-300 flex items-center justify-center">
+        <i class="fa-brands fa-whatsapp text-3xl"></i>
+    </div>
+</a>
+
+<script>
+    // Fungsi global untuk memutar/menghentikan video dengan logika auto-pause dan restart
+    function toggleVideo(card) {
+        const video = card.querySelector('video');
+        const overlay = card.querySelector('.play-overlay');
+        const allCards = document.querySelectorAll('.video-card');
+
+        if (video.paused) {
+            // Berhentikan semua video lain (Auto Pause)
+            allCards.forEach(c => {
+                const v = c.querySelector('video');
+                const o = c.querySelector('.play-overlay');
+                if (v && v !== video) {
+                    v.pause();
+                    v.classList.add('opacity-60');
+                    o.classList.remove('hidden');
+                }
+            });
+
+            // Mulai video target dari awal (Ngulang dari awal)
+            video.currentTime = 0;
+            video.play();
+            video.classList.remove('opacity-60');
+            overlay.classList.add('hidden');
+        } else {
+            // Jika sedang berputar, klik lagi untuk pause
+            video.pause();
+            video.classList.add('opacity-60');
+            overlay.classList.remove('hidden');
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- Observer for Reveal Animation ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // --- Carousel Logic ---
+        const sliderContainer = document.getElementById('slider-container');
+        const dotsContainer = document.getElementById('slider-dots');
+        const items = document.querySelectorAll('.slider-item');
+        
+        let index = 0;
+        let isDragging = false;
+        let startX;
+        let autoplayInterval;
+        let wheelCooldown = false;
+
+        function initDots() {
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < items.length; i++) {
+                const dot = document.createElement('span');
+                dot.classList.add('dot');
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => {
+                    index = i;
+                    updateSlider();
+                    resetAutoplay();
+                });
+                dotsContainer.appendChild(dot);
+            }
+        }
+
+        function updateSlider() {
+            const isMobile = window.innerWidth < 768;
+            if (index < 0) index = items.length - 1;
+            if (index >= items.length) index = 0;
+
+            const movePercentage = isMobile ? index * 100 : (index * 33.3333);
+            sliderContainer.style.transform = `translateX(-${movePercentage}%)`;
+            
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            const isMobile = window.innerWidth < 768;
+            const visibleItems = isMobile ? 1 : 3;
+            index++;
+            if (index > items.length - visibleItems) {
+                index = 0;
+            }
+            updateSlider();
+        }
+
+        function startAutoplay() {
+            autoplayInterval = setInterval(nextSlide, 3500);
+        }
+
+        function resetAutoplay() {
+            clearInterval(autoplayInterval);
+            startAutoplay();
+        }
+
+        // Trackpad Interaction
+        sliderContainer.addEventListener('wheel', (e) => {
+            if (Math.abs(e.deltaX) > 15 && !wheelCooldown) {
+                if (e.deltaX > 0) index++;
+                else index--;
+                
+                updateSlider();
+                resetAutoplay();
+                
+                wheelCooldown = true;
+                setTimeout(() => wheelCooldown = false, 600);
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Touch & Drag Interaction
+        const dragStart = (e) => {
+            isDragging = true;
+            startX = e.type.includes('touch') ? e.touches[0].pageX : e.pageX;
+            clearInterval(autoplayInterval);
+        };
+
+        const dragAction = (e) => {
+            if (!isDragging) return;
+            const x = e.type.includes('touch') ? e.touches[0].pageX : e.pageX;
+            const diff = x - startX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) index--;
+                else index++;
+                isDragging = false;
+                updateSlider();
+                startAutoplay();
+            }
+        };
+
+        sliderContainer.addEventListener('mousedown', dragStart);
+        sliderContainer.addEventListener('touchstart', dragStart);
+        sliderContainer.addEventListener('mousemove', dragAction);
+        sliderContainer.addEventListener('touchmove', dragAction);
+
+        const dragEnd = () => {
+            if(isDragging) {
+                isDragging = false;
+                startAutoplay();
+            }
+        };
+        window.addEventListener('mouseup', dragEnd);
+        sliderContainer.addEventListener('touchend', dragEnd);
+
+        initDots();
+        startAutoplay();
+
+        // --- Mobile Menu Toggle ---
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        if (menuToggle && mobileMenu) {
+            menuToggle.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    menuIcon.classList.replace('fa-bars', 'fa-xmark');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.classList.replace('fa-xmark', 'fa-bars');
+                }
+            });
+
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuIcon.classList.replace('fa-xmark', 'fa-bars');
+                });
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
