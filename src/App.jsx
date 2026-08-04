@@ -468,6 +468,11 @@ function App() {
                 path="/products"
                 element={
                   <div className="mt-20">
+                    {/* Efek glow background */}
+                    <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+                    <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
                     <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
                       {/* Header Section */}
                       <div className="text-center max-w-xl mx-auto mb-12 select-none">
@@ -1768,6 +1773,12 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
   return (
     <div className="py-12 min-h-[70vh]">
+      {/* Efek glow background - seperti di Home */}
+      <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
+
       {/* HEADER NAVIGASI KATEGORI - Dengan Dropdown */}
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 relative z-20">
         {/* Sub Judul - Di mobile rata tengah, di desktop rata kiri */}
@@ -1979,7 +1990,14 @@ function AboutTabSection() {
   ];
 
   return (
-    <div className="py-12 max-w-5xl mx-auto space-y-20 animate-slide-up">
+    <div className="py-12 max-w-5x2 mx-auto space-y-20 animate-slide-up ">
+      
+      {/* Efek glow background */}
+      <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
+
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch select-none">
         <div className="md:col-span-7 space-y-0 text-left relative">
           <div className="text-left mb-8 select-none">
@@ -1994,38 +2012,54 @@ function AboutTabSection() {
             </h3>
             <p className="text-neutral-400 font-semibold text-xs sm:text-sm mt-2">Sejarah perjalanan kami dalam membangun solusi kreatif dan digital.</p>
           </div>
-          <div className="absolute left-0 top-13 bottom-0 w-0.5 bg-[#FF5500]/30 rounded-full"></div>
-          <div className="relative pl-6 pb-6">
-            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
-            <p className="text-neutral-400 text-sm font-light leading-relaxed">
-              MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan Agency yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
-            </p>
-          </div>
-          <div className="relative pl-6 pb-6">
-            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
-            <p className="text-neutral-400 text-sm font-light leading-relaxed">
-              Ide ini lahir dari sebuah meja warkop, ditemani segelas kopi pancung khas Aceh dan obrolan panjang tentang mimpi, kreativitas, serta harapan untuk membangun sesuatu yang bermanfaat. Hingga hari ini, Mostanir Studios masih dalam proses bertumbuh dan belajar.
-            </p>
-          </div>
-          <div className="relative pl-6 pb-6">
-            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
-            <p className="text-neutral-400 text-sm font-light leading-relaxed">
-              Kami memang bukan tim besar, bahkan belum memiliki perjalanan yang begitu panjang. Namun kami percaya, bahwa setiap karya yang dikerjakan dengan sungguh-sungguh akan menemukan jalannya sendiri.
-            </p>
-          </div>
-          <div className="relative pl-6 pb-6">
-            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
-            <p className="text-neutral-400 text-sm font-light leading-relaxed">
-              Dari proyek ke proyek, kami terus mengembangkan kemampuan, memperluas pengalaman, dan berusaha memberikan hasil terbaik bagi setiap klien yang mempercayakan kebutuhannya kepada kami, dengan penuh tanggung jawab.
-            </p>
-          </div>
-          <div className="relative pl-6">
-            <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-1.75 shadow-lg shadow-[#FF5500]/30"></div>
-            <p className="text-neutral-400 text-sm font-light leading-relaxed">
-              Perjalanan ini masih panjang, dan kami memilih untuk terus belajar, berkarya, serta bertumbuh bersama setiap kepercayaan yang Anda berikan.
-            </p>
+
+          {/* TIMELINE DENGAN GARIS TERHUBUNG - TEPAT DI TENGAH DOT */}
+          <div className="relative pl-2">
+            {/* Garis vertikal - dari tengah dot pertama sampai tengah dot terakhir */}
+            <div className="absolute left-1.5 top-[12px] bottom-[12px] w-[5px] bg-gradient-to-b from-[#FF5500]/60 via-[#FF5500]/30 to-transparent rounded-full" />
+
+            {/* Item 1 */}
+            <div className="relative pl-6 pb-6">
+              <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
+              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+                MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan Agency yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
+              </p>
+            </div>
+
+            {/* Item 2 */}
+            <div className="relative pl-6 pb-6">
+              <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
+              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+                Ide ini lahir dari sebuah meja warkop, ditemani segelas kopi pancung khas Aceh dan obrolan panjang tentang mimpi, kreativitas, serta harapan untuk membangun sesuatu yang bermanfaat. Hingga hari ini, Mostanir Studios masih dalam proses bertumbuh dan belajar.
+              </p>
+            </div>
+
+            {/* Item 3 */}
+            <div className="relative pl-6 pb-6">
+              <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
+              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+                Kami memang bukan tim besar, bahkan belum memiliki perjalanan yang begitu panjang. Namun kami percaya, bahwa setiap karya yang dikerjakan dengan sungguh-sungguh akan menemukan jalannya sendiri.
+              </p>
+            </div>
+
+            {/* Item 4 */}
+            <div className="relative pl-6 pb-6">
+              <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
+              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+                Dari proyek ke proyek, kami terus mengembangkan kemampuan, memperluas pengalaman, dan berusaha memberikan hasil terbaik bagi setiap klien yang mempercayakan kebutuhannya kepada kami, dengan penuh tanggung jawab.
+              </p>
+            </div>
+
+            {/* Item 5 (terakhir) */}
+            <div className="relative pl-6">
+              <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_25px_rgba(255,85,0,0.5)] z-10" />
+              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+                Perjalanan ini masih panjang, dan kami memilih untuk terus belajar, berkarya, serta bertumbuh bersama setiap kepercayaan yang Anda berikan.
+              </p>
+            </div>
           </div>
         </div>
+
         <div className="md:col-span-5 relative rounded-2xl overflow-hidden border border-neutral-850 flex items-center justify-center bg-neutral-900 h-full min-h-75">
           <img
             src={bgSec2}
@@ -2119,7 +2153,7 @@ function AboutTabSection() {
           <p className="text-neutral-400 font-semibold text-xs sm:text-sm mt-2">Sinergi para profesional di balik keandalan produk digital MoStu.</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-[1150px] mx-auto">
           {team.map((member, i) => (
             <div key={i} className={`flex flex-col items-center text-center opacity-0 animate-slide-up ${member.delay}`}>
               {/* Container foto dengan glassmorphism ringan */}
