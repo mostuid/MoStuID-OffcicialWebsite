@@ -16,7 +16,8 @@ import videoPorto2Img from "./assets/Video-Porto2.png";
 import waLogo from "./assets/waLogo.png";
 
 // IMPORT ASSET ICON
-import iconWebSoftware from "./assets/Icon Web-Software.png";
+import iconWebDev from "./assets/Icon Web-Dev.png";
+import iconAppDev from "./assets/Icon App-Dev.png";
 import iconAIAgent from "./assets/Icon AI-Agent.png";
 import iconVisualStorytelling from "./assets/Icon Visual Story Telling.png";
 import iconBrandingStrategy from "./assets/Icon Branding Strategy.png";
@@ -1114,16 +1115,16 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
   const servicesData = [
     {
       id: "web-dev",
-      title: "Web Developing",
+      title: "Web Development",
       description: "Kami membangun website yang responsif, scalable, dan user-friendly untuk mendukung pertumbuhan bisnis digital Anda.",
-      icon: <img src={iconWebSoftware} alt="Web Software Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
+      icon: <img src={iconWebDev} alt="Web Software Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
       animDelay: ""
     },
     {
       id: "app-dev",
-      title: "App Developing",
+      title: "App Development",
       description: "Kembangkan aplikasi mobile & desktop yang powerful dengan performa tinggi dan pengalaman pengguna yang optimal.",
-      icon: <img src={iconWebSoftware} alt="App Software Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
+      icon: <img src={iconAppDev} alt="App Software Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
       animDelay: ""
     },
     {
