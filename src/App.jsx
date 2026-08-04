@@ -2,17 +2,18 @@ import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import founderimg from "./assets/founder.png";
 import cofounderimg from "./assets/co-founder.png";
-import markeximg from "./assets/marketing-executive.png";
-import providimg from "./assets/professional-videgrapher.png";
+import whoNext from "./assets/Whos-Next.png";
 import logoImg from "./assets/logo-mostu.png";
 import bgSec2 from './assets/bg-sec2.png';
 import webPorto1Img from "./assets/Web-Porto1.gif";
 import webPorto2Img from "./assets/Web-Porto2.gif";
 import webPorto3Img from "./assets/Web-Porto3.gif";
-import webPorto4Img from "./assets/Web-Porto4.png";
+import webPorto4Img from "./assets/Web-Porto4.gif";
+import webPorto5Img from "./assets/Web-Porto5.gif";
 import animPorto1Img from "./assets/Anim-Porto1.jpg";
 import videoPorto1Img from "./assets/Video-Porto1.png";
 import videoPorto2Img from "./assets/Video-Porto2.png";
+import waLogo from "./assets/waLogo.png";
 
 // IMPORT ASSET ICON
 import iconWebSoftware from "./assets/Icon Web-Software.png";
@@ -20,6 +21,19 @@ import iconAIAgent from "./assets/Icon AI-Agent.png";
 import iconVisualStorytelling from "./assets/Icon Visual Story Telling.png";
 import iconBrandingStrategy from "./assets/Icon Branding Strategy.png";
 import iconAnimationServices from "./assets/Icon Animation Services.png";
+
+// ✅ FIXED: Style objects diekstrak ke konstanta
+const STYLE = {
+  heroMobile: {
+    position: 'absolute',
+    top: '125px',
+    left: 0,
+    right: 0,
+    paddingLeft: '16px',
+    paddingRight: '16px',
+    zIndex: 20
+  }
+};
 
 function App() {
 
@@ -58,6 +72,17 @@ function App() {
     );
   }
 
+  // Di dalam komponen App, tambahkan:
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
@@ -70,8 +95,27 @@ function App() {
   const [isBriefModalOpen, setIsBriefModalOpen] = useState(false);
   const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
 
-  // State kontrol khusus untuk membuka dan menutup Dropdown Menu Mobile
+  // State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuClosing, setIsMenuClosing] = useState(false);
+
+  // Fungsi toggle - tombol langsung berubah, dropdown tetap animasi
+  const toggleMenu = () => {
+    if (isMobileMenuOpen) {
+      // Tombol langsung berubah ke hamburger
+      setIsMobileMenuOpen(false);
+      // Trigger animasi keluar untuk dropdown
+      setIsMenuClosing(true);
+      // Reset isMenuClosing setelah animasi selesai
+      setTimeout(() => {
+        setIsMenuClosing(false);
+      }, 280);
+    } else {
+      // Tombol langsung berubah ke X
+      setIsMobileMenuOpen(true);
+      setIsMenuClosing(false);
+    }
+  };
 
   // State untuk melacak visibilitas Header saat scroll (Auto-Hide)
   const [showHeader, setShowHeader] = useState(true);
@@ -107,20 +151,16 @@ function App() {
   // =========================================================================
   // LOGIKA AUTO-HIDE HEADER & AUTO-CLOSE DROPDOWN SAAT SCROLL
   // =========================================================================
+  // ✅ FIXED: Pisahkan menjadi dua effect untuk menghindari re-register listener
+  // Effect 1: Auto-hide header
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
-      // Logika 1: Sembunyikan/Munculkan Header (PC & HP)
       if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
         setShowHeader(false);
       } else {
         setShowHeader(true);
-      }
-
-      // Logika 2: Tutup otomatis menu dropdown jika user melakukan scroll
-      if (isMobileMenuOpen) {
-        setIsMobileMenuOpen(false);
       }
 
       lastScrollY.current = currentScrollY;
@@ -128,6 +168,18 @@ function App() {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Effect 2: Tutup dropdown saat scroll
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const handleCloseDropdown = () => {
+      toggleMenu();
+    };
+
+    window.addEventListener("scroll", handleCloseDropdown, { passive: true });
+    return () => window.removeEventListener("scroll", handleCloseDropdown);
   }, [isMobileMenuOpen]);
 
   // =========================================================================
@@ -248,106 +300,125 @@ function App() {
         </Routes>
       ) : (
         <>
-          {/* NAVBAR HEADER: Auto-Hide on Scroll & Sticky Position (PC & HP) */}
+          {/* NAVBAR HEADER: Auto-Hide on Scroll & Sticky Position (PC & HP) - VERSI PILL SHAPE DENGAN GLASSMORPHISM MODERN */}
           <header
-            className={`fixed top-0 left-0 right-0 z-50 bg-darkBg/80 backdrop-blur-md border-b border-white/5 transition-transform duration-300 ${showHeader ? "translate-y-0" : "-translate-y-full"
+            className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-[100px] transition-all duration-500 w-[95%] max-w-[80%] ${showHeader ? "translate-y-0 opacity-100" : "-translate-y-[150%] opacity-0"
               }`}
           >
-            <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center relative">
+            {/* Background Glassmorphism dengan gradient & blur */}
+            <div className="absolute inset-0 rounded-[100px] bg-gradient-to-r from-[#FF5500]/5 via-white/5 to-[#FF5500]/5 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(255,85,0,0.08)] overflow-hidden">
+              {/* Efek glow oranye di tepi */}
+              <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl" />
+              <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-[#FF5500]/5 rounded-full blur-3xl" />
+
+              {/* Garis dekoratif di tepi bawah */}
+              <div className="absolute bottom-0 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
+            </div>
+
+            <div className="relative px-6 md:px-8 py-3 flex justify-between items-center">
               {/* LOGO */}
               <div className="flex items-center cursor-pointer select-none group" onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); }}>
-                <img src={logoImg} alt="MoStu Logo" className="h-9 sm:h-16 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
+                <img src={logoImg} alt="MoStu Logo" className="h-8 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
               </div>
 
               {/* NAV LINK DESKTOP */}
-              <nav className="hidden md:flex items-center space-x-12 text-[13px] text-neutral-300 font-chivo font-normal uppercase tracking-widest">
+              <nav className="hidden md:flex items-center space-x-8 text-[12px] text-neutral-300 font-chivo font-normal uppercase tracking-widest">
                 {/* PERTAMA: Services */}
-                <button onClick={() => { ubahTabNavigasi("home"); setTimeout(() => scrollToSection("services-area"), 100); }} className="hover:text-white transition-colors py-1.5 cursor-pointer">
+                <button onClick={() => { ubahTabNavigasi("home"); setTimeout(() => scrollToSection("services-area"), 100); }} className="hover:text-[#FF5500] transition-colors py-1.5 cursor-pointer relative group">
                   Services
+                  <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
                 </button>
 
                 {/* KEDUA: Portfolio */}
-                <button onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); }} className={`hover:text-white transition-colors relative py-1.5 cursor-pointer ${activeTab === "portfolio" ? "text-white" : ""}`}>
+                <button onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); }} className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "portfolio" ? "text-[#FF5500]" : "text-neutral-300"}`}>
                   Portfolio
-                  {activeTab === "portfolio" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
+                  <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "portfolio" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                 </button>
 
                 {/* KETIGA: Products */}
-                <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-white tracking-wide transition-colors relative py-1.5 cursor-pointer ${activeTab === "products" ? "text-white" : ""}`}>
+                <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "products" ? "text-[#FF5500]" : "text-neutral-300"}`}>
                   Products
-                  {activeTab === "products" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
+                  <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "products" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                 </button>
 
                 {/* KEEMPAT: About Us */}
-                <button onClick={() => ubahTabNavigasi("about")} className={`hover:text-white tracking-wide transition-colors relative py-1.5 cursor-pointer ${activeTab === "about" ? "text-white" : ""}`}>
+                <button onClick={() => ubahTabNavigasi("about")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "about" ? "text-[#FF5500]" : "text-neutral-300"}`}>
                   About Us
-                  {activeTab === "about" && <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-agency-orange" />}
+                  <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "about" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                 </button>
               </nav>
 
-              {/* CTA MEMBER (DESKTOP ONLY) */}
+              {/* CTA MEMBER (DESKTOP ONLY) - DENGAN GRADIENT */}
               <div className="hidden md:block">
                 <button
                   onClick={() => setIsMemberModalOpen(true)}
-                  className="bg-white text-black font-chivo font-bold px-6 py-2.5 rounded-full text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 shadow-md shadow-white/5 active:scale-95 text-center cursor-pointer"
+                  className="bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold px-5 py-2 rounded-full text-[10px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.3)] transition-all duration-300 shadow-md active:scale-95 text-center cursor-pointer"
                 >
                   Get Member
                 </button>
               </div>
 
-              {/* TOMBOL PENGONTROL DROPDOWN MOBILE */}
+              {/* TOMBOL PENGONTROL DROPDOWN MOBILE - HAMBURGER MENU (Langsung Berubah) */}
               <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden flex items-center space-x-2 bg-neutral-900/60 border border-white/10 px-4 py-2 rounded-xl text-xs font-chivo uppercase tracking-wider text-neutral-200 hover:text-white hover:border-white/20 transition-all cursor-pointer select-none focus:outline-none"
+                onClick={toggleMenu}
+                className="md:hidden flex flex-col items-center justify-center gap-[6px] w-8 h-8 bg-transparent border-none cursor-pointer select-none focus:outline-none relative"
                 aria-label="Toggle Menu"
               >
-                <span>Menu</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2.5}
-                  stroke="currentColor"
-                  className={`w-3.5 h-3.5 transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-180' : 'rotate-0'}`}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
+                {/* Garis Atas - Pendek */}
+                <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen
+                  ? 'w-6 rotate-45 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                  : 'w-4'
+                  }`} />
+
+                {/* Garis Tengah - Panjang */}
+                <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen
+                  ? 'w-6 -rotate-45 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                  : 'w-6'
+                  }`} />
+
+                {/* Garis Bawah - Pendek (Hilang saat terbuka) */}
+                <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen ? 'w-0 opacity-0' : 'w-4'
+                  }`} />
               </button>
 
-              {/* DROPDOWN MENU INTERFACE: FIX LEBAR MENGIKUTI GARIS MERAH (HANYA SISI KANAN) */}
-              {isMobileMenuOpen && (
-                // GANTI KELAS DI SINI: left-0 dibuang, diganti left-auto w-[55vw] sm:w-[45vh] agar lebarnya proporsional di kanan
-                <div className="absolute top-full right-6 left-auto w-[40vw] max-w-70 bg-neutral-950/95 backdrop-blur-lg border border-white/5 rounded-2xl px-6 py-6 flex flex-col space-y-4 md:hidden animate-slide-down shadow-2xl z-50 overflow-y-auto text-right items-end mt-2">
+              {/* DROPDOWN MENU - ANIMASI MASUK & KELUAR HALUS */}
+              {(isMobileMenuOpen || isMenuClosing) && (
+                <div className={`absolute top-full right-0 left-auto w-[55vw] max-w-70 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-5 flex flex-col space-y-3 md:hidden shadow-2xl z-50 overflow-visible text-right items-end mt-3 ${isMenuClosing ? 'dropdown-out' : 'dropdown-in'
+                  }`}>
+                  {/* Background glow */}
+                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none" />
+                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
+
                   <button
-                    onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); setTimeout(() => scrollToSection("services-area"), 100); }}
-                    className="w-full text-right text-neutral-300 hover:text-white font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer"
+                    onClick={() => { ubahTabNavigasi("home"); toggleMenu(); setTimeout(() => scrollToSection("services-area"), 100); }}
+                    className="w-full text-right text-neutral-300 hover:text-[#FF5500] font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors"
                   >
                     Services
                   </button>
                   <button
-                    onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); setIsMobileMenuOpen(false); }}
-                    className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "portfolio" ? "text-white font-bold" : "text-neutral-300"}`}
+                    onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); toggleMenu(); }}
+                    className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "portfolio" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                   >
                     Portfolio
                   </button>
                   <button
-                    onClick={() => { ubahTabNavigasi("products"); setIsMobileMenuOpen(false); }}
-                    className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "products" ? "text-white font-bold" : "text-neutral-300"}`}
+                    onClick={() => { ubahTabNavigasi("products"); toggleMenu(); }}
+                    className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "products" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                   >
                     Products
                   </button>
                   <button
-                    onClick={() => { ubahTabNavigasi("about"); setIsMobileMenuOpen(false); }}
-                    className={`w-full text-right font-chivo text-xs uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer ${activeTab === "about" ? "text-white font-bold" : "text-neutral-300"}`}
+                    onClick={() => { ubahTabNavigasi("about"); toggleMenu(); }}
+                    className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "about" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                   >
                     About Us
                   </button>
 
-                  {/* CTA Get Member Mobile */}
-                  <div className="pt-2 w-full">
+                  <div className="pt-1 w-full">
                     <button
-                      onClick={() => { setIsMemberModalOpen(true); setIsMobileMenuOpen(false); }}
-                      className="w-full bg-white text-black window-click font-chivo font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all duration-300 active:scale-95 text-center cursor-pointer shadow-md"
+                      onClick={() => { setIsMemberModalOpen(true); toggleMenu(); }}
+                      className="w-full bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold py-2 rounded-xl text-[10px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.2)] transition-all duration-300 active:scale-95 text-center cursor-pointer"
                     >
                       Get Member
                     </button>
@@ -398,40 +469,51 @@ function App() {
                   <div className="mt-20">
                     <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
                       {/* Header Section */}
-                      <div className="text-center max-w-xl mx-auto mb-12">
-                        <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight">
-                          Our Digital Products
+                      <div className="text-center max-w-xl mx-auto mb-12 select-none">
+                        <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight relative inline-block">
+                          <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
+                            Our Digital Products
+                          </span>
+                          {/* Efek glow kecil dan rapi */}
+                          <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
+                          {/* Efek glow tipis di bawah */}
+                          <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
                         </h2>
                         <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
                           Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
                         </p>
                       </div>
 
-                      {/* Grid Container untuk 4 Tools */}
+                      {/* Grid Container untuk 4 Tools - GLASSMORPHISM */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+                        {/* TOOL 1: AI VOICE GENERATOR */}
+                        <div className="group relative p-6 rounded-2xl flex flex-col justify-between opacity-0 animate-slide-up hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500">
+                          {/* Background Glassmorphism */}
+                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-white/5 to-[#FF5500]/10 backdrop-blur-xl border border-white/10 shadow-2xl shadow-[#FF5500]/5" />
+                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-[#FF5500]/0 via-[#FF5500]/0 to-[#FF5500]/5 group-hover:from-[#FF5500]/5 group-hover:via-[#FF5500]/10 group-hover:to-[#FF5500]/20 transition-all duration-700" />
 
-                        {/* TOOL 1: AI VOICE GENERATOR (AKTIF) - Muncul Pertama */}
-                        <div className="bg-neutral-900/40 backdrop-blur-md p-6 rounded-2xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] opacity-0 animate-slide-up">
-                          <div>
-                            {/* Icon/Badge Area */}
-                            <div className="w-12 h-12 rounded-xl bg-[#FF5500]/10 border border-[#FF5500]/20 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300">
+                          {/* Glow effects */}
+                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/15 transition-all duration-700" />
+
+                          {/* Garis dekoratif */}
+                          <div className="absolute top-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500" />
+                          <div className="absolute bottom-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500" />
+                          <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-[#FF5500]/30 transition-all duration-500" />
+
+                          <div className="relative z-10">
+                            <div className="w-12 h-12 rounded-xl bg-[#FF5500]/20 backdrop-blur-sm border border-[#FF5500]/30 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300 group-hover:shadow-[0_0_30px_rgba(255,85,0,0.2)]">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
                               </svg>
                             </div>
-                            <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
+                            <h3 className="font-poppins font-bold text-lg text-white group-hover:text-[#FF5500] transition-colors duration-300 mb-1">
                               AI Voice Generator
                             </h3>
-                            <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">
-                              Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.
-                            </p>
+                            <p className="text-neutral-400 text-xs font-light leading-relaxed">Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.</p>
                           </div>
 
-                          {/* Action Button */}
-                          <button
-                            onClick={() => window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank")}
-                            className="w-full mt-2 border border-neutral-800 bg-neutral-950 hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] text-center cursor-pointer shadow-md"
-                          >
+                          <button onClick={(e) => { e.stopPropagation(); window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank"); }}
+                            className="relative z-10 mt-4 w-full border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] group-hover:shadow-[0_0_30px_rgba(255,85,0,0.1)]">
                             Launch Tool ➔
                           </button>
                         </div>
@@ -536,24 +618,49 @@ function App() {
           {/* Modul Pop-up Pendaftaran Member Eksklusif MoStu */}
           <MemberRegistrationModal isOpen={isMemberModalOpen} onClose={() => setIsMemberModalOpen(false)} />
 
-          {/* FLOATING WHATSAPP CTA BUTTON */}
+          {/* FLOATING WHATSAPP CTA BUTTON - DENGAN LABEL HOVER & ANIMASI SLIDE FROM RIGHT */}
           <div
-            className="fixed bottom-6 right-6 z-50 animate-slide-up focus:outline-none"
-            style={{ animationDelay: "0s, 0s" }}
+            className="fixed z-50 animate-slide-up focus:outline-none group"
+            style={{
+              animationDelay: "0s, 0s",
+              bottom: isMobile ? '16px' : '24px',
+              right: isMobile ? '8px' : '24px',
+            }}
           >
-            <a
-              href={`https://wa.me/62882016312643?text=${encodeURIComponent(
-                "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda."
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Chat via WhatsApp"
-              className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/20 transition-all duration-300 hover:scale-110 hover:bg-[#20ba5a] active:scale95 group"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 transition-transform duration-300 group-hover:rotate-6">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.128.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-2.078l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.458h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-              </svg>
-            </a>
+            <div className="relative">
+              {/* Tooltip/Label "Hire Us!" */}
+              <div className={`absolute right-full top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap ${isMobile ? 'mr-[12px]' : 'mr-[20px]'
+                }`}>
+                <span className={`bg-white text-black font-chivo font-semibold rounded-lg border border-gray-200 shadow-lg shadow-black/10 relative ${isMobile
+                  ? 'text-[10px] px-2.5 py-1.5'
+                  : 'text-xs sm:text-sm px-3 sm:px-5 py-1.5 sm:py-2.5'
+                  }`}>
+                  Hire Us!
+                  <div className="absolute -right-[6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-l-[6px] border-t-transparent border-b-transparent border-l-white"></div>
+                </span>
+              </div>
+
+              {/* Tombol WhatsApp */}
+              <a
+                href={`https://wa.me/62882016312643?text=${encodeURIComponent(
+                  "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda."
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat via WhatsApp"
+                className={`flex items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:scale-110 active:scale-95 group relative ${isMobile ? 'w-[86px] h-[86px]' : 'w-[86px] h-[86px]'
+                  }`}
+              >
+                <div className={`absolute rounded-full bg-[#25D366]/20 animate-ping-slow ${isMobile ? 'inset-2' : 'inset-4'
+                  }`}></div>
+
+                <img
+                  src={waLogo}
+                  alt="WhatsApp"
+                  className="w-full h-full object-contain transition-transform duration-300 group-hover:rotate-6 relative z-10"
+                />
+              </a>
+            </div>
           </div>
         </>
       )}
@@ -634,25 +741,17 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
      ========================================================================= */
   const heroSlides = [
     {
+      id: 'founder',
       img: founderimg,
       name: "Bang Eija",
       role: "Founder / Lead Developer"
     },
     {
+      id: 'cofounder',
       img: cofounderimg,
       name: "Mohd. Daniel",
       role: "Co-Founder / Art Director"
     },
-    {
-      img: markeximg,
-      name: "Mhd. Andre F",
-      role: "Marketing Executive"
-    },
-    {
-      img: providimg,
-      name: "Noval Pratama",
-      role: "Professional Videographer"
-    }
   ];
 
   const textContainerConfig = {
@@ -669,12 +768,13 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
     hpMinHeight: "50px",
     hpPadding: "0.75rem"
   };
+
   /* ========================================================================= */
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // TEXT HERO MODE TABLET/PC
+  // ✅ FIXED: Gabungkan menjadi satu state untuk deteksi mobile
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024);
@@ -725,18 +825,6 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
     return () => clearInterval(typewriterInterval);
   }, [activeSlide]);
 
-  const [isMobileDevice, setIsMobileDevice] = useState(
-    typeof window !== "undefined" ? window.innerWidth < 1024 : false
-  );
-
-  useEffect(() => {
-    const tanganiPerubahanLayar = () => {
-      setIsMobileDevice(window.innerWidth < 1024);
-    };
-    window.addEventListener("resize", tanganiPerubahanLayar);
-    return () => window.removeEventListener("resize", tanganiPerubahanLayar);
-  }, []);
-
   useEffect(() => {
     let timerStart, timerReset, timeoutNext, intervalLoop;
     timerStart = setTimeout(() => {
@@ -765,7 +853,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
   useEffect(() => {
     const handleScrollMouse = () => {
       const currentScroll = window.scrollY;
-      const config = isMobileDevice ? SETTING_SCROLL_HP : SETTING_SCROLL_PC;
+      const config = isMobile ? SETTING_SCROLL_HP : SETTING_SCROLL_PC;
       if (currentScroll <= 5 || currentScroll <= config.mulaiPudar) {
         setMouseOpacity(1); setMouseTranslateY(0);
       } else if (currentScroll >= config.hilangTotal) {
@@ -775,22 +863,26 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
         const jarakBerjalan = currentScroll - config.mulaiPudar;
         const progress = jarakBerjalan / totalRentang;
         setMouseOpacity(Math.max(0, Math.min(1, 1 - progress)));
-        const multiplierY = isMobileDevice ? 0.6 : 1.0;
+        const multiplierY = isMobile ? 0.6 : 1.0;
         setMouseTranslateY(progress * config.jarakSembunyi * multiplierY);
       }
     };
     handleScrollMouse();
     window.addEventListener("scroll", handleScrollMouse, { passive: true });
     return () => window.removeEventListener("scroll", handleScrollMouse);
-  }, [isMobileDevice]);
+  }, [isMobile]);
 
   return (
     <div
-      // 🔥 UTAMA: px-0 di mobile dan px-4 di desktop diaktifkan penuh di sini, bray!
       className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center min-h-screen lg:h-screen pt-16 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
-      // 🔥 UTAMA: clipPath dilepas total di mobile (none) agar tidak memotong elemen/ornamen meluber keluar layar
-      style={{ clipPath: isMobileDevice ? "none" : "inset(0px -100vw 0px -100vw)" }}
+      style={{ clipPath: isMobile ? "none" : "inset(0px -100vw 0px -100vw)" }}
     >
+      {/* EFEK GLOW BACKGROUND - SEPERTI QNA */}
+      <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
+
       {/* SUNTIKAN KEYFRAMES ANIMASI FOTO SELANG SELING */}
       <style>{`
         @keyframes slideInFromRight {
@@ -823,19 +915,9 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 
 
       {/* SISI KIRI: TEXT & ACTIONS */}
-      <div className={`w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 ${isMobile ? 'absolute top-20 left-0 right-0' : ''
-        }`}
-        style={{
-          ...(isMobile && {
-            position: 'absolute',
-            top: '125px',
-            left: 0,
-            right: 0,
-            paddingLeft: '16px',
-            paddingRight: '16px',
-            zIndex: 20
-          })
-        }}
+      <div
+        className={`w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 ${isMobile ? 'absolute top-20 left-0 right-0' : ''}`}
+        style={isMobile ? STYLE.heroMobile : undefined}
       >
         <div className="relative mb-2 sm:mb-4">
           <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
@@ -843,16 +925,18 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
           </p>
           <h1 className="font-poppins font-bold text-[16vw] lg:text-[170px] tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left">
             <span
-              className={`block bg-clip-text text-transparent ${isShiny ? "animate-classic-shiny" : ""}`}
+              className="block bg-clip-text text-transparent relative z-10 animate-shimmer-sweep"
               style={{
                 WebkitTextFillColor: "transparent",
-                backgroundImage: "linear-gradient(90deg, #D7E1EA 0%, #D7E1EA 40%, #ffffff 50%, #D7E1EA 60%, #DBDEE9 100%)",
-                backgroundSize: "300% 100%",
-                backgroundPosition: isShiny ? "" : "0% center"
+                backgroundImage: "linear-gradient(90deg, #FF5500 0%, #ffffff 35%, #ffffff 65%, #FF5500 100%)",
+                backgroundSize: "200% 100%",
+                backgroundPosition: "0% center"
               }}
             >
               AGENCY
             </span>
+            {/* Efek glow kecil dan rapi */}
+            <span className="absolute -inset-1 bg-[#FF5500]/20 blur-2xl -z-0 rounded-lg pointer-events-none" />
           </h1>
         </div>
         <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
@@ -866,8 +950,23 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
           />
         </div>
         <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
-          <button onClick={() => setIsBriefModalOpen(true)} className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5">Start a Project</button>
-          <a href={waLink} target="_blank" rel="noopener noreferrer" className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block">Get in Touch!</a>
+          {/* Tombol Get Order! */}
+          <button
+            onClick={() => setIsBriefModalOpen(true)}
+            className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 w-[140px] sm:w-[160px]"
+          >
+            Get Order
+          </button>
+
+          {/* Tombol Get in Touch! */}
+          <a
+            href={waLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block w-[140px] sm:w-[160px]"
+          >
+            Reach Us!
+          </a>
         </div>
 
         {/* IKON MOUSE */}
@@ -878,13 +977,13 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
             <div
               className="transition-all duration-500 ease-out"
               style={{
-                position: isMobileDevice ? "absolute" : "absolute",
+                position: isMobile ? "absolute" : "absolute",
                 zIndex: 100,
                 pointerEvents: mouseOpacity > 0 ? "auto" : "none",
                 opacity: mouseOpacity,
-                left: isMobileDevice ? POSISI_HP.left : POSISI_PC.left,
-                bottom: isMobileDevice ? POSISI_HP.bottom : "auto",
-                top: isMobileDevice ? "auto" : POSISI_PC.top,
+                left: isMobile ? POSISI_HP.left : POSISI_PC.left,
+                bottom: isMobile ? POSISI_HP.bottom : "auto",
+                top: isMobile ? "auto" : POSISI_PC.top,
                 transform: `translateY(${mouseTranslateY}px) scale(${0.95 + mouseOpacity * 0.05})`
               }}
             >
@@ -899,38 +998,37 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
       {/* SISI KANAN: ANIMATED SLIDER AREA */}
       {(() => {
         const SETTING_HP = { tinggiWadah: "550px", lebarLingkaran: "400px", lebarMaxFoto: "550px" };
-        const SETTING_PC = { lebarLingkaran: "620px", lebarMaxFoto: "690px" };
+        const SETTING_PC = { lebarLingkaran: "620px", lebarMaxFoto: "580px" };
 
         return (
           <div
-            className={`w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0 ${isMobile ? 'mt-48' : ''
-              }`}
+            className={`w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0 ${isMobile ? 'mt-48' : ''}`}
             style={{
-              height: isMobileDevice ? SETTING_HP.tinggiWadah : "100%",
-              overflow: isMobileDevice ? "visible" : "visible"
+              height: isMobile ? SETTING_HP.tinggiWadah : "100%",
+              overflow: isMobile ? "visible" : "visible"
             }}
           >
             {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
             <div
               className="absolute bottom-[-2%] right-auto lg:right-[-3%] bg-[#FF5500] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s]"
               style={{
-                width: isMobileDevice ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran,
-                height: isMobileDevice ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran
+                width: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran,
+                height: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran
               }}
             />
 
             {/* WRAPPER ELEMEN SLIDER FOTO */}
             <div className="relative w-full h-full flex justify-center lg:justify-end items-end px-0">
-              {heroSlides.map((slide, idx) => {
-                const isActive = idx === activeSlide;
-                const isEvenIndex = idx % 2 === 0;
+              {heroSlides.map((slide) => {
+                const isActive = slide.id === heroSlides[activeSlide].id;
+                const isEvenIndex = heroSlides.indexOf(slide) % 2 === 0;
 
                 let imgAnimClass = "opacity-0 pointer-events-none";
 
                 if (isActive) {
                   imgAnimClass = isEvenIndex ? "slide-in-right-custom" : "slide-in-left-custom";
                 } else if (hasInteracted) {
-                  const wasActive = (activeSlide === 0 ? heroSlides.length - 1 : activeSlide - 1) === idx;
+                  const wasActive = heroSlides.indexOf(slide) === (activeSlide === 0 ? heroSlides.length - 1 : activeSlide - 1);
                   if (wasActive) {
                     imgAnimClass = isEvenIndex ? "slide-out-left-custom" : "slide-out-right-custom";
                   }
@@ -938,7 +1036,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 
                 return (
                   <div
-                    key={idx}
+                    key={slide.id}
                     className="absolute bottom-0 flex flex-col items-center lg:items-end justify-end w-full h-full px-0"
                     style={{
                       pointerEvents: isActive ? "auto" : "none"
@@ -950,7 +1048,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
                         src={slide.img}
                         alt={slide.name}
                         className="h-full w-auto object-contain object-bottom relative z-10 select-none pointer-events-none transform origin-bottom transition-transform duration-700 hover:scale-[1.02]"
-                        style={{ maxWidth: isMobileDevice ? SETTING_HP.lebarMaxFoto : SETTING_PC.lebarMaxFoto }}
+                        style={{ maxWidth: isMobile ? SETTING_HP.lebarMaxFoto : SETTING_PC.lebarMaxFoto }}
                       />
                     </div>
                   </div>
@@ -958,31 +1056,49 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
               })}
             </div>
 
-            {/* CONTAINER TRANSPARAN PAPAN NAMA */}
+            {/* CONTAINER TRANSPARAN PAPAN NAMA - DENGAN GLASSMORPHISM DOMINAN #FF5500 */}
             <div
-              className="absolute z-30 flex flex-col justify-center items-center text-left select-none bg-black/20 backdrop-blur-sm border border-white/5 rounded-xl shadow-2xl"
+              className="absolute z-30 flex flex-col justify-center items-center text-left select-none bg-[#FF5500]/10 backdrop-blur-xl border border-[#FF5500]/30 rounded-xl shadow-2xl shadow-[#FF5500]/30"
               style={{
-                left: isMobileDevice ? textContainerConfig.hpLeft : textContainerConfig.pcLeft,
-                bottom: isMobileDevice ? textContainerConfig.hpBottom : textContainerConfig.pcBottom,
-                minWidth: isMobileDevice ? textContainerConfig.hpMinWidth : textContainerConfig.pcMinWidth,
-                minHeight: isMobileDevice ? textContainerConfig.hpMinHeight : textContainerConfig.pcMinHeight,
-                padding: isMobileDevice ? textContainerConfig.hpPadding : textContainerConfig.pcPadding,
-                transform: isMobileDevice && textContainerConfig.hpLeft === "50%" ? "translateX(-50%)" : "none"
+                left: isMobile ? textContainerConfig.hpLeft : textContainerConfig.pcLeft,
+                bottom: isMobile ? textContainerConfig.hpBottom : textContainerConfig.pcBottom,
+                minWidth: isMobile ? '200px' : textContainerConfig.pcMinWidth,
+                minHeight: isMobile ? '56px' : textContainerConfig.pcMinHeight,
+                padding: isMobile ? '10px 12px' : textContainerConfig.pcPadding,
+                transform: isMobile && textContainerConfig.hpLeft === "50%"
+                  ? "translate(-50%, -15px)"
+                  : "translateY(-30px)"
               }}
             >
-              <h2 className="font-poppins font-bold text-lg sm:text-2xl text-white tracking-tight drop-shadow-md min-h-7 sm:min-h-9 flex items-center">
+              {/* Background gradasi #FF5500 */}
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF5500]/20 via-[#FF5500]/5 to-[#FF5500]/10 pointer-events-none" />
+
+              {/* Efek glow #FF5500 di sudut */}
+              <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#FF5500]/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
+              <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-[#FF5500]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+
+              {/* Garis dekoratif #FF5500 di tepi */}
+              <div className="absolute top-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/50 to-transparent" />
+              <div className="absolute bottom-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/50 to-transparent" />
+
+              {/* Pinggiran glow */}
+              <div className="absolute inset-0 rounded-xl border border-[#FF5500]/20 pointer-events-none" />
+
+              {/* NAMA - WARNA PUTIH */}
+              <h2 className="font-poppins font-bold text-lg sm:text-2xl text-white tracking-tight drop-shadow-[0_0_20px_rgba(255,85,0,0.3)] min-h-7 sm:min-h-9 flex items-center relative z-10">
                 <span className={displayName && displayName.length < heroSlides[activeSlide].name.length ? "typewriter-cursor" : ""}>
                   {displayName}
                 </span>
               </h2>
-              <p className="font-mono text-[#FF5500] text-[10px] sm:text-xs uppercase tracking-wider font-semibold mt-0.5 drop-shadow-sm min-h-4 flex items-center">
+
+              {/* ROLE - WARNA PUTIH DENGAN OPACITY 60% */}
+              <p className="font-mono text-white/60 text-[10px] sm:text-xs uppercase tracking-wider font-semibold mt-0.5 drop-shadow-[0_0_15px_rgba(255,85,0,0.4)] min-h-4 flex items-center relative z-10">
                 <span className={displayRole ? "typewriter-cursor" : ""}>
                   {displayRole}
                 </span>
               </p>
             </div>
-
-            <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-linear-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
           </div>
         );
       })()}
@@ -992,39 +1108,51 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 }
 
 /* ==========================================
-   KOMPONEN MANDIRI: SECTION 2 (SERVICES CONTAINER)
+   KOMPONEN MANDIRI: SECTION 2 (SERVICES CONTAINER) - VERSI GLASSMORPHISM MODERN
    ========================================== */
 function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
   const servicesData = [
     {
       id: "web-dev",
-      title: "Web/Software Developing",
-      icon: <img src={iconWebSoftware} alt="Web Software Icon" className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" />,
+      title: "Web Developing",
+      description: "Kami membangun website yang responsif, scalable, dan user-friendly untuk mendukung pertumbuhan bisnis digital Anda.",
+      icon: <img src={iconWebSoftware} alt="Web Software Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
+      animDelay: ""
+    },
+    {
+      id: "app-dev",
+      title: "App Developing",
+      description: "Kembangkan aplikasi mobile & desktop yang powerful dengan performa tinggi dan pengalaman pengguna yang optimal.",
+      icon: <img src={iconWebSoftware} alt="App Software Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
       animDelay: ""
     },
     {
       id: "ai-agent",
       title: "AI Automation",
-      icon: <img src={iconAIAgent} alt="AI Agent Icon" className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" />,
-      animDelay: ""
+      description: "Otomatisasi bisnis dengan kecerdasan buatan. Mulai dari chatbot hingga sistem analitik prediktif untuk efisiensi maksimal.",
+      icon: <img src={iconAIAgent} alt="AI Agent Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
+      animDelay: "[animation-delay:100ms]"
     },
     {
       id: "visual-story",
       title: "Visual Storytelling",
-      icon: <img src={iconVisualStorytelling} alt="Visual Story Telling Icon" className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" />,
-      animDelay: "[animation-delay:100ms]"
+      description: "Kisahkan brand Anda melalui visual yang memukau. Video sinematik, 3D render, dan konten visual yang impactful.",
+      icon: <img src={iconVisualStorytelling} alt="Visual Story Telling Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
+      animDelay: "[animation-delay:200ms]"
     },
     {
       id: "animation",
       title: "Animation Services",
-      icon: <img src={iconAnimationServices} alt="Animation Services Icon" className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" />,
-      animDelay: "[animation-delay:200ms]"
+      description: "Animasi 2D/3D profesional untuk berbagai kebutuhan: explainer video, motion graphics, hingga visual efek cinematic.",
+      icon: <img src={iconAnimationServices} alt="Animation Services Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
+      animDelay: "[animation-delay:300ms]"
     },
     {
       id: "branding",
       title: "Branding Strategy",
-      icon: <img src={iconBrandingStrategy} alt="Branding Strategy Icon" className="w-32 h-32 object-contain transition-transform duration-500 group-hover:scale-110" />,
-      animDelay: "[animation-delay:300ms]"
+      description: "Bangun identitas brand yang kuat dan konsisten. Dari logo design, brand guidelines, hingga strategi positioning pasar.",
+      icon: <img src={iconBrandingStrategy} alt="Branding Strategy Icon" className="w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 object-contain transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3" />,
+      animDelay: "[animation-delay:400ms]"
     }
   ];
 
@@ -1034,65 +1162,158 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
   };
 
   return (
-    <section id="services-area" ref={sec2Ref} className="relative h-screen flex flex-col justify-center items-center py-24 px-6 md:px-12 bg-cover bg-center overflow-hidden" style={{ backgroundImage: `url(${bgSec2})` }}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-0" />
-      <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-[#FF5500] via-[#FF5500]/35 to-transparent pointer-events-none z-0" />
+    <section
+      id="services-area"
+      ref={sec2Ref}
+      className="relative min-h-screen lg:min-h-[100vh] flex flex-col justify-center items-center py-16 sm:py-20 lg:py-12 px-4 md:px-6 lg:px-12 bg-cover bg-center overflow-hidden"
+      style={{ backgroundImage: `url(${bgSec2})` }}
+    >
+      {/* Overlay gelap dengan gradasi oranye */}
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm z-0" />
+      <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-[#FF5500]/20 via-[#FF5500]/10 to-transparent pointer-events-none z-0" />
+      <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/90 via-transparent to-transparent pointer-events-none z-0" />
 
       {/* SINKRONISASI INTERSECTION OBSERVER */}
-      <div className={`max-w-5xl mx-auto w-full relative z-10 text-center select-none ${isSec2Visible ? 'animate-slide-down' : 'opacity-0'}`}>
-        <div className="text-center mb-16">
-          <p className="font-chivo font-thin text-sm text-white tracking-widest uppercase mb-2">Layanan Kami</p>
-          <h2 className="font-poppins font-bold text-2xl sm:text-3xl text-white tracking-tight">Solusi kreatif & digital untuk bisnis Anda.</h2>
+      <div className={`max-w-6xl mx-auto w-full relative z-10 text-center select-none ${isSec2Visible ? 'animate-slide-down' : 'opacity-0'}`}>
+
+        {/* Header Section - Services */}
+        {/* Our Services Badge - DI ATAS Judul */}
+        <div className="inline-block mb-4">
+          <span className="bg-[#FF5500]/20 text-[#FF5500] text-[10px] lg:text-xs font-chivo font-bold uppercase tracking-widest px-3 lg:px-4 py-1 lg:py-1.5 rounded-full border border-[#FF5500]/30 backdrop-blur-sm">
+            Our Services
+          </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 max-w-4xl mx-auto">
-          {servicesData.map((service, index) => (
-            <div
-              key={service.id}
-              onClick={() => handleServiceClick(service.id)}
-              className={`
-        bg-white/30 backdrop-blur-md px-5 sm:px-6 py-4 sm:py-6 rounded-xl border border-white/50
-        flex items-center justify-between
-        transition-all duration-500
-        hover:bg-white/60 hover:-translate-y-1
-        hover:shadow-[0_15px_30px_rgba(255,85,0,0.08)]
-        cursor-pointer group opacity-0
-        ${index === servicesData.length - 1 ? 'md:col-span-2 md:max-w-[50%] md:mx-auto' : ''}
-        ${isSec2Visible ? 'animate-slide-up ' + service.animDelay : ''}
-      `}
-            >
-              <div className="flex items-center space-x-4 sm:space-x-6 text-left w-full">
-                <div className="flex justify-center items-center shrink-0 bg-transparent w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24">
-                  {service.icon}
+        <div className="text-center mb-6 lg:mb-8">
+          {/* Judul Utama */}
+          <h2 className="font-poppins font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight mb-2 relative inline-block">
+            <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
+              Solusi Kreatif & Digital
+            </span>
+            {/* Efek glow kecil dan rapi */}
+            <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
+            {/* Efek glow tipis di bawah */}
+            <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
+          </h2>
+
+          {/* Deskripsi */}
+          <p className="text-neutral-300 text-[11px] sm:text-xs lg:text-sm font-light max-w-2xl mx-auto leading-relaxed px-4 mt-2">
+            Kami hadir dengan layanan terbaik dan terintegrasi untuk membantu bisnis Anda berkembang jadi lebih efisien dan di era digital.
+          </p>
+        </div>
+
+        {/* Grid Layanan - 2 KOLOM DI MOBILE, 3 KOLOM DI DESKTOP */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5 max-w-6xl mx-auto">
+          {servicesData.map((service, index) => {
+            return (
+              <div
+                key={service.id}
+                onClick={() => handleServiceClick(service.id)}
+                className={`
+                  group relative p-3 sm:p-4 lg:p-6 rounded-2xl 
+                  cursor-pointer opacity-0
+                  ${isSec2Visible ? 'animate-slide-up ' + service.animDelay : ''}
+                  overflow-hidden
+                  flex flex-col
+                  h-full
+                  transition-all duration-500
+                  hover:-translate-y-2 hover:scale-[1.02]
+                `}
+              >
+                {/* Background Glassmorphism */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-white/5 to-[#FF5500]/10 backdrop-blur-xl border border-white/10 shadow-2xl shadow-[#FF5500]/5" />
+
+                {/* Inner glow effect */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-[#FF5500]/0 via-[#FF5500]/0 to-[#FF5500]/5 group-hover:from-[#FF5500]/5 group-hover:via-[#FF5500]/10 group-hover:to-[#FF5500]/20 transition-all duration-700" />
+
+                {/* Efek glow #FF5500 di sudut */}
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#FF5500]/15 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/25 transition-all duration-700" />
+                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/20 transition-all duration-700" />
+
+                {/* Glow center */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/15 transition-all duration-700" />
+
+                {/* Garis dekoratif #FF5500 di tepi atas & bawah */}
+                <div className="absolute top-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500" />
+                <div className="absolute bottom-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500" />
+
+                {/* Pinggiran glow saat hover */}
+                <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-[#FF5500]/30 transition-all duration-500" />
+
+                {/* Shadow ekstra saat hover */}
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-[inset_0_0_50px_rgba(255,85,0,0.05)]" />
+
+                {/* Konten */}
+                <div className="relative z-10 flex flex-col items-center text-center flex-1">
+                  {/* Icon dengan circle background - GLASSMORPHISM */}
+                  <div className="relative mb-2 lg:mb-3">
+                    <div className="absolute inset-0 bg-[#FF5500]/20 rounded-full blur-xl group-hover:blur-2xl transition-all duration-500" />
+                    <div className="relative w-14 h-14 sm:w-16 sm:h-16 lg:w-[72px] lg:h-[72px] rounded-full bg-gradient-to-br from-white/20 to-[#FF5500]/20 border border-white/20 flex items-center justify-center group-hover:border-[#FF5500]/50 transition-all duration-500 group-hover:shadow-[0_0_40px_rgba(255,85,0,0.3)] backdrop-blur-sm">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-[56px] lg:h-[56px] flex items-center justify-center transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        {service.icon}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Title - proporsional */}
+                  <h3 className="font-poppins font-bold text-xs sm:text-sm lg:text-lg text-white group-hover:text-[#FF5500] transition-colors duration-300 mb-1 lg:mb-2">
+                    {service.title}
+                  </h3>
+
+                  {/* Description - proporsional dengan teks header */}
+                  <p className="text-neutral-300 text-[11px] sm:text-xs lg:text-sm font-light leading-relaxed group-hover:text-neutral-200 transition-colors duration-300 flex-1">
+                    {service.description}
+                  </p>
+
+                  {/* CTA Link dengan animasi - TANPA GARIS BAWAH */}
+                  <div className="mt-2 lg:mt-3 flex items-center justify-center gap-1.5 lg:gap-2 text-[#FF5500] font-chivo text-[9px] lg:text-[10px] font-semibold uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                    <span>View Projects</span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2.5}
+                      stroke="currentColor"
+                      className="w-3 h-3 lg:w-3.5 lg:h-3.5 transform group-hover:translate-x-1 transition-transform duration-300"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
+                      />
+                    </svg>
+                  </div>
+
+                  {/* Nomor urut dengan efek glass */}
+                  <div className="absolute top-1.5 right-2 lg:top-2 lg:right-3 text-xl sm:text-3xl lg:text-4xl font-black text-white/10 group-hover:text-[#FF5500]/20 transition-colors duration-500 select-none">
+                    {String(index + 1).padStart(2, '0')}
+                  </div>
                 </div>
-
-                <h3 className="font-poppins font-semibold text-sm sm:text-base md:text-lg text-neutral-200 group-hover:text-white transition-colors duration-300 leading-tight">
-                  {service.title}
-                </h3>
               </div>
+            );
+          })}
+        </div>
 
-              <div className="flex items-center space-x-1 text-xs font-mono font-bold text-neutral-400 group-hover:text-black transition-colors duration-300 pl-2 sm:pl-4 shrink-0">
-                <span className="hidden lg:inline opacity-0 transform translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                  View <br /> Project
-                </span>
-
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={2.5}
-                  stroke="currentColor"
-                  className="w-4 h-4 sm:w-5 sm:h-5 transform group-hover:translate-x-1 transition-transform duration-300 shrink-0"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"
-                  />
-                </svg>
-              </div>
-            </div>
-          ))}
+        {/* CTA Bottom */}
+        <div className="mt-6 lg:mt-8 text-center">
+          <div
+            className="inline-flex items-center gap-2 lg:gap-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-4 lg:px-6 py-2 hover:border-[#FF5500]/50 transition-all duration-300 group cursor-pointer hover:bg-[#FF5500]/10"
+            onClick={() => setActiveTab("portfolio")}
+          >
+            <span className="text-neutral-200 text-[10px] sm:text-xs lg:text-sm font-chivo font-medium group-hover:text-white transition-colors duration-300">
+              Lihat Semua Layanan
+            </span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2}
+              stroke="currentColor"
+              className="w-3.5 h-3.5 lg:w-5 lg:h-5 text-[#FF5500] transform group-hover:translate-x-1 transition-transform duration-300"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+          </div>
         </div>
       </div>
     </section>
@@ -1370,7 +1591,7 @@ function MemberRegistrationModal({ isOpen, onClose }) {
 }
 
 /* ==========================================
-   KOMPONEN MANDIRI: TAB PORTFOLIO + MODAL YOUTUBE
+   KOMPONEN MANDIRI: TAB PORTFOLIO - VERSI STABIL
    ========================================== */
 function PortfolioTabSection({ currentFilter, setFilter }) {
   // State khusus untuk melacak video mana yang sedang aktif diputar di pop-up
@@ -1394,6 +1615,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
   const categories = [
     { id: "all", name: "All Our Projects" },
     { id: "web-dev", name: "Web/Software" },
+    { id: "app-dev", name: "App Developing" },
     { id: "ai-agent", name: "AI Automation" },
     { id: "visual-story", name: "Visual Storytelling" },
     { id: "animation", name: "Animation Services" },
@@ -1402,10 +1624,19 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
   const projects = [
     {
+      title: "Piring Situek",
+      cat: "web-dev",
+      desc: "Website bisnis UMKM piring cantik yang terbuat dari pelepah pinang",
+      meta: "Web Development Project • 2026",
+      delay: "",
+      link: "https://situek.com/",
+      image: webPorto5Img,
+    },
+    {
       title: "MoStu Airline Prototype",
       cat: "web-dev",
       desc: "Prototype landing page modern dengan animasi parallax",
-      meta: "Web Prototype &bull; 2026",
+      meta: "Web Prototype • 2026",
       delay: "",
       link: null,
       image: webPorto4Img,
@@ -1413,10 +1644,19 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       folderName: "prototype-airlines"
     },
     {
-      title: "Go Green Parallax Website",
+      title: "Terapi Kesehatan Sejati",
+      cat: "web-dev",
+      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
+      meta: "Web Development Project • 2026",
+      delay: "",
+      link: "https://terapikesehatansejati.com/",
+      image: webPorto1Img,
+    },
+    {
+      title: "Go Green Parallax Prototype",
       cat: "web-dev",
       desc: "Website interaktif dengan animasi parallax untuk campaign lingkungan",
-      meta: "Web Prototype &bull; 2026",
+      meta: "Web Prototype • 2026",
       delay: "",
       link: null,
       image: webPorto2Img,
@@ -1424,10 +1664,10 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       folderName: "prototype-gogreen"
     },
     {
-      title: "Go Green Parallax Website",
+      title: "Core Pack Prototype",
       cat: "web-dev",
-      desc: "Website interaktif dengan animasi parallax untuk campaign lingkungan",
-      meta: "Web Prototype &bull; 2026",
+      desc: "Website interaktif dengan animasi parallax untuk campaign bisnis packaging",
+      meta: "Web Prototype • 2026",
       delay: "",
       link: null,
       image: webPorto3Img,
@@ -1435,20 +1675,19 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       folderName: "prototype-corepack"
     },
     {
-      title: "Terapi Kesehatan Sejati",
-      cat: "web-dev",
-      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
-      meta: "Web Development Project &bull; 2026",
-      delay: "",
-      link: "https://terapikesehatansejati.netlify.app/",
+      title: "Nama Aplikasi Anda",
+      cat: "app-dev",
+      desc: "Deskripsi singkat tentang aplikasi yang Anda kembangkan",
+      meta: "App Development Project • 2026",
+      delay: "[animation-delay:200ms]",
+      link: null,
       image: webPorto1Img,
-      videoYoutubeId: null
     },
     {
       title: "Digital Product Campaign",
-      cat: "visual-storytelling",
+      cat: "visual-story",
       desc: "Video promosi produk digital dengan visual menarik, komunikatif, dan berorientasi hasil.",
-      meta: "Videography Projects &bull; 2026",
+      meta: "Videography Projects • 2026",
       delay: "[animation-delay:300ms]",
       link: null,
       image: videoPorto1Img,
@@ -1456,9 +1695,9 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     },
     {
       title: "Video Cinematic Aqiqah",
-      cat: "visual-storytelling",
+      cat: "visual-story",
       desc: "Mengabadikan momen aqiqah melalui visual sinematik yang emosional, hangat, dan penuh makna.",
-      meta: "Videography Projects &bull; 2026",
+      meta: "Videography Projects • 2026",
       delay: "[animation-delay:300ms]",
       link: null,
       image: videoPorto2Img,
@@ -1466,9 +1705,9 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     },
     {
       title: "Video Profil Prof. Dr. Ghazali Syamni",
-      cat: "visual-storytelling",
-      desc: "Video profil pengukuhan guru besar dengan mengangkat mengangkat perjalanan akademik, kontribusi keilmuan beliau.",
-      meta: "Videography Projects &bull; 2026",
+      cat: "visual-story",
+      desc: "Video profil pengukuhan guru besar dengan mengangkat perjalanan akademik, kontribusi keilmuan beliau.",
+      meta: "Videography Projects • 2026",
       delay: "[animation-delay:300ms]",
       link: null,
       image: null,
@@ -1476,9 +1715,9 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
     },
     {
       title: "Video Profil Prof. Dr. drh. Farida Athaillah M.Si",
-      cat: "visual-storytelling",
+      cat: "visual-story",
       desc: "Menghadirkan cerita perjalanan akademik melalui visual yang sinematik dan komunikatif.",
-      meta: "Videography Projects &bull; 2026",
+      meta: "Videography Projects • 2026",
       delay: "[animation-delay:300ms]",
       link: null,
       image: null,
@@ -1488,7 +1727,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       title: "PT Perta Arun Gas Animation",
       cat: "animation",
       desc: "Visual edukatif untuk meningkatkan kesadaran keselamatan dan budaya kerja.",
-      meta: "Animation Project &bull; 2026",
+      meta: "Animation Project • 2026",
       delay: "[animation-delay:400ms]",
       link: "https://www.youtube.com/playlist?list=PLYQpjQwcSKW9jG1wHX6KXY_sMytqHeHQ0",
       image: animPorto1Img,
@@ -1532,15 +1771,23 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 relative z-20">
         {/* Sub Judul - Di mobile rata tengah, di desktop rata kiri */}
         <div className="animate-slide-down text-center md:text-left">
-          <h2 className="text-4xl font-black tracking-tight mb-2 font-poppins">Portofolio Kami</h2>
-          <p className="text-neutral-400 max-w-xl font-light text-sm mx-auto md:mx-0">Silahkan eksplorasi karya terbaik pilihan kami.</p>
+          <h2 className="text-4xl font-black tracking-tight mb-2 font-poppins relative inline-block">
+            <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
+              Portofolio Kami
+            </span>
+            {/* Efek glow kecil dan rapi */}
+            <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
+            {/* Efek glow tipis di bawah */}
+            <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
+          </h2>
+          <p className="text-neutral-400 max-w-xl font-light text-sm mx-auto md:mx-0 mt-2">Silahkan eksplorasi karya terbaik pilihan kami.</p>
         </div>
 
         {/* Dropdown Kategori - Di sebelah kanan */}
         <div className="relative self-center md:self-end animate-slide-left mx-auto md:mx-0 md:ml-10" ref={dropdownRef}>
           {/* Label di atas dropdown - di desktop rata kiri, di mobile rata tengah */}
           <p className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider mb-1.5 text-center md:text-left md:ml-5">
-            Projects Categories
+            Categories
           </p>
 
           {/* Tombol Dropdown - width menyesuaikan konten */}
@@ -1593,67 +1840,93 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
         </div>
       </div>
 
-      {/* GRID DAFTAR PORTOFOLIO */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
+      {/* GRID DAFTAR PORTOFOLIO - VERSI STABIL */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
         {filteredProjects.map((project, i) => (
           <div
-            key={i}
+            key={`${project.title}-${i}`}
             onClick={(e) => handleCardClick(e, project)}
-            className={`bg-neutral-900/40 backdrop-blur-md p-6 rounded-xl border border-neutral-850 hover:border-[#FF5500]/40 transition-all duration-500 group flex flex-col justify-between opacity-0 animate-slide-up ${project.delay} ${(project.link || project.videoYoutubeId || project.isPrototype) ? 'hover:shadow-[0_12px_24px_rgba(255,85,0,0.06)] cursor-pointer' : ''}`}
+            className={`
+              group relative bg-gradient-to-br from-neutral-900/90 to-neutral-800/90 
+              rounded-2xl overflow-hidden cursor-pointer opacity-0 animate-slide-up ${project.delay}
+              transition-all duration-400 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#FF5500]/20
+              ${(project.link || project.videoYoutubeId || project.isPrototype) ? 'cursor-pointer' : ''}
+              flex flex-col border border-white/5 hover:border-[#FF5500]/40
+            `}
           >
-            <div>
-              {/* AREA PREVIEW GAMBAR ATAU MOCKUP */}
-              <div className="h-44 bg-neutral-950 rounded-lg mb-4 border border-neutral-850 flex items-center justify-center overflow-hidden relative">
+            {/* Background gelap solid dengan efek glass tipis */}
+            <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-[#FF5500]/5 pointer-events-none" />
+
+            {/* Efek glow di sudut - sederhana */}
+            <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none group-hover:bg-[#FF5500]/20 transition-all duration-700" />
+            <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none group-hover:bg-[#FF5500]/15 transition-all duration-700" />
+
+            {/* Garis dekoratif #FF5500 */}
+            <div className="absolute top-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent group-hover:via-[#FF5500]/70 transition-all duration-500 pointer-events-none" />
+            <div className="absolute bottom-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent group-hover:via-[#FF5500]/70 transition-all duration-500 pointer-events-none" />
+
+            {/* Konten */}
+            <div className="relative z-10 flex flex-col h-full p-5">
+              {/* AREA PREVIEW GAMBAR */}
+              <div className="w-full aspect-video rounded-lg mb-4 overflow-hidden relative bg-neutral-800/80 border border-white/5 group-hover:border-[#FF5500]/30 transition-all duration-400">
                 {project.image ? (
-                  <div className="w-full h-full relative flex items-center justify-center">
+                  <div className="w-full h-full relative">
                     {typeof project.image === 'string' && project.image.endsWith('.mp4') ? (
-                      <video
-                        src={project.image}
-                        className="w-full h-full object-cover opacity-100"
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                      />
+                      <video src={project.image} className="w-full h-full object-cover" autoPlay loop muted playsInline />
                     ) : (
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover opacity-100"
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
                       />
                     )}
                     {project.videoYoutubeId && (
-                      <div className="absolute p-3 rounded-full bg-black/60 border border-white/20 text-white group-hover:scale-110 transition-transform duration-300 pointer-events-none z-30">
-                        <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-400">
+                        <div className="p-3 rounded-full bg-[#FF5500]/30 backdrop-blur-sm border-2 border-[#FF5500]/50 shadow-lg shadow-[#FF5500]/30">
+                          <svg className="w-6 h-6 fill-current text-white" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                          </svg>
+                        </div>
                       </div>
                     )}
                   </div>
                 ) : project.videoYoutubeId ? (
-                  <div className="w-full h-full relative flex items-center justify-center">
+                  <div className="w-full h-full relative">
                     <img
                       src={`https://img.youtube.com/vi/${project.videoYoutubeId}/hqdefault.jpg`}
                       alt={project.title}
-                      className="w-full h-full object-cover opacity-100"
+                      className="w-full h-full object-cover"
+                      loading="lazy"
                     />
-                    <div className="absolute p-3 rounded-full bg-black/60 border border-white/20 text-white group-hover:scale-110 transition-transform duration-300 pointer-events-none z-30">
-                      <svg className="w-6 h-6 fill-current" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z" />
-                      </svg>
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-all duration-400">
+                      <div className="p-3 rounded-full bg-[#FF5500]/30 backdrop-blur-sm border-2 border-[#FF5500]/50 shadow-lg shadow-[#FF5500]/30">
+                        <svg className="w-6 h-6 fill-current text-white" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="w-full h-full bg-linear-to-br from-neutral-950 to-neutral-900/40" />
+                  <div className="w-full h-full bg-gradient-to-br from-neutral-800 to-neutral-900" />
                 )}
               </div>
 
-              <h3 className="font-poppins font-bold text-lg mb-1 group-hover:text-[#FF5500] transition-colors duration-300">
+              {/* Title */}
+              <h3 className="font-poppins font-bold text-base sm:text-lg text-white group-hover:text-[#FF5500] transition-colors duration-300 mb-1 line-clamp-1">
                 {project.title}
               </h3>
-              <p className="text-neutral-400 text-xs font-light leading-relaxed mb-4">{project.desc}</p>
+
+              {/* Description */}
+              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed flex-1 line-clamp-2 sm:line-clamp-3">
+                {project.desc}
+              </p>
+
+              {/* Meta */}
+              <p className="text-neutral-500 text-[10px] sm:text-[11px] font-mono mt-3 text-[#FF5500]/60 border-t border-white/5 pt-2">
+                {project.meta}
+              </p>
             </div>
-            <p className="text-neutral-500 text-[11px] font-mono" dangerouslySetInnerHTML={{ __html: project.meta }} />
           </div>
         ))}
       </div>
@@ -1661,7 +1934,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       {/* POP-UP LIGHTBOX MODAL PENAYANG YOUTUBE */}
       {activeVideoId && (
         <div
-          className="fixed inset-0 z-9999 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 animate-fade-in"
           onClick={() => setActiveVideoId(null)}
         >
           <div
@@ -1685,7 +1958,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
-            ></iframe>
+            />
           </div>
         </div>
       )}
@@ -1694,23 +1967,32 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 }
 
 /* ==========================================
-   KOMPONEN MANDIRI: TAB ABOUT US
+   KOMPONEN MANDIRI: TAB ABOUT US (DIPERBAIKI)
    ==========================================  */
 function AboutTabSection() {
   const team = [
     { role: "Founder / Lead Developer", name: "Mhd. Reza Erdiansyah", image: founderimg, delay: "" },
     { role: "Co-Founder / Art Director", name: "Mohd. Daniel", image: cofounderimg, delay: "[animation-delay:100ms]" },
-    { role: "Marketing Executive", name: "Mhd. Andre Fahairahi", image: markeximg, delay: "[animation-delay:200ms]" },
-    { role: "Provessional Videographer", name: "Noval Pratama", image: providimg, delay: "[animation-delay:300ms]" }
+    { role: "Maybe it's you?", name: "Who's Next?", image: whoNext, delay: "[animation-delay:100ms]" },
+    { role: "Maybe it's you?", name: "Who's Next?", image: whoNext, delay: "[animation-delay:100ms]" },
   ];
 
   return (
     <div className="py-12 max-w-5xl mx-auto space-y-20 animate-slide-up">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch select-none">
         <div className="md:col-span-7 space-y-0 text-left relative">
-          <h2 className="text-4xl font-poppins font-black tracking-tight text-white mb-6">
-            About MoStu
-          </h2>
+          <div className="text-left mb-8 select-none">
+            <h3 className="text-4xl font-poppins font-black tracking-tight text-white relative inline-block">
+              <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
+                About MoStu
+              </span>
+              {/* Efek glow kecil dan rapi */}
+              <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
+              {/* Efek glow tipis di bawah */}
+              <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
+            </h3>
+            <p className="text-neutral-400 font-semibold text-xs sm:text-sm mt-2">Sejarah perjalanan kami dalam membangun solusi kreatif dan digital.</p>
+          </div>
           <div className="absolute left-0 top-13 bottom-0 w-0.5 bg-[#FF5500]/30 rounded-full"></div>
           <div className="relative pl-6 pb-6">
             <div className="absolute left-0 top-2 w-3 h-3 bg-[#FF5500]/60 rounded-full border-2 border-[#FF5500] -ml-1.75"></div>
@@ -1821,32 +2103,50 @@ function AboutTabSection() {
         </div>
       </div>
 
+      {/* ===== OUR MASTERMINDS - TANPA HOVER & OUTLINE RECTANGLE ===== */}
       <div>
-        <div className="text-left mb-12 select-none">
-          <h3 className="text-4xl font-poppins font-black tracking-tight text-white">Our Masterminds</h3>
-          <p className="text-neutral-400 font-light text-xs sm:text-sm mt-2">Sinergi para profesional di balik keandalan produk digital MoStu.</p>
+        <div className="text-center mb-12 select-none">
+          <h3 className="text-4xl font-poppins font-black tracking-tight text-white relative inline-block">
+            <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
+              Our Masterminds
+            </span>
+            {/* Efek glow kecil dan rapi */}
+            <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
+            {/* Efek glow tipis di bawah */}
+            <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
+          </h3>
+          <p className="text-neutral-400 font-semibold text-xs sm:text-sm mt-2">Sinergi para profesional di balik keandalan produk digital MoStu.</p>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
           {team.map((member, i) => (
-            <div key={i} className={`flex flex-col items-center text-center group opacity-0 animate-slide-up ${member.delay}`}>
-              <div className="w-full aspect-4/5 bg-linear-to-t from-neutral-900/60 to-transparent border border-neutral-850/40 rounded-2xl mb-4 relative flex items-end justify-center overflow-hidden transition-all duration-700 group-hover:border-[#FF5500]/30 group-hover:shadow-[0_15px_30px_rgba(255,85,0,0.04)]">
+            <div key={i} className={`flex flex-col items-center text-center opacity-0 animate-slide-up ${member.delay}`}>
+              {/* Container foto dengan glassmorphism ringan */}
+              <div className="w-full aspect-4/5 bg-gradient-to-br from-neutral-900/80 to-neutral-800/80 rounded-2xl mb-4 relative flex items-end justify-center overflow-hidden border border-white/5">
                 <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
+                {/* Efek glow subtle */}
+                <div className="absolute -top-20 -right-20 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute -bottom-20 -left-20 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
+
                 {member.image ? (
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover object-center relative z-10"
                   />
                 ) : (
-                  <div className="absolute inset-0 flex items-center justify-center opacity-30 group-hover:opacity-60 transition-opacity">
+                  <div className="absolute inset-0 flex items-center justify-center opacity-30">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1} stroke="currentColor" className="w-16 h-16 text-neutral-600">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
                   </div>
                 )}
-                <div className="absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
               </div>
-              <h4 className="font-poppins font-bold text-sm sm:text-base text-neutral-200 group-hover:text-[#FF5500] transition-colors duration-300">{member.name}</h4>
+
+              <h4 className="font-poppins font-bold text-sm sm:text-base text-neutral-200">
+                {member.name}
+              </h4>
               <p className="font-mono text-neutral-500 text-[10px] sm:text-xs mt-0.5 uppercase tracking-wide">{member.role}</p>
             </div>
           ))}
@@ -1857,7 +2157,7 @@ function AboutTabSection() {
 }
 
 /* ==========================================
-   KOMPONEN MANDIRI: SECTION 3 (QnA CONTAINER)
+   KOMPONEN MANDIRI: SECTION 3 (QnA CONTAINER) - GLASSMORPHISM MODERN
    ========================================== */
 function QnaSection() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -1889,33 +2189,113 @@ function QnaSection() {
     }
   ];
 
+  const toggleQnA = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <section id="qna-area" className="relative py-24 px-6 md:px-12 grid-bg bg-darkBg overflow-hidden border-t border-neutral-900">
+      {/* Efek glow background */}
+      <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+
       <div className="max-w-3xl mx-auto relative z-10 select-none">
         <ScrollAnimateWrapper qnaAnimationClass="animate-slide-down">
-          <div className="text-center mb-16">
-            <p className="font-chivo font-thin text-sm text-neutral-400 tracking-widest uppercase mb-2">Pertanyaan Umum</p>
-            <h2 className="font-poppins font-bold text-2xl sm:text-3xl text-white tracking-tight">Pertanyaan Soal Jasa Kami</h2>
+          <div className="text-center mb-12">
+            {/* Badge - Rata Tengah (sama dengan Services) */}
+            <div className="flex justify-center mb-4">
+              <span className="bg-[#FF5500]/20 text-[#FF5500] text-[10px] lg:text-xs font-chivo font-bold uppercase tracking-widest px-3 lg:px-4 py-1 lg:py-1.5 rounded-full border border-[#FF5500]/30 backdrop-blur-sm">
+                FAQ
+              </span>
+            </div>
+
+            {/* Judul Utama - ukuran sama dengan Services */}
+            <h2 className="font-poppins font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight mb-2 relative inline-block">
+              <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
+                Pertanyaan Soal Jasa Kami
+              </span>
+              <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
+              <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
+            </h2>
+
+            {/* Deskripsi - ukuran sama dengan Services */}
+            <p className="text-neutral-300 text-[11px] sm:text-xs lg:text-sm font-light max-w-2xl mx-auto leading-relaxed px-4 mt-2">
+              Temukan jawaban atas pertanyaan yang paling sering diajukan tentang layanan kami.
+            </p>
           </div>
         </ScrollAnimateWrapper>
+
         <div className="space-y-4">
           {qnaData.map((item, idx) => (
             <ScrollAnimateWrapper key={idx} qnaAnimationClass={item.animClass}>
               <div
-                className="bg-[#FF5500] rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl"
+                className={`
+                  group relative rounded-2xl overflow-hidden cursor-pointer
+                  transition-all duration-500
+                  ${openIndex === idx ? 'scale-[1.02]' : ''}
+                `}
                 style={{ ...item.delayStyle }}
+                onClick={() => toggleQnA(idx)}
               >
-                <div className="w-full p-5 text-left flex justify-between items-center font-poppins font-semibold text-sm sm:text-base text-white gap-4 cursor-default">
-                  <span>{item.q}</span>
-                  <button
-                    onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                    className={`w-7 h-7 border border-white/40 rounded-full flex items-center justify-center text-lg text-white/80 font-bold cursor-pointer transition-all duration-300 focus:outline-none shrink-0 ${openIndex === idx ? 'rotate-45 bg-[#FF5500] text-white border-white' : 'hover:bg-white/10 hover:text-white hover:border-white'}`}
-                  >
-                    +
-                  </button>
-                </div>
-                <div className={`transition-all duration-300 ease-in-out overflow-hidden ${openIndex === idx ? 'max-h-40 border-t border-neutral-100' : 'max-h-0'}`}>
-                  <p className="p-5 font-poppins font-normal text-xs sm:text-sm text-neutral-600 leading-relaxed bg-neutral-50">{item.a}</p>
+                {/* Background Glassmorphism */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-white/5 to-[#FF5500]/10 backdrop-blur-xl border border-white/10 shadow-2xl shadow-[#FF5500]/5" />
+
+                {/* Inner glow effect */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-[#FF5500]/0 via-[#FF5500]/0 to-[#FF5500]/5 group-hover:from-[#FF5500]/5 group-hover:via-[#FF5500]/10 group-hover:to-[#FF5500]/20 transition-all duration-700" />
+
+                {/* Efek glow #FF5500 di sudut */}
+                <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#FF5500]/15 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/25 transition-all duration-700" />
+                <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/20 transition-all duration-700" />
+
+                {/* Glow center */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/15 transition-all duration-700" />
+
+                {/* Garis dekoratif #FF5500 */}
+                <div className="absolute top-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500 pointer-events-none" />
+                <div className="absolute bottom-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500 pointer-events-none" />
+
+                {/* Border glow saat hover */}
+                <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-[#FF5500]/30 transition-all duration-500 pointer-events-none" />
+                <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-500 shadow-[inset_0_0_50px_rgba(255,85,0,0.05)] pointer-events-none" />
+
+                {/* Konten */}
+                <div className="relative z-10 p-5 sm:p-6">
+                  <div className="flex justify-between items-start gap-4">
+                    {/* Pertanyaan - ukuran lebih besar */}
+                    <span className={`font-poppins font-semibold text-sm sm:text-base lg:text-lg transition-colors duration-300 flex-1 pt-1 ${openIndex === idx ? 'text-[#FF5500]' : 'text-white group-hover:text-[#FF5500]'
+                      }`}>
+                      {item.q}
+                    </span>
+
+                    {/* Tombol + / - dengan glassmorphism */}
+                    <button
+                      className={`
+                        w-9 h-9 rounded-full flex items-center justify-center 
+                        text-xl font-bold transition-all duration-300 shrink-0
+                        backdrop-blur-sm
+                        ${openIndex === idx
+                          ? 'bg-[#FF5500]/30 border-[#FF5500]/50 text-[#FF5500] rotate-45 shadow-[0_0_30px_rgba(255,85,0,0.2)]'
+                          : 'bg-white/10 border-white/20 text-white/70 hover:bg-[#FF5500]/20 hover:border-[#FF5500]/40 hover:text-[#FF5500] hover:shadow-[0_0_20px_rgba(255,85,0,0.1)]'
+                        }
+                        border
+                      `}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleQnA(idx);
+                      }}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  {/* Jawaban - ukuran sama dengan deskripsi Services */}
+                  <div className={`transition-all duration-500 ease-in-out overflow-hidden ${openIndex === idx ? 'max-h-60 mt-4 border-t border-white/10 pt-4' : 'max-h-0'
+                    }`}>
+                    <p className="font-poppins font-normal text-[11px] sm:text-xs lg:text-sm text-neutral-300 leading-relaxed group-hover:text-neutral-200 transition-colors duration-300">
+                      {item.a}
+                    </p>
+                  </div>
                 </div>
               </div>
             </ScrollAnimateWrapper>
@@ -1964,38 +2344,143 @@ function ScrollAnimateWrapper({ children, qnaAnimationClass }) {
 }
 
 /* ==========================================
-   KOMPONEN MANDIRI: FOOTER
+   KOMPONEN MANDIRI: FOOTER - MODERN & PROPORSIONAL
    ========================================== */
 function Footer({ setActiveTab, scrollToSection }) {
   return (
-    <footer className="bg-black/40 border-t border-neutral-900 py-16 px-6 md:px-12 relative z-10">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-6 select-none">
-        <div className="md:col-span-5 flex flex-col items-start space-y-4">
-          <div className="cursor-pointer" onClick={() => { setActiveTab("home"); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
-            <img src={logoImg} alt="MoStu Logo" className="h-14 w-auto object-contain transition-transform duration-300 hover:scale-105 cursor-pointer" />
+    <footer className="relative bg-black/30 backdrop-blur-sm border-t border-white/5 overflow-hidden">
+      {/* Efek glow background - seperti section lain */}
+      <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 py-10 md:py-14">
+        {/* Grid Footer Utama - HP: 1 kolom, Desktop: KIRI & KANAN */}
+        <div className="flex flex-col md:flex-row justify-between items-start gap-8 md:gap-0">
+
+          {/* KIRI: Logo & Deskripsi - HP: tengah, Desktop: kiri */}
+          <div className="flex flex-col items-center md:items-start text-center md:text-left gap-4 max-w-md mx-auto md:mx-0">
+            <div
+              className="cursor-pointer flex-shrink-0"
+              onClick={() => { setActiveTab("home"); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            >
+              <img
+                src={logoImg}
+                alt="MoStu Logo"
+                className="h-10 sm:h-12 md:h-14 w-auto object-contain transition-transform duration-300 hover:scale-105 cursor-pointer"
+              />
+            </div>
+            <p className="font-chivo font-light text-[11px] sm:text-xs text-neutral-400/80 tracking-wide leading-relaxed max-w-[320px] sm:max-w-sm">
+              Kami hadirkan solusi digital terintegrasi: <span className="text-[#FF5500]">pengembangan web & aplikasi</span>, <span className="text-[#FF5500]">AI automation</span>, dan <span className="text-[#FF5500]">visual branding</span> untuk mendukung pertumbuhan bisnis Anda.
+            </p>
           </div>
-          <p className="font-chivo font-thin text-xs sm:text-sm text-neutral-400 tracking-wide max-w-sm leading-relaxed">Menghadirkan solusi digital tangguh dengan eksekusi visual yang presisi. Kami membantu mentransformasikan ide kreatif menjadi identitas digital yang berdaya saing tinggi.</p>
-        </div>
-        <div className="md:col-span-4 flex flex-col space-y-3 text-xs sm:text-sm">
-          <h4 className="font-poppins font-bold text-#FF5500 tracking-wide uppercase text-xs text-[#FF5500]">Hubungi Kami</h4>
-          <p className="font-poppins font-normal text-neutral-400 leading-relaxed">Kecamatan Muara Dua, Lhokseumawe,<br />Aceh, Indonesia.</p>
-          <a
-            href="mailto:mostuid@gmail.com"
-            className="font-chivo font-normal text-neutral-300 hover:text-white transition-colors cursor-pointer block"
-          >
-            📧 mostuid@gmail.com <br /> ☎︎ +62 882-0163-12643
-          </a>
-        </div>
-        <div className="md:col-span-3 flex flex-col space-y-4">
-          <h4 className="font-poppins font-bold text-#fff tracking-wide uppercase text-xs text-[#FF5500]">Ikuti Kami</h4>
-          <div className="flex flex-col space-y-2 text-xs sm:text-sm font-chivo font-light text-neutral-400">
-            <a href="https://www.instagram.com/mostu.id/" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center space-x-2 cursor-pointer"><span>Instagram</span></a>
-            <a href="https://www.tiktok.com/@mostu.id" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center space-x-2 cursor-pointer"><span>TikTok</span></a>
+
+          {/* KANAN: Hubungi Kami & Ikuti Kami - HP: 2 kolom, Desktop: gap 150px rata kanan */}
+          <div className="flex flex-row gap-8 md:gap-[150px] items-start justify-center md:justify-end w-full md:w-auto">
+
+            {/* Hubungi Kami - dengan SVG icon */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-3">
+              <h4 className="font-poppins font-bold text-[#FFF] tracking-wider uppercase text-[10px] sm:text-xs mb-1">
+                Hubungi Kami
+              </h4>
+              <a
+                href="mailto:mostuid@gmail.com"
+                className="font-chivo font-light text-[11px] sm:text-xs text-neutral-400 hover:text-white transition-colors cursor-pointer flex items-center gap-2 group"
+              >
+                <svg
+                  className="w-4 h-4 text-[#FF5500] group-hover:text-white transition-colors"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.928 5.493a3 3 0 01-3.144 0L1.5 8.67z" />
+                  <path d="M22.5 6.908V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.158l9.714 5.978a1.5 1.5 0 001.572 0L22.5 6.908z" />
+                </svg>
+                <span>mostuid@gmail.com</span>
+              </a>
+              <a
+                href="tel:+62882016312643"
+                className="font-chivo font-light text-[11px] sm:text-xs text-neutral-400 hover:text-white transition-colors cursor-pointer flex items-center gap-2 group"
+              >
+                <svg
+                  className="w-4 h-4 text-[#FF5500] group-hover:text-white transition-colors"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.038-1.158.376l-1.54 2.03a11.25 11.25 0 01-6.641-6.641l2.03-1.54c.338-.256.486-.718.376-1.158l-1.106-4.423A1.125 1.125 0 007.372 3.75H6A2.25 2.25 0 003.75 6v.75z" />
+                </svg>
+                <span>+62 882-0163-12643</span>
+              </a>
+            </div>
+
+            {/* Ikuti Kami - dengan SVG Instagram & TikTok */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-3">
+              <h4 className="font-poppins font-bold text-[#FFF] tracking-wider uppercase text-[10px] sm:text-xs mb-1">
+                Ikuti Kami
+              </h4>
+              <div className="flex flex-col space-y-2.5 font-chivo font-light text-neutral-400">
+
+                {/* Instagram */}
+                <a
+                  href="https://www.instagram.com/mostu.id/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] sm:text-xs hover:text-white transition-colors flex items-center gap-2 cursor-pointer group"
+                >
+                  <svg
+                    className="w-4 h-4 text-[#FF5500] group-hover:text-white transition-colors"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+                  </svg>
+                  <span>Instagram</span>
+                </a>
+
+                {/* TikTok */}
+                <a
+                  href="https://www.tiktok.com/@mostu.id"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[11px] sm:text-xs hover:text-white transition-colors flex items-center gap-2 cursor-pointer group"
+                >
+                  <svg
+                    className="w-4 h-4 text-[#FF5500] group-hover:text-white transition-colors"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v6.16c0 4.48-3.91 7.96-8.21 7.88-4.33-.08-8.03-3.92-7.82-8.32.2-4.13 3.62-7.69 7.78-7.83v4.09c-.58.03-1.17.15-1.73.38-1.24.52-2.18 1.63-2.42 2.96-.24 1.33.11 2.74.91 3.78.8 1.04 2.06 1.66 3.36 1.63 1.8-.04 3.34-1.34 3.95-3.04.35-1.1.35-2.27.35-3.41V.02h-.01z" />
+                  </svg>
+                  <span>TikTok</span>
+                </a>
+
+              </div>
+            </div>
+
           </div>
         </div>
-      </div>
-      <div className="max-w-7xl mx-auto mt-12 pt-6 border-t border-neutral-900/60 text-center text-[10px] sm:text-xs font-chivo font-thin text-neutral-500 select-none">
-        &copy; {new Date().getFullYear()} MoStu Agency. All rights reserved.
+
+        {/* Garis dekoratif #FF5500 */}
+        <div className="mt-8 pt-6 border-t border-white/5 relative">
+          <div className="absolute -top-[1px] left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
+
+          {/* ALAMAT & COPYRIGHT - HP: center, Desktop: left & right */}
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-[10px] sm:text-[11px]">
+            {/* Alamat dengan icon pin */}
+            <div className="flex items-center gap-1.5">
+              <svg className="w-3 h-3 text-[#FF5500]/50 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+              </svg>
+              <span className="text-neutral-500/60 text-center md:text-left">
+                Kecamatan Muara Dua, Lhokseumawe, Aceh, Indonesia
+              </span>
+            </div>
+
+            {/* Copyright */}
+            <span className="text-neutral-500/60 text-center md:text-right">
+              &copy; {new Date().getFullYear()} MoStu Agency. All rights reserved.
+            </span>
+          </div>
+        </div>
       </div>
     </footer>
   );
