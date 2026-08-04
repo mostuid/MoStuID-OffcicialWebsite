@@ -1199,7 +1199,7 @@ function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
 
           {/* Deskripsi */}
           <p className="text-neutral-300 text-[11px] sm:text-xs lg:text-sm font-light max-w-2xl mx-auto leading-relaxed px-4 mt-2">
-            Kami hadir dengan layanan terbaik dan terintegrasi untuk membantu bisnis Anda berkembang jadi lebih efisien dan di era digital.
+            Kami hadir dengan layanan terbaik dan terintegrasi untuk membantu bisnis Anda berkembang jadi lebih efisien di era digital.
           </p>
         </div>
 
