@@ -555,7 +555,7 @@ function App() {
                         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
                         <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
                           <div className="text-center max-w-xl mx-auto mb-12 select-none">
-                            <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight relative inline-block">
+                            <h2 className="text-4xl sm:text-4xl font-poppins font-black mb-3 tracking-tight relative inline-block">
                               <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
                                 Our Digital Products
                               </span>
@@ -935,7 +935,15 @@ function HeroSection({ scrollToSection }) {
       {/* SISI KIRI: TEXT & ACTIONS */}
       <div
         className={`w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 ${isMobile ? 'absolute top-20 left-0 right-0' : ''}`}
-        style={isMobile ? STYLE.heroMobile : undefined}
+        style={isMobile ? {
+          position: 'absolute',
+          top: '120px', // atau sesuai kebutuhan
+          left: 0,
+          right: 0,
+          paddingLeft: '16px',
+          paddingRight: '16px',
+          zIndex: 20
+        } : undefined}
       >
         <div className="relative mb-2 sm:mb-4">
           <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
@@ -2444,9 +2452,9 @@ function CourseDetailSection() {
   );
 }
 
-/* ==========================================
-   KOMPONEN MANDIRI: TAB ABOUT US (DIPERBAIKI)
-   ==========================================  */
+// ==========================================
+// KOMPONEN MANDIRI: TAB ABOUT US (DIPERBAIKI)
+// ==========================================  */
 function AboutTabSection() {
   const team = [
     { role: "Founder / Lead Developer", name: "Mhd. Reza Erdiansyah", image: founderimg, delay: "" },
@@ -2456,18 +2464,17 @@ function AboutTabSection() {
   ];
 
   return (
-    <div className="py-12 max-w-5x2 mx-auto space-y-20 animate-slide-up ">
-
+    <div className="py-6 md:py-12 max-w-5x2 mx-auto space-y-12 md:space-y-20 animate-slide-up">
       {/* Efek glow background */}
       <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch select-none">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-stretch select-none">
         <div className="md:col-span-7 space-y-0 text-left relative">
-          <div className="text-left mb-8 select-none">
-            <h3 className="text-4xl font-poppins font-black tracking-tight text-white relative inline-block">
+          <div className="text-left mb-6 md:mb-8 select-none">
+            <h3 className="text-4xl md:text-4xl font-poppins font-black tracking-tight text-white relative inline-block">
               <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
                 About MoStu
               </span>
@@ -2485,33 +2492,33 @@ function AboutTabSection() {
             <div className="absolute left-1.5 top-[12px] bottom-[12px] w-[5px] bg-gradient-to-b from-[#FF5500]/60 via-[#FF5500]/30 to-transparent rounded-full" />
 
             {/* Item 1 */}
-            <div className="relative pl-6 pb-6">
+            <div className="relative pl-6 pb-5 md:pb-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
-              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
                 MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan Agency yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
               </p>
             </div>
 
             {/* Item 2 */}
-            <div className="relative pl-6 pb-6">
+            <div className="relative pl-6 pb-5 md:pb-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
-              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
                 Ide ini lahir dari sebuah meja warkop, ditemani segelas kopi pancung khas Aceh dan obrolan panjang tentang mimpi, kreativitas, serta harapan untuk membangun sesuatu yang bermanfaat. Hingga hari ini, Mostanir Studios masih dalam proses bertumbuh dan belajar.
               </p>
             </div>
 
             {/* Item 3 */}
-            <div className="relative pl-6 pb-6">
+            <div className="relative pl-6 pb-5 md:pb-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
-              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
                 Kami memang bukan tim besar, bahkan belum memiliki perjalanan yang begitu panjang. Namun kami percaya, bahwa setiap karya yang dikerjakan dengan sungguh-sungguh akan menemukan jalannya sendiri.
               </p>
             </div>
 
             {/* Item 4 */}
-            <div className="relative pl-6 pb-6">
+            <div className="relative pl-6 pb-5 md:pb-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
-              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
                 Dari proyek ke proyek, kami terus mengembangkan kemampuan, memperluas pengalaman, dan berusaha memberikan hasil terbaik bagi setiap klien yang mempercayakan kebutuhannya kepada kami, dengan penuh tanggung jawab.
               </p>
             </div>
@@ -2519,21 +2526,21 @@ function AboutTabSection() {
             {/* Item 5 (terakhir) */}
             <div className="relative pl-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_25px_rgba(255,85,0,0.5)] z-10" />
-              <p className="text-neutral-400 text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
                 Perjalanan ini masih panjang, dan kami memilih untuk terus belajar, berkarya, serta bertumbuh bersama setiap kepercayaan yang Anda berikan.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="md:col-span-5 relative rounded-2xl overflow-hidden border border-neutral-850 flex items-center justify-center bg-neutral-900 h-full min-h-75">
+        <div className="md:col-span-5 relative rounded-2xl overflow-hidden border border-neutral-850 flex items-center justify-center bg-neutral-900 h-64 md:h-full min-h-75">
           <img
             src={bgSec2}
             alt="MoStu Corporate Visual"
             className="w-full h-full object-cover object-center opacity-80 absolute inset-0"
           />
           <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-6 text-left z-10">
-            <span className="font-poppins font-bold text-4xl text-[#ffb792] block drop-shadow-[0_0_15px_rgba(255,85,0,0.65)] select-none">
+            <span className="font-poppins font-bold text-3xl md:text-4xl text-[#ffb792] block drop-shadow-[0_0_15px_rgba(255,85,0,0.65)] select-none">
               Since 2024
             </span>
             <span className="text-neutral-300 font-mono text-[10px] uppercase tracking-widest mt-2 block">
@@ -2543,14 +2550,14 @@ function AboutTabSection() {
         </div>
       </div>
 
-      <div className="flex justify-center border-t border-neutral-900/60">
+      <div className="flex justify-center border-t border-neutral-900/60 pt-6 md:pt-8">
         <a
           href="https://drive.google.com/file/d/18ZAaMazo9MeIC_VigtfQl1wHEcIoZ_uw/view?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-3 bg-[#FF5500] hover:bg-[#e64a00] text-white font-poppins font-semibold px-8 py-4 rounded-xl text-sm tracking-wide transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-[#FF5500]/20 hover:shadow-[#FF5500]/40 cursor-pointer"
+          className="inline-flex items-center gap-3 bg-[#FF5500] hover:bg-[#e64a00] text-white font-poppins font-semibold px-6 md:px-8 py-3 md:py-4 rounded-xl text-xs md:text-sm tracking-wide transition-all duration-300 hover:scale-105 active:scale-95 shadow-lg shadow-[#FF5500]/20 hover:shadow-[#FF5500]/40 cursor-pointer"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-5 md:w-5">
             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
           </svg>
           <span>Lihat Company Profile (G-Drive) </span>
@@ -2560,22 +2567,22 @@ function AboutTabSection() {
         </a>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start select-none py-8 border-t border-neutral-900/60">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start select-none py-6 md:py-8 border-t border-neutral-900/60">
         <div className="md:col-span-4 space-y-3">
           <div className="flex items-center space-x-3 mb-2">
             <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
-            <h3 className="text-xl font-poppins font-bold text-white tracking-tight">Visi</h3>
+            <h3 className="text-lg md:text-xl font-poppins font-bold text-white tracking-tight">Visi</h3>
           </div>
-          <p className="text-neutral-400 text-sm font-light leading-relaxed pl-4">
+          <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed pl-4">
             Menjadi mitra kreatif digital terpercaya yang menghubungkan ide-ide brilian dengan eksekusi visual berkualitas tinggi, serta mendorong pertumbuhan bisnis di era digital.
           </p>
         </div>
         <div className="md:col-span-4 space-y-3">
           <div className="flex items-center space-x-3 mb-2">
             <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
-            <h3 className="text-xl font-poppins font-bold text-white tracking-tight">Misi</h3>
+            <h3 className="text-lg md:text-xl font-poppins font-bold text-white tracking-tight">Misi</h3>
           </div>
-          <ul className="text-neutral-400 text-sm font-light leading-relaxed pl-4 space-y-2 list-disc list-inside">
+          <ul className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed pl-4 space-y-2 list-disc list-inside">
             <li>Memberikan layanan pengembangan website & software yang responsif dan berkualitas.</li>
             <li>Menghadirkan konten visual storytelling yang impactful dan berdaya jual tinggi.</li>
             <li>Membangun strategi brand yang kuat dan identitas digital yang konsisten.</li>
@@ -2585,20 +2592,20 @@ function AboutTabSection() {
         <div className="md:col-span-4 space-y-3">
           <div className="flex items-center space-x-3 mb-2">
             <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
-            <h3 className="text-xl font-poppins font-bold text-white tracking-tight">Nilai Kami</h3>
+            <h3 className="text-lg md:text-xl font-poppins font-bold text-white tracking-tight">Nilai Kami</h3>
           </div>
           <div className="pl-4 space-y-3">
             <div>
-              <h4 className="text-sm font-poppins font-semibold text-[#FF5500]">Kreatif & Inovatif</h4>
-              <p className="text-neutral-400 text-sm font-light">Selalu mencari pendekatan baru dalam setiap karya.</p>
+              <h4 className="text-xs md:text-sm font-poppins font-semibold text-[#FF5500]">Kreatif & Inovatif</h4>
+              <p className="text-neutral-400 text-xs sm:text-sm font-light">Selalu mencari pendekatan baru dalam setiap karya.</p>
             </div>
             <div>
-              <h4 className="text-sm font-poppins font-semibold text-[#FF5500]">Integritas & Tanggung Jawab</h4>
-              <p className="text-neutral-400 text-sm font-light">Bekerja dengan komitmen dan profesionalisme tinggi.</p>
+              <h4 className="text-xs md:text-sm font-poppins font-semibold text-[#FF5500]">Integritas & Tanggung Jawab</h4>
+              <p className="text-neutral-400 text-xs sm:text-sm font-light">Bekerja dengan komitmen dan profesionalisme tinggi.</p>
             </div>
             <div>
-              <h4 className="text-sm font-poppins font-semibold text-[#FF5500]">Kolaborasi</h4>
-              <p className="text-neutral-400 text-sm font-light">Membangun sinergi dengan klien untuk hasil terbaik.</p>
+              <h4 className="text-xs md:text-sm font-poppins font-semibold text-[#FF5500]">Kolaborasi</h4>
+              <p className="text-neutral-400 text-xs sm:text-sm font-light">Membangun sinergi dengan klien untuk hasil terbaik.</p>
             </div>
           </div>
         </div>
@@ -2606,8 +2613,8 @@ function AboutTabSection() {
 
       {/* ===== OUR MASTERMINDS - TANPA HOVER & OUTLINE RECTANGLE ===== */}
       <div>
-        <div className="text-center mb-12 select-none">
-          <h3 className="text-4xl font-poppins font-black tracking-tight text-white relative inline-block">
+        <div className="text-center mb-8 md:mb-12 select-none">
+          <h3 className="text-3xl md:text-4xl font-poppins font-black tracking-tight text-white relative inline-block">
             <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
               Our Masterminds
             </span>
@@ -2619,11 +2626,11 @@ function AboutTabSection() {
           <p className="text-neutral-400 font-semibold text-xs sm:text-sm mt-2">Sinergi para profesional di balik keandalan produk digital MoStu.</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-[1150px] mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-[1150px] mx-auto">
           {team.map((member, i) => (
             <div key={i} className={`flex flex-col items-center text-center opacity-0 animate-slide-up ${member.delay}`}>
               {/* Container foto dengan glassmorphism ringan */}
-              <div className="w-full aspect-4/5 bg-gradient-to-br from-neutral-900/80 to-neutral-800/80 rounded-2xl mb-4 relative flex items-end justify-center overflow-hidden border border-white/5">
+              <div className="w-full aspect-4/5 bg-gradient-to-br from-neutral-900/80 to-neutral-800/80 rounded-2xl mb-3 md:mb-4 relative flex items-end justify-center overflow-hidden border border-white/5">
                 <div className="absolute inset-0 grid-bg opacity-10 pointer-events-none" />
                 {/* Efek glow subtle */}
                 <div className="absolute -top-20 -right-20 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
@@ -2645,10 +2652,10 @@ function AboutTabSection() {
                 <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-darkBg via-darkBg/60 to-transparent z-20 pointer-events-none" />
               </div>
 
-              <h4 className="font-poppins font-bold text-sm sm:text-base text-neutral-200">
+              <h4 className="font-poppins font-bold text-xs sm:text-sm md:text-base text-neutral-200">
                 {member.name}
               </h4>
-              <p className="font-mono text-neutral-500 text-[10px] sm:text-xs mt-0.5 uppercase tracking-wide">{member.role}</p>
+              <p className="font-mono text-neutral-500 text-[9px] sm:text-[10px] md:text-xs mt-0.5 uppercase tracking-wide">{member.role}</p>
             </div>
           ))}
         </div>
