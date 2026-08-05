@@ -1938,7 +1938,7 @@ function CoursesTabSection() {
           </span>
         </div>
 
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-black mb-3 tracking-tight relative inline-block">
+        <h2 className="text-4xl sm:text-3xl lg:text-4xl font-poppins font-black mb-3 tracking-tight relative inline-block">
           <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
             Belajar Dari Praktisi
           </span>
