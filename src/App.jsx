@@ -107,7 +107,7 @@ function SplashScreen({ onComplete }) {
         </div>
         
         <p className="text-neutral-400 text-xs font-light mt-6 tracking-wider">
-          Loading Assets...
+          Loading...
         </p>
       </div>
     </div>
