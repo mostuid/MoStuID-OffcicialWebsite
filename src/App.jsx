@@ -1113,10 +1113,35 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
   );
 }
 
-/* ==========================================
-   KOMPONEN MANDIRI: SECTION 2 (SERVICES CONTAINER) - VERSI GLASSMORPHISM MODERN
-   ========================================== */
-function ServicesSection({ sec2Ref, isSec2Visible, setActiveTab }) {
+// ==========================================
+// KOMPONEN MANDIRI: SECTION 2 (SERVICES CONTAINER) - VERSI GLASSMORPHISM MODERN
+// ==========================================
+function ServicesSection({ setActiveTab }) {
+  const [isSec2Visible, setIsSec2Visible] = useState(false);
+  const sec2Ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsSec2Visible(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    if (sec2Ref.current) {
+      observer.observe(sec2Ref.current);
+    }
+
+    return () => {
+      if (sec2Ref.current) {
+        observer.unobserve(sec2Ref.current);
+      }
+    };
+  }, []);
+
   const servicesData = [
     {
       id: "web-dev",
