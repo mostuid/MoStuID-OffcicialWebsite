@@ -407,21 +407,21 @@ function App() {
                       }}
                       className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "portfolio" ? "text-[#FF5500]" : "text-neutral-300"}`}
                     >
-                      Our Portfolio
+                      Portfolio
                       <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "portfolio" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                     </button>
                     <button
                       onClick={() => ubahTabNavigasi("products")}
                       className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "products" ? "text-[#FF5500]" : "text-neutral-300"}`}
                     >
-                      Our Products
+                      Products
                       <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "products" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                     </button>
                     <button
                       onClick={() => ubahTabNavigasi("about")}
                       className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "about" ? "text-[#FF5500]" : "text-neutral-300"}`}
                     >
-                      About Us
+                      About
                       <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "about" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                     </button>
                   </nav>
@@ -460,7 +460,7 @@ function App() {
                   {/* DROPDOWN MENU - Dengan wrapper */}
                   {(isMobileMenuOpen || isMenuClosing) && (
                     <div className="absolute top-full left-0 right-0 md:hidden mt-3">
-                      <div className={`w-[55vw] max-w-70 mx-auto bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-5 flex flex-col space-y-3 shadow-2xl z-50 overflow-visible text-center items-center ${isMenuClosing ? 'dropdown-out' : 'dropdown-in'
+                      <div className={`w-full max-w-70 mx-auto bg-black/60 backdrop-blur-xl border border-white/10 rounded-3xl px-5 py-5 flex flex-col space-y-3 shadow-2xl z-50 overflow-visible text-center items-center ${isMenuClosing ? 'dropdown-out' : 'dropdown-in'
                         }`}>
                         <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none" />
                         <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
@@ -470,21 +470,21 @@ function App() {
                             ubahTabNavigasi("portfolio");
                             setPortfolioFilter("all");
                           }}
-                          className={`w-full text-center font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "portfolio" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
+                          className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "portfolio" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                         >
                           Portfolio
                         </button>
                         <button
                           onClick={() => { ubahTabNavigasi("products"); }}
-                          className={`w-full text-center font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "products" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
+                          className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "products" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                         >
                           Products
                         </button>
                         <button
                           onClick={() => { ubahTabNavigasi("about"); }}
-                          className={`w-full text-center font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "about" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
+                          className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "about" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                         >
-                          About Us
+                          About
                         </button>
 
                         <div className="pt-1 w-full">
@@ -493,7 +493,7 @@ function App() {
                               console.log("🟢 Mobile Courses diklik!");
                               ubahTabNavigasi("courses");
                             }}
-                            className="w-full bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold py-2 rounded-xl text-[10px] tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.2)] transition-all duration-300 active:scale-95 text-center cursor-pointer"
+                            className="w-full bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold py-2 rounded-xl text-sm tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.2)] transition-all duration-300 active:scale-95 text-center cursor-pointer"
                           >
                             Courses
                           </button>
