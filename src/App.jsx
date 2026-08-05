@@ -458,7 +458,7 @@ function App() {
                   </button>
 
                   {(isMobileMenuOpen || isMenuClosing) && (
-                    <div className={`absolute top-full left-1/2 -translate-x-1/2 w-[55vw] max-w-70 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-5 flex flex-col space-y-3 md:hidden shadow-2xl z-50 overflow-visible text-center items-center mt-3 ${isMenuClosing ? 'dropdown-out' : 'dropdown-in'
+                    <div className={`absolute top-full left-[55px] w-[55vw] max-w-70 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-5 flex flex-col space-y-3 md:hidden shadow-2xl z-50 overflow-visible text-center items-center mt-3 ${isMenuClosing ? 'dropdown-out' : 'dropdown-in'
                       }`}>
                       <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none" />
                       <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
