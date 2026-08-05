@@ -966,7 +966,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
         <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
           <TypewriterEffect
             services={[
-              "WE BUILD PROFESSIONAL WEBSITES & SOFTWARE",
+              "WE BUILD STUNNING WEBSITES & APPS",
               "WE DELIVER CINEMATIC VISUAL STORYTELLING",
               "WE PRODUCE ENGAGING ANIMATIONS",
               "WE DEVELOP STRONG BRAND STRATEGIES"
@@ -1021,7 +1021,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
 
       {/* SISI KANAN: ANIMATED SLIDER AREA */}
       {(() => {
-        const SETTING_HP = { tinggiWadah: "550px", lebarLingkaran: "400px", lebarMaxFoto: "550px" };
+        const SETTING_HP = { tinggiWadah: "520px", lebarLingkaran: "400px", lebarMaxFoto: "550px" };
         const SETTING_PC = { lebarLingkaran: "620px", lebarMaxFoto: "580px" };
 
         return (
@@ -1034,7 +1034,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
           >
             {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
             <div
-              className="absolute bottom-[-2%] right-auto lg:right-[-3%] bg-[#FF5500] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s]"
+              className="absolute bottom-[0.5%] right-auto lg:right-[-3%] bg-[#FF5500] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s]"
               style={{
                 width: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran,
                 height: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran
