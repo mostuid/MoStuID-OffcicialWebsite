@@ -6,6 +6,7 @@ import whoNext from "./assets/Whos-Next.png";
 import logoImg from "./assets/logo-mostu.png";
 import { LOGO_BASE64 } from "./assets/logoBase64";
 import { FOUNDER_BASE64 } from "./assets/founderImg";
+import { COFOUNDER_BASE64 } from "./assets/founderImg";
 import bgSec2 from './assets/bg-sec2.png';
 import webPorto1Img from "./assets/Web-Porto1.gif";
 import webPorto2Img from "./assets/Web-Porto2.gif";
@@ -782,7 +783,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
     },
     {
       id: 'cofounder',
-      img: cofounderimg,
+      img: COFOUNDER_BASE64,
       name: "Mohd. Daniel",
       role: "Co-Founder / Art Director"
     },
