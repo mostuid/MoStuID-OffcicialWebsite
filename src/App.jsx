@@ -1934,7 +1934,7 @@ function CoursesTabSection() {
       <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14 select-none relative z-10 animate-slide-down">
         <div className="flex justify-center mb-4">
           <span className="bg-[#FF5500]/20 text-[#FF5500] text-[10px] lg:text-xs font-chivo font-bold uppercase tracking-widest px-3 lg:px-4 py-1 lg:py-1.5 rounded-full border border-[#FF5500]/30 backdrop-blur-sm">
-            Kelas Online
+            Our Courses
           </span>
         </div>
 
@@ -1946,12 +1946,8 @@ function CoursesTabSection() {
           <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
         </h2>
 
-        <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed max-w-xl mx-auto">
-          Kelas online praktis yang disusun langsung dari pengalaman kami mengerjakan proyek klien sehari-hari.
-        </p>
-
-        <p className="text-[#FF5500]/100 text-[10px] sm:text-sm font-chivo font-medium tracking-wider mt-10">
-          Pilih kelas, langsung praktek:
+        <p className="text-neutral-200 text-xs sm:text-sm font-semibold max-w-xl mx-auto">
+          Materi praktis dari pengalaman proyek nyata.
         </p>
       </div>
 
@@ -2102,16 +2098,20 @@ function CoursesTabSection() {
       </div>
 
       {/* CTA Bottom */}
-      <div className="relative z-10 mt-10 md:mt-12 text-center animate-slide-up [animation-delay:400ms]">
-        <div className="inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-full px-5 sm:px-6 py-3 sm:py-2 hover:border-[#FF5500]/40 transition-all duration-300 group">
-          <span className="text-neutral-200 text-[11px] sm:text-sm font-chivo font-medium group-hover:text-white transition-colors duration-300 text-center">
+      <div className="relative z-10 mt-10 md:mt-12 text-center animate-slide-up [animation-delay:400ms] w-full">
+        {/* Perubahan: Tambahkan w-full, flex-col total di mobile, dan justify-between di layar besar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-full px-5 sm:px-6 py-4 sm:py-2.5 hover:border-[#FF5500]/40 transition-all duration-300 group w-full">
+
+          <span className="text-neutral-200 text-[13px] sm:text-sm font-chivo font-medium group-hover:text-white transition-colors duration-300 text-center sm:text-left">
             Butuh rekomendasi kelas yang cocok untukmu?
           </span>
+
+          {/* Perubahan: Tambahkan w-full agar memenuhi lebar div di mobile */}
           <a
-            href={`https://wa.me/62882016312643?text=${encodeURIComponent("Halo MoStu.ID, saya butuh rekomendasi kelas yang sesuai dengan kebutuhan saya. Boleh dibantu?")}`}
+            href={`https://wa.me{encodeURIComponent("Halo MoStu.ID, saya butuh rekomendasi kelas yang sesuai dengan kebutuhan saya. Boleh dibantu?")}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-[#FF5500] text-white font-chivo font-bold px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-[11px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.3)] transition-all duration-300 hover:scale-105 active:scale-95 whitespace-nowrap"
+            className="flex items-center justify-center gap-2 bg-[#FF5500] text-white font-chivo font-bold px-4 sm:px-5 py-2.5 sm:py-2 rounded-full text-[12px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.3)] transition-all duration-300 hover:scale-[1.02] active:scale-95 w-full sm:w-auto"
           >
             <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor" viewBox="0 0 20 20">
               <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
@@ -2473,7 +2473,7 @@ function AboutTabSection() {
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-stretch select-none">
         <div className="md:col-span-7 space-y-0 text-left relative">
-          
+
           {/* Judul About MoStu - Rata tengah di mobile, rata kiri di desktop */}
           <div className="text-center md:text-left mb-14 md:mb-8 select-none">
             <h3 className="text-4xl md:text-4xl font-poppins font-black tracking-tight text-white relative inline-block">
