@@ -776,7 +776,7 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
   const heroSlides = [
     {
       id: 'founder',
-      img: {FOUNDER_BASE64},
+      img: FOUNDER_BASE64,
       name: "Bang Eija",
       role: "Founder / Lead Developer"
     },
