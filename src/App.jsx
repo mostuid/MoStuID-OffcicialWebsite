@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, useParams } from "react-router-dom";
-import founderimg from "./assets/founder.png";
-import cofounderimg from "./assets/co-founder.png";
-import whoNext from "./assets/Whos-Next.png";
+import founderimg from "./assets/founder.webp";
+import cofounderimg from "./assets/co-founder.webp";
+import whoNext from "./assets/Whos-Next.webp";
+
 import logoImg from "./assets/logo-mostu.png";
 import { LOGO_BASE64 } from "./assets/logoBase64";
 import { FOUNDER_BASE64 } from "./assets/founderImg";
 import { COFOUNDER_BASE64 } from "./assets/co-founderImg";
-import bgSec2 from './assets/bg-sec2.png';
+import bgSec2 from './assets/bg-sec2.webp';
 import webPorto1Img from "./assets/Web-Porto1.gif";
 import webPorto2Img from "./assets/Web-Porto2.gif";
 import webPorto3Img from "./assets/Web-Porto3.gif";
@@ -141,14 +142,12 @@ function App() {
   const [splashComplete, setSplashComplete] = useState(false);
 
   useEffect(() => {
-    // Cek apakah splash sudah pernah ditampilkan di session ini
     const hasShownSplash = sessionStorage.getItem('splash_shown');
     if (hasShownSplash) {
       setSplashComplete(true);
     }
   }, []);
 
-  // Handler ketika splash selesai
   const handleSplashComplete = () => {
     setSplashComplete(true);
     sessionStorage.setItem('splash_shown', 'true');
@@ -170,15 +169,10 @@ function App() {
   const [isSec2Visible, setIsSec2Visible] = useState(false);
   const sec2Ref = useRef(null);
 
-  // State kontrol untuk membuka dan menutup Modal Project Brief & Member
-  const [isBriefModalOpen, setIsBriefModalOpen] = useState(false);
-  const [isMemberModalOpen, setIsMemberModalOpen] = useState(false);
-
   // State
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMenuClosing, setIsMenuClosing] = useState(false);
 
-  // Fungsi toggle - tombol langsung berubah, dropdown tetap animasi
   const toggleMenu = () => {
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
@@ -192,22 +186,14 @@ function App() {
     }
   };
 
-  // State untuk melacak visibilitas Header saat scroll (Auto-Hide)
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
-
   const [isShiny, setIsShiny] = useState(false);
-
-  // =========================================================================
-  // State untuk mengontrol visibilitas ikon mouse (fade in / fade out)
-  // =========================================================================
   const [mouseOpacity, setMouseOpacity] = useState(1);
 
-  // useEffect baru: Mengatur opacity ikon mouse mengikuti perputaran scroll
   useEffect(() => {
     const handleScrollMouse = () => {
       const currentScroll = window.scrollY;
-
       if (currentScroll === 0) {
         setMouseOpacity(1);
       } else {
@@ -215,54 +201,39 @@ function App() {
         setMouseOpacity(newOpacity);
       }
     };
-
     window.addEventListener("scroll", handleScrollMouse, { passive: true });
     return () => window.removeEventListener("scroll", handleScrollMouse);
   }, []);
 
-  // =========================================================================
-  // LOGIKA AUTO-HIDE HEADER & AUTO-CLOSE DROPDOWN SAAT SCROLL
-  // =========================================================================
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-
       if (currentScrollY > lastScrollY.current && currentScrollY > 60) {
         setShowHeader(false);
       } else {
         setShowHeader(true);
       }
-
       lastScrollY.current = currentScrollY;
     };
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Effect 2: Tutup dropdown saat scroll
   useEffect(() => {
     if (!isMobileMenuOpen) return;
-
     const handleCloseDropdown = () => {
       toggleMenu();
     };
-
     window.addEventListener("scroll", handleCloseDropdown, { passive: true });
     return () => window.removeEventListener("scroll", handleCloseDropdown);
   }, [isMobileMenuOpen]);
 
-  // =========================================================================
-  // LOGIKA KUSTOM REFRESH BROWSER
-  // =========================================================================
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const pageAktif = params.get("page");
-
     if (pageAktif && pageAktif !== "home") {
       setActiveTab(pageAktif);
     }
-
     setTimeout(() => {
       window.scrollTo({
         top: 0,
@@ -271,30 +242,46 @@ function App() {
     }, 50);
   }, []);
 
-  // =========================================================================
-  // LOGIKA NAVIGASI RIWAYAT BROWSER
-  // =========================================================================
+  // ✅ PERBAIKAN UTAMA: Fungsi navigasi yang lebih robust
   const ubahTabNavigasi = (tabBaru) => {
+    console.log("🔵 Navigasi ke:", tabBaru); // Debugging
+
+    // Set active tab
     setActiveTab(tabBaru);
 
+    // Navigasi berdasarkan tab
     if (tabBaru === "home") {
-      navigate("/");
+      navigate("/", { replace: false });
     } else {
-      navigate(`/${tabBaru}`);
+      navigate(`/${tabBaru}`, { replace: false });
     }
 
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    // Scroll ke atas
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }, 100);
+
+    // Tutup menu mobile jika terbuka
+    if (isMobileMenuOpen) {
+      toggleMenu();
+    }
   };
+
+  // ✅ PERBAIKAN: useEffect untuk sync URL dengan state
+  useEffect(() => {
+    const currentTab = location.pathname.replace('/', '') || 'home';
+    if (currentTab !== activeTab && currentTab !== '') {
+      setActiveTab(currentTab);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const pageAktif = params.get("page") || "home";
-
     if (!window.history.state) {
       const urlAwal = pageAktif === "home" ? window.location.pathname : `?page=${pageAktif}`;
       window.history.replaceState({ tab: pageAktif }, "", urlAwal);
     }
-
     const tanganiTombolBrowser = (event) => {
       if (event.state && event.state.tab) {
         setActiveTab(event.state.tab);
@@ -302,14 +289,11 @@ function App() {
         setActiveTab("home");
       }
     };
-
     window.addEventListener("popstate", tanganiTombolBrowser);
     return () => {
       window.removeEventListener("popstate", tanganiTombolBrowser);
     };
   }, []);
-
-  // =========================================================================
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -321,11 +305,9 @@ function App() {
       },
       { threshold: 0.15 }
     );
-
     if (sec2Ref.current) {
       observer.observe(sec2Ref.current);
     }
-
     return () => {
       if (sec2Ref.current) observer.unobserve(sec2Ref.current);
     };
@@ -348,19 +330,13 @@ function App() {
     }
   };
 
-  // Cek apakah halaman saat ini adalah prototype
   const isPrototypePage = location.pathname.includes('/portfolio/prototype-');
 
-  // ==========================================
-  // KOMPONEN REDIRECT UNTUK PROTOTYPE (HANYA SEKALI)
-  // ==========================================
   function PrototypeRedirect() {
     const location = useLocation();
-
     const pathParts = location.pathname.split('/');
     const folderName = pathParts[pathParts.length - 1];
     const iframeSrc = `/prototypes/${folderName}/index.html`;
-
     return (
       <div className="fixed inset-0 w-full h-full bg-white" style={{ zIndex: 9999 }}>
         <iframe
@@ -385,18 +361,12 @@ function App() {
     );
   }
 
-  // ==========================================
-  // RETURN
-  // ==========================================
   return (
     <div className="min-h-screen grid-bg relative overflow-x-hidden bg-darkBg text-white selection:bg-agency-orange selection:text-white">
-      {/* SPLASH SCREEN */}
       {!splashComplete && <SplashScreen onComplete={handleSplashComplete} />}
 
-      {/* KONTEN UTAMA */}
       {splashComplete && (
         <>
-          {/* JIKA HALAMAN PROTOTYPE */}
           {isPrototypePage ? (
             <Routes>
               <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
@@ -410,7 +380,6 @@ function App() {
                 className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-[100px] transition-all duration-500 w-[95%] max-w-[80%] ${showHeader ? "translate-y-0 opacity-100" : "-translate-y-[150%] opacity-0"
                   }`}
               >
-                {/* Background Glassmorphism */}
                 <div className="absolute inset-0 rounded-[100px] bg-gradient-to-r from-[#FF5500]/5 via-white/5 to-[#FF5500]/5 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(255,85,0,0.08)] overflow-hidden">
                   <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl" />
                   <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl" />
@@ -420,37 +389,53 @@ function App() {
 
                 <div className="relative px-6 md:px-8 py-3 flex justify-between items-center">
                   {/* LOGO */}
-                  <div className="flex items-center cursor-pointer select-none group" onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); }}>
+                  <div
+                    className="flex items-center cursor-pointer select-none group"
+                    onClick={() => {
+                      ubahTabNavigasi("home");
+                    }}
+                  >
                     <img src={logoImg} alt="MoStu Logo" className="h-8 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
                   </div>
 
                   {/* NAV LINK DESKTOP */}
-                  <nav className="hidden md:flex items-center space-x-8 text-[12px] text-neutral-300 font-chivo font-normal uppercase tracking-widest">
-                    <button onClick={() => ubahTabNavigasi("courses")} className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "courses" ? "text-[#FF5500]" : "text-neutral-300"}`}>
-                      Courses
-                      <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "courses" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
-                    </button>
-                    <button onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); }} className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "portfolio" ? "text-[#FF5500]" : "text-neutral-300"}`}>
-                      Portfolio
+                  <nav className="hidden md:flex items-center space-x-16 text-sm text-neutral-300 font-chivo font-normal uppercase tracking-widest">
+                    <button
+                      onClick={() => {
+                        ubahTabNavigasi("portfolio");
+                        setPortfolioFilter("all");
+                      }}
+                      className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "portfolio" ? "text-[#FF5500]" : "text-neutral-300"}`}
+                    >
+                      Our Portfolio
                       <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "portfolio" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                     </button>
-                    <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "products" ? "text-[#FF5500]" : "text-neutral-300"}`}>
-                      Products
+                    <button
+                      onClick={() => ubahTabNavigasi("products")}
+                      className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "products" ? "text-[#FF5500]" : "text-neutral-300"}`}
+                    >
+                      Our Products
                       <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "products" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                     </button>
-                    <button onClick={() => ubahTabNavigasi("about")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "about" ? "text-[#FF5500]" : "text-neutral-300"}`}>
+                    <button
+                      onClick={() => ubahTabNavigasi("about")}
+                      className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "about" ? "text-[#FF5500]" : "text-neutral-300"}`}
+                    >
                       About Us
                       <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "about" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                     </button>
                   </nav>
 
-                  {/* CTA MEMBER */}
+                  {/* ✅ PERBAIKAN: CTA COURSES dengan handler langsung */}
                   <div className="hidden md:block">
                     <button
-                      onClick={() => setIsMemberModalOpen(true)}
-                      className="bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold px-5 py-2 rounded-full text-[10px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.3)] transition-all duration-300 shadow-md active:scale-95 text-center cursor-pointer"
+                      onClick={() => {
+                        console.log("🟢 Tombol Courses diklik!");
+                        ubahTabNavigasi("courses");
+                      }}
+                      className="bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold px-5 py-2 rounded-full text-sm tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.3)] transition-all duration-300 shadow-md active:scale-95 text-center cursor-pointer"
                     >
-                      Get Member
+                      Courses
                     </button>
                   </div>
 
@@ -480,36 +465,37 @@ function App() {
                       <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
 
                       <button
-                        onClick={() => { ubahTabNavigasi("courses"); toggleMenu(); }}
-                        className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "courses" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
-                      >
-                        Courses
-                      </button>
-                      <button
-                        onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); toggleMenu(); }}
+                        onClick={() => {
+                          ubahTabNavigasi("portfolio");
+                          setPortfolioFilter("all");
+                        }}
                         className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "portfolio" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                       >
                         Portfolio
                       </button>
                       <button
-                        onClick={() => { ubahTabNavigasi("products"); toggleMenu(); }}
+                        onClick={() => { ubahTabNavigasi("products"); }}
                         className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "products" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                       >
                         Products
                       </button>
                       <button
-                        onClick={() => { ubahTabNavigasi("about"); toggleMenu(); }}
+                        onClick={() => { ubahTabNavigasi("about"); }}
                         className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "about" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                       >
                         About Us
                       </button>
 
+                      {/* ✅ PERBAIKAN: CTA Courses di mobile */}
                       <div className="pt-1 w-full">
                         <button
-                          onClick={() => { setIsMemberModalOpen(true); toggleMenu(); }}
+                          onClick={() => {
+                            console.log("🟢 Mobile Courses diklik!");
+                            ubahTabNavigasi("courses");
+                          }}
                           className="w-full bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold py-2 rounded-xl text-[10px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.2)] transition-all duration-300 active:scale-95 text-center cursor-pointer"
                         >
-                          Get Member
+                          Courses
                         </button>
                       </div>
                     </div>
@@ -525,7 +511,6 @@ function App() {
                     element={
                       <HeroSection
                         scrollToSection={scrollToSection}
-                        setIsBriefModalOpen={setIsBriefModalOpen}
                       />
                     }
                   />
@@ -563,7 +548,6 @@ function App() {
                     path="/products"
                     element={
                       <div className="mt-20">
-                        {/* Products content - SAMA SEPERTI SEBELUMNYA */}
                         <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
                         <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
                         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
@@ -582,7 +566,6 @@ function App() {
                             </p>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
-                            {/* Tool cards - sama seperti sebelumnya */}
                             <div className="group relative p-6 rounded-2xl flex flex-col justify-between opacity-0 animate-slide-up hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500">
                               <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-white/5 to-[#FF5500]/10 backdrop-blur-xl border border-white/10 shadow-2xl shadow-[#FF5500]/5" />
                               <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-[#FF5500]/0 via-[#FF5500]/0 to-[#FF5500]/5 group-hover:from-[#FF5500]/5 group-hover:via-[#FF5500]/10 group-hover:to-[#FF5500]/20 transition-all duration-700" />
@@ -606,7 +589,6 @@ function App() {
                                 Launch Tool ➔
                               </button>
                             </div>
-                            {/* Tool 2, 3, 4 - Coming Soon */}
                             {[
                               { title: "Premium UI Kit", desc: "Sistem komponen visual, landing page template, dan kerangka desain UI/UX modern siap pakai untuk Figma dan React." },
                               { title: "Page Generator", desc: "Rakit halaman landing page promosi produk atau portofolio bisnis Anda secara instan dalam hitungan menit tanpa koding." },
@@ -646,7 +628,7 @@ function App() {
 
               {/* SECTION 2: SERVICES */}
               {currentPath === "/" && (
-                <ServicesSection sec2Ref={sec2Ref} isSec2Visible={isSec2Visible} setActiveTab={ubahTabNavigasi} />
+                <ServicesSection setActiveTab={ubahTabNavigasi} />
               )}
 
               {/* SECTION 3: QnA */}
@@ -654,10 +636,6 @@ function App() {
 
               {/* FOOTER */}
               <Footer setActiveTab={ubahTabNavigasi} scrollToSection={scrollToSection} />
-
-              {/* MODALS */}
-              <ProjectBriefModal isOpen={isBriefModalOpen} onClose={() => setIsBriefModalOpen(false)} />
-              <MemberRegistrationModal isOpen={isMemberModalOpen} onClose={() => setIsMemberModalOpen(false)} />
 
               {/* WHATSAPP FLOATING BUTTON */}
               <div
@@ -763,7 +741,7 @@ function TypewriterEffect({ services }) {
 /* ==========================================
    KOMPONEN MANDIRI: SECTION 1 (HERO CONTAINER)
    ========================================== */
-function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
+function HeroSection({ scrollToSection }) {
   const waNumber = "62882016312643";
   const waMessage = encodeURIComponent(
     "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.  Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
@@ -989,13 +967,16 @@ function HeroSection({ scrollToSection, setIsBriefModalOpen }) {
           />
         </div>
         <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
-          {/* Tombol Get Order! */}
-          <button
-            onClick={() => setIsBriefModalOpen(true)}
-            className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 w-[140px] sm:w-[160px]"
+          <a
+            href={`https://wa.me/62882016312643?text=${encodeURIComponent(
+              "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda. Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
+            )}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 w-[140px] sm:w-[160px] inline-block"
           >
             Get Order
-          </button>
+          </a>
 
           {/* Tombol Get in Touch! */}
           <a
@@ -1381,276 +1362,6 @@ function ServicesSection({ setActiveTab }) {
         </div>
       </div>
     </section>
-  );
-}
-
-/* ==========================================
-   KOMPONEN MANDIRI: INTERACTIVE PROJECT BRIEF FORM MODAL
-   ========================================== */
-function ProjectBriefModal({ isOpen, onClose }) {
-  const [formData, setFormData] = useState({
-    clientName: "",
-    clientContact: "",
-    clientSocial: "",
-    serviceType: "web-dev",
-    dynamicRequirement: ""
-  });
-
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  if (!isOpen) return null;
-
-  const getDynamicLabelAndPlaceholder = () => {
-    switch (formData.serviceType) {
-      case "branding":
-        return {
-          label: "Detail Kebutuhan Branding Strategy *",
-          placeholder: "Jelaskan tentang brand Anda, apa keunikannya, pengembangan/jasa yang Anda inginkan untuk brand Anda?"
-        };
-      case "web-dev":
-        return {
-          label: "Detail Kebutuhan Web/Software Developing *",
-          placeholder: "Jelaskan fitur utama yang wajib ada (payment gateway, sistem login), target fungsi aplikasi, atau referensi website yang Anda sukai..."
-        };
-      case "visual-story":
-        return {
-          label: "Detail Kebutuhan Visual Storytelling *",
-          placeholder: "Jelaskan jenis visual yang Anda butuhkan (e.g., 3D spatial render interior, video dokumenter cinematic), perkiraan durasi, and konsep cerita yang ingin disampaikan..."
-        };
-      case "animation":
-        return {
-          label: "Detail Kebutuhan Animation Services *",
-          placeholder: "Jelaskan kebutuhan aset animasi Anda (background bergerak untuk game Visual Novel, bumper motion graphics logo), gaya visual (2D/3D), atau referensi gerak..."
-        };
-      default:
-        return {
-          label: "Detail Kebutuhan Proyek *",
-          placeholder: "Jelaskan secara rinci detail kebutuhan jasa pengembangan yang Anda inginkan..."
-        };
-    }
-  };
-
-  const dynamicSetup = getDynamicLabelAndPlaceholder();
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const serviceNames = {
-      "web-dev": "Web/Software Developing",
-      "visual-story": "Visual Storytelling",
-      "animation": "Animation Services",
-      "branding": "Branding Strategy"
-    };
-
-    const formatLayanan = serviceNames[formData.serviceType] || formData.serviceType;
-
-    const waText =
-      `*REKAPAN BRIEF CLIENT MOSTU AGENCY*
-      ---------------------------------------
-      # *Nama / Brand:* ${formData.clientName}
-      # *Kontak WA:* ${formData.clientContact}
-      # *Email / IG:* ${formData.clientSocial || "-"}
-      # *Kategori Layanan:* ${formatLayanan}
-
-      [ DETAIL REQUIREMENTS ]
-      "${formData.dynamicRequirement}"
-      ---------------------------------------
-      _Pesan otomatis dikirim melalui Formulir Interaktif MoStu Agency_`;
-
-    const targetWANumber = "62882016312643";
-    const waFinalLink = `https://wa.me/${targetWANumber}?text=${encodeURIComponent(waText)}`;
-
-    setIsSubmitted(true);
-
-    setTimeout(() => {
-      window.open(waFinalLink, "_blank");
-      setIsSubmitted(false);
-      setFormData({ clientName: "", clientContact: "", clientSocial: "", serviceType: "web-dev", dynamicRequirement: "" });
-      onClose();
-    }, 1200);
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div className="bg-neutral-950 border border-neutral-850 w-full max-w-xl rounded-2xl overflow-hidden shadow-2xl relative max-h-[90vh] flex flex-col animate-slide-up">
-        <div className="p-6 border-b border-neutral-900 flex justify-between items-center select-none shrink-0">
-          <div>
-            <h3 className="font-poppins font-black text-lg text-white tracking-tight">Rancang Proyek Tangguhmu</h3>
-            <p className="text-neutral-400 font-light text-xs mt-0.5">Berikan kami data brief dasar untuk kalkulasi eksekusi yang presisi.</p>
-          </div>
-          <button onClick={onClose} className="w-8 h-8 border border-neutral-800 rounded-full flex items-center justify-center text-neutral-400 hover:text-white hover:border-white transition-all cursor-pointer focus:outline-none">&times;</button>
-        </div>
-
-        <div className="p-6 overflow-y-auto space-y-4 font-poppins">
-          {isSubmitted ? (
-            <div className="py-12 text-center flex flex-col justify-center items-center space-y-3 animate-fade-up">
-              <div className="w-12 h-12 bg-[#FF5500]/10 border border-[#FF5500]/40 rounded-full flex items-center justify-center text-[#FF5500] animate-bounce">✓</div>
-              <h4 className="font-bold text-base">Membuka WhatsApp...</h4>
-              <p className="text-neutral-400 text-xs font-light max-w-xs leading-relaxed">Sistem sedang memformat rekapan brief ke aplikasi WhatsApp Anda secara aman.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4 text-left">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider block">Nama / Nama Brand *</label>
-                  <input required type="text" placeholder="Mhd. Reza Erdiansyah / Mohd Daniel" value={formData.clientName} onChange={(e) => setFormData({ ...formData, clientName: e.target.value })} className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider block">Kontak WA *</label>
-                  <input required type="text" placeholder="081234xxx" value={formData.clientContact} onChange={(e) => setFormData({ ...formData, clientContact: e.target.value })} className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light" />
-                </div>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider block">Email atau Akun Instagram</label>
-                <input type="text" placeholder="e.g., mostuid@gmail.com / @mostu.id" value={formData.clientSocial} onChange={(e) => setFormData({ ...formData, clientSocial: e.target.value })} className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light" />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider block">Kategori Layanan Utama</label>
-                <select value={formData.serviceType} onChange={(e) => setFormData({ ...formData, serviceType: e.target.value, dynamicRequirement: "" })} className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light cursor-pointer">
-                  <option value="web-dev">Web/Software Developing</option>
-                  <option value="visual-story">Visual Storytelling</option>
-                  <option value="animation">Animation Services</option>
-                  <option value="branding">Branding Strategy</option>
-                </select>
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-[11px] font-mono #FF5500 uppercase tracking-wider block transition-colors duration-300 text-[#FF5500]">
-                  {dynamicSetup.label}
-                </label>
-                <textarea
-                  required
-                  rows={5}
-                  placeholder={dynamicSetup.placeholder}
-                  value={formData.dynamicRequirement}
-                  onChange={(e) => setFormData({ ...formData, dynamicRequirement: e.target.value })}
-                  className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light resize-none leading-relaxed transition-all duration-300 min-h-35"
-                />
-              </div>
-
-              <button type="submit" className="w-full bg-white text-black font-chivo font-semibold py-3 rounded-lg text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-[0.98] mt-4 cursor-pointer shadow-lg">
-                Kirim Brief Strategis Ke MoStu.ID
-              </button>
-            </form>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ==========================================
-   KOMPONEN MANDIRI: POP UP PENDAFTARAN MEMBER EKSKLUSIF
-   ========================================== */
-function MemberRegistrationModal({ isOpen, onClose }) {
-  const [memberData, setMemberData] = useState({ name: "", contact: "" });
-  const [isSent, setIsSent] = useState(false);
-
-  if (!isOpen) return null;
-
-  const handleMemberSubmit = (e) => {
-    e.preventDefault();
-
-    const memberText =
-      `*REGISTRASI MEMBER PREMIUM MOSTU AGENCY*
-      ---------------------------------------
-      # *Nama Pendaftar:* ${memberData.name}
-      # *Kontak Person:* ${memberData.contact}
-      # *Paket Langganan:* Premium Member (75k/Bulan)
-
-      [ BENEFIT AKSES EKASUKLUSIF ]
-      - Dapat akses produk digital free semuanya.
-      - Harga spesial tiap pemesanan jasa.
-      - VIP delivery project.
-      ---------------------------------------
-      _Pesan registrasi instan dari Portal MoStu.ID_`;
-
-    const targetWANumber = "62882016312643";
-    const waMemberLink = `https://wa.me/${targetWANumber}?text=${encodeURIComponent(memberText)}`;
-
-    setIsSent(true);
-    setTimeout(() => {
-      window.open(waMemberLink, "_blank");
-      setIsSent(false);
-      setMemberData({ name: "", contact: "" });
-      onClose();
-    }, 1200);
-  };
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-      <div className="bg-neutral-950 border border-neutral-850 w-full max-w-md rounded-2xl overflow-hidden shadow-2xl relative flex flex-col font-poppins animate-slide-up">
-
-        {/* Header */}
-        <div className="p-6 border-b border-neutral-900 flex justify-between items-center select-none shrink-0">
-          <div>
-            <h3 className="font-bold text-lg text-white tracking-tight">MoStu Premium Member</h3>
-            <p className="text-neutral-400 font-light text-xs mt-0.5">Gabung lingkaran eksklusif untuk skalabilitas tinggi.</p>
-          </div>
-          <button onClick={onClose} className="w-8 h-8 border border-neutral-800 rounded-full flex items-center justify-center text-neutral-400 hover:text-white hover:border-white transition-all cursor-pointer focus:outline-none">&times;</button>
-        </div>
-
-        {/* Konten Utama */}
-        <div className="p-6 overflow-y-auto space-y-5">
-          {isSent ? (
-            <div className="py-8 text-center flex flex-col justify-center items-center space-y-3 animate-fade-up">
-              <div className="w-12 h-12 bg-[#FF5500]/10 border border-[#FF5500]/40 rounded-full flex items-center justify-center text-[#FF5500] animate-bounce">✓</div>
-              <h4 className="font-bold text-base">Menghubungkan ke WA...</h4>
-              <p className="text-neutral-400 text-xs font-light max-w-xs leading-relaxed">Menyiapkan draf validasi invoice premium member MoStu Anda.</p>
-            </div>
-          ) : (
-            <>
-              {/* Box Nilai Harga */}
-              <div className="bg-[#FF5500]/10 border border-[#FF5500]/20 rounded-xl p-4 text-center">
-                <span className="text-neutral-400 text-xs uppercase tracking-wider font-mono block">Biaya Investasi Member</span>
-                <div className="flex items-baseline justify-center space-x-1 mt-1">
-                  <span className="text-2xl font-black text-white">Rp 75.000</span>
-                  <span className="text-neutral-400 text-xs font-light">/ bulan</span>
-                </div>
-              </div>
-
-              {/* List Kelebihan Member */}
-              <div className="space-y-3 text-left">
-                <h4 className="text-xs uppercase font-mono tracking-wider text-[#FF5500]">Keuntungan Eksklusif:</h4>
-                <ul className="space-y-2.5 text-xs text-neutral-300 font-light">
-                  <li className="flex items-start space-x-2.5">
-                    <span className="text-[#FF5500] font-bold shrink-0">#</span>
-                    <span>Dapat akses produk digital free semuanya.</span>
-                  </li>
-                  <li className="flex items-start space-x-2.5">
-                    <span className="text-[#FF5500] font-bold shrink-0">#</span>
-                    <span>Harga spesial tiap pemesanan jasa.</span>
-                  </li>
-                  <li className="flex items-start space-x-2.5">
-                    <span className="text-[#FF5500] font-bold shrink-0">#</span>
-                    <span>VIP delivery project.</span>
-                  </li>
-                </ul>
-              </div>
-
-              <hr className="border-neutral-900" />
-
-              {/* Form Input Data */}
-              <form onSubmit={handleMemberSubmit} className="space-y-4 text-left">
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider block">Nama Lengkap / Brand *</label>
-                  <input required type="text" placeholder="e.g., Mhd. Reza Erdiansyah" value={memberData.name} onChange={(e) => setMemberData({ ...memberData, name: e.target.value })} className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider block">No. WhatsApp Aktif *</label>
-                  <input required type="text" placeholder="e.g., 088201xxxxxx" value={memberData.contact} onChange={(e) => setMemberData({ ...memberData, contact: e.target.value })} className="w-full bg-neutral-900/60 border border-neutral-850 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-[#FF5500]/60 font-light" />
-                </div>
-                <button type="submit" className="w-full bg-white text-black font-chivo font-bold py-3 rounded-lg text-xs uppercase tracking-wider hover:bg-neutral-200 transition-all active:scale-[0.98] mt-4 cursor-pointer shadow-lg">
-                  Daftar Member Sekarang
-                </button>
-              </form>
-            </>
-          )}
-        </div>
-      </div>
-    </div>
   );
 }
 
