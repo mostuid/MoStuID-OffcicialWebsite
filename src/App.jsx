@@ -1240,7 +1240,7 @@ function ServicesSection({ setActiveTab }) {
 
         <div className="text-center mb-6 lg:mb-8">
           {/* Judul Utama */}
-          <h2 className="font-poppins font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight mb-2 relative inline-block">
+          <h2 className="font-poppins font-bold text-3xl sm:text-3xl lg:text-4xl text-white tracking-tight mb-2 relative inline-block">
             <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
               Solusi Kreatif & Digital
             </span>
@@ -1251,7 +1251,7 @@ function ServicesSection({ setActiveTab }) {
           </h2>
 
           {/* Deskripsi */}
-          <p className="text-neutral-300 text-[11px] sm:text-xs lg:text-sm font-light max-w-2xl mx-auto leading-relaxed px-4 mt-2">
+          <p className="text-neutral-100 text-[12px] sm:text-xs lg:text-sm font-light max-w-2xl mx-auto leading-relaxed px-4 mt-2">
             Kami hadir dengan layanan terbaik dan terintegrasi untuk membantu bisnis Anda berkembang jadi lebih efisien di era digital.
           </p>
         </div>
@@ -1310,12 +1310,12 @@ function ServicesSection({ setActiveTab }) {
                   </div>
 
                   {/* Title - proporsional */}
-                  <h3 className="font-poppins font-bold text-xs sm:text-sm lg:text-lg text-white group-hover:text-[#FF5500] transition-colors duration-300 mb-1 lg:mb-2">
+                  <h3 className="font-poppins font-bold text-sm sm:text-sm lg:text-lg text-white group-hover:text-[#FF5500] transition-colors duration-300 mb-1 lg:mb-2">
                     {service.title}
                   </h3>
 
                   {/* Description - proporsional dengan teks header */}
-                  <p className="text-neutral-300 text-[11px] sm:text-xs lg:text-sm font-light leading-relaxed group-hover:text-neutral-200 transition-colors duration-300 flex-1">
+                  <p className="text-neutral-200 text-[12px] sm:text-xs lg:text-sm font-light group-hover:text-neutral-200 transition-colors duration-300 flex-1 leading-[16px]">
                     {service.description}
                   </p>
 
@@ -1354,7 +1354,7 @@ function ServicesSection({ setActiveTab }) {
             className="inline-flex items-center gap-2 lg:gap-3 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full px-4 lg:px-6 py-2 hover:border-[#FF5500]/50 transition-all duration-300 group cursor-pointer hover:bg-[#FF5500]/10"
             onClick={() => setActiveTab("portfolio")}
           >
-            <span className="text-neutral-200 text-[10px] sm:text-xs lg:text-sm font-chivo font-medium group-hover:text-white transition-colors duration-300">
+            <span className="text-neutral-200 text-[12px] sm:text-xs lg:text-sm font-chivo font-medium group-hover:text-white transition-colors duration-300">
               Lihat Semua Layanan
             </span>
             <svg
@@ -2719,16 +2719,16 @@ function QnaSection() {
             </div>
 
             {/* Judul Utama - ukuran sama dengan Services */}
-            <h2 className="font-poppins font-bold text-2xl sm:text-3xl lg:text-4xl text-white tracking-tight mb-2 relative inline-block">
+            <h2 className="font-poppins font-bold text-3xl sm:text-3xl lg:text-4xl text-white tracking-tight mb-2 relative inline-block">
               <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
-                Pertanyaan Soal Jasa Kami
+                Pertanyaan Umum
               </span>
               <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
               <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
             </h2>
 
             {/* Deskripsi - ukuran sama dengan Services */}
-            <p className="text-neutral-300 text-[11px] sm:text-xs lg:text-sm font-light max-w-2xl mx-auto leading-relaxed px-4 mt-2">
+            <p className="text-neutral-100 text-[12px] sm:text-xs lg:text-sm font-light max-w-2xl mx-auto leading-relaxed px-4 mt-2">
               Temukan jawaban atas pertanyaan yang paling sering diajukan tentang layanan kami.
             </p>
           </div>
