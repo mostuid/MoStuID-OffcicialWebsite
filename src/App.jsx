@@ -1934,7 +1934,7 @@ function CoursesTabSection() {
       <div className="text-center max-w-2xl mx-auto mb-10 md:mb-14 select-none relative z-10 animate-slide-down">
         <div className="flex justify-center mb-4">
           <span className="bg-[#FF5500]/20 text-[#FF5500] text-[10px] lg:text-xs font-chivo font-bold uppercase tracking-widest px-3 lg:px-4 py-1 lg:py-1.5 rounded-full border border-[#FF5500]/30 backdrop-blur-sm">
-            Our Courses
+            Exclusive Courses
           </span>
         </div>
 
