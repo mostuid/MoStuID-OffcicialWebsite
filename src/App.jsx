@@ -23,6 +23,102 @@ import iconVisualStorytelling from "./assets/Icon Visual Story Telling.png";
 import iconBrandingStrategy from "./assets/Icon Branding Strategy.png";
 import iconAnimationServices from "./assets/Icon Animation Services.png";
 
+// SPLASH SCREEN COMPONENT
+function SplashScreen({ onComplete }) {
+  const [progress, setProgress] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    let startTime = Date.now();
+    const duration = 2000;
+
+    const updateProgress = () => {
+      const elapsed = Date.now() - startTime;
+      const rawProgress = Math.min(elapsed / duration, 1);
+      
+      // Easing function: cepat di awal, lambat di akhir (easeOutCubic)
+      // Progress berjalan cepat lalu melambat mendekati 100%
+      const easedProgress = 1 - Math.pow(1 - rawProgress, 3);
+      // Alternatif: easeOutQuad (lebih halus)
+      // const easedProgress = 1 - Math.pow(1 - rawProgress, 2);
+      
+      const newProgress = easedProgress * 100;
+      setProgress(newProgress);
+
+      if (rawProgress < 1) {
+        requestAnimationFrame(updateProgress);
+      } else {
+        setTimeout(() => {
+          setIsVisible(false);
+          if (onComplete) onComplete();
+        }, 300);
+      }
+    };
+
+    requestAnimationFrame(updateProgress);
+  }, [onComplete]);
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
+      {/* Vignet oranye di sudut */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-64 h-64 bg-[#FF5500]/20 rounded-full blur-3xl" />
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#FF5500]/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#FF5500]/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-64 h-64 bg-[#FF5500]/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/10 rounded-full blur-3xl" />
+      </div>
+
+      <div className="relative z-10 flex flex-col items-center">
+        {/* Loading Circle dengan Logo di Tengah */}
+        <div className="relative w-24 h-24">
+          {/* Background circle */}
+          <svg className="w-24 h-24 transform -rotate-90">
+            <circle
+              cx="48"
+              cy="48"
+              r="42"
+              stroke="rgba(255,85,0,0.1)"
+              strokeWidth="4"
+              fill="none"
+            />
+            <circle
+              cx="48"
+              cy="48"
+              r="42"
+              stroke="#FF5500"
+              strokeWidth="4"
+              fill="none"
+              strokeLinecap="round"
+              style={{
+                strokeDasharray: 263.89,
+                strokeDashoffset: 263.89 - (progress / 100) * 263.89,
+                transition: 'stroke-dashoffset 0.15s ease-out'
+              }}
+            />
+          </svg>
+          
+          {/* Logo di Tengah Lingkaran */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <img 
+              src={logoImg} 
+              alt="MoStu.ID" 
+              className="w-12 h-12 object-contain"
+            />
+          </div>
+        </div>
+        
+        {/* Teks loading */}
+        <p className="text-neutral-400 text-xs font-light mt-6 tracking-wider">
+          Loading...
+        </p>
+      </div>
+    </div>
+  );
+}
+
 // ✅ FIXED: Style objects diekstrak ke konstanta
 const STYLE = {
   heroMobile: {
@@ -37,44 +133,25 @@ const STYLE = {
 };
 
 function App() {
-
   // ==========================================
-  // KOMPONEN REDIRECT UNTUK PROTOTYPE
+  // STATE & HOOKS
   // ==========================================
-  function PrototypeRedirect() {
-    const location = useLocation();
-
-    const pathParts = location.pathname.split('/');
-    const folderName = pathParts[pathParts.length - 1];
-    const iframeSrc = `/prototypes/${folderName}/index.html`;
-
-    return (
-      <div className="fixed inset-0 w-full h-full bg-white" style={{ zIndex: 9999 }}>
-        <iframe
-          src={iframeSrc}
-          className="w-full h-full border-0"
-          title="Prototype"
-          allowFullScreen
-        />
-        {/* Tombol WhatsApp - Tetap Tampil */}
-        <div className="fixed bottom-6 right-6 z-[10000]">
-          <a
-            href={`https://wa.me/62882016312643?text=${encodeURIComponent("Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/20 transition-all duration-300 hover:scale-110 hover:bg-[#20ba5a] active:scale95 group"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 transition-transform duration-300 group-hover:rotate-6">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.128.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-2.078l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.458h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-            </svg>
-          </a>
-        </div>
-      </div>
-    );
-  }
-
-  // Di dalam komponen App, tambahkan:
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [splashComplete, setSplashComplete] = useState(false);
+
+  useEffect(() => {
+    // Cek apakah splash sudah pernah ditampilkan di session ini
+    const hasShownSplash = sessionStorage.getItem('splash_shown');
+    if (hasShownSplash) {
+      setSplashComplete(true);
+    }
+  }, []);
+
+  // Handler ketika splash selesai
+  const handleSplashComplete = () => {
+    setSplashComplete(true);
+    sessionStorage.setItem('splash_shown', 'true');
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -103,16 +180,12 @@ function App() {
   // Fungsi toggle - tombol langsung berubah, dropdown tetap animasi
   const toggleMenu = () => {
     if (isMobileMenuOpen) {
-      // Tombol langsung berubah ke hamburger
       setIsMobileMenuOpen(false);
-      // Trigger animasi keluar untuk dropdown
       setIsMenuClosing(true);
-      // Reset isMenuClosing setelah animasi selesai
       setTimeout(() => {
         setIsMenuClosing(false);
       }, 280);
     } else {
-      // Tombol langsung berubah ke X
       setIsMobileMenuOpen(true);
       setIsMenuClosing(false);
     }
@@ -135,11 +208,8 @@ function App() {
       const currentScroll = window.scrollY;
 
       if (currentScroll === 0) {
-        // Jika layar mentok di paling atas, paksa kembali terlihat penuh
         setMouseOpacity(1);
       } else {
-        // Menghitung pudarnya ikon dalam jarak 150px pertama saat scroll ke bawah
-        // Semakin ke bawah, nilainya semakin mendekati 0
         const newOpacity = Math.max(0, 1 - currentScroll / 150);
         setMouseOpacity(newOpacity);
       }
@@ -152,8 +222,6 @@ function App() {
   // =========================================================================
   // LOGIKA AUTO-HIDE HEADER & AUTO-CLOSE DROPDOWN SAAT SCROLL
   // =========================================================================
-  // ✅ FIXED: Pisahkan menjadi dua effect untuk menghindari re-register listener
-  // Effect 1: Auto-hide header
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
@@ -184,51 +252,44 @@ function App() {
   }, [isMobileMenuOpen]);
 
   // =========================================================================
-  // LOGIKA KUSTOM REFRESH BROWSER (SEMUA TAB OTOMATIS KEMBALI KE LAYAR PALING ATAS)
+  // LOGIKA KUSTOM REFRESH BROWSER
   // =========================================================================
   useEffect(() => {
-    // 1. Ambil query parameter "?page=" dari URL saat ini
     const params = new URLSearchParams(window.location.search);
     const pageAktif = params.get("page");
 
     if (pageAktif && pageAktif !== "home") {
-      // JIKA DI TAB LAIN (Portfolio, Products, About Us): Kunci tab aktifnya terlebih dahulu
       setActiveTab(pageAktif);
     }
 
-    // 2. KUNCIAN UTAMA: Paksa semua halaman (termasuk Home & Tab Lain) lompat ke koordinat top: 0 saat refresh
-    // Menggunakan setTimeout 50ms agar React selesai merender komponennya dulu, baru layarnya ditarik ke atas
     setTimeout(() => {
       window.scrollTo({
         top: 0,
-        behavior: "instant" // "instant" memastikan layar langsung di atas tanpa gerak animasi smooth saat refresh
+        behavior: "instant"
       });
     }, 50);
   }, []);
 
   // =========================================================================
-  // LOGIKA NAVIGASI RIWAYAT BROWSER (ANTI-RELOAD PAGE)
+  // LOGIKA NAVIGASI RIWAYAT BROWSER
   // =========================================================================
   const ubahTabNavigasi = (tabBaru) => {
     setActiveTab(tabBaru);
 
-    // 🔥 SELIPAN 2: Alihkan sistem navigasi menggunakan push rute resmi dari react-router-dom
     if (tabBaru === "home") {
-      navigate("/"); // Mengubah URL menjadi paling bersih (mostu.id/)
+      navigate("/");
     } else {
-      navigate(`/${tabBaru}`); // Mengubah URL menjadi (mostu.id/portfolio, mostu.id/about, dll)
+      navigate(`/${tabBaru}`);
     }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
-    // Membaca parameter halaman aktif saat pertama kali web dimuat di browser
     const params = new URLSearchParams(window.location.search);
     const pageAktif = params.get("page") || "home";
 
     if (!window.history.state) {
-      // 🔥 SELIPAN PERBAIKAN: Mencegah penulisan paksa '?page=home' di URL saat pertama kali user mendarat di website
       const urlAwal = pageAktif === "home" ? window.location.pathname : `?page=${pageAktif}`;
       window.history.replaceState({ tab: pageAktif }, "", urlAwal);
     }
@@ -289,403 +350,356 @@ function App() {
   // Cek apakah halaman saat ini adalah prototype
   const isPrototypePage = location.pathname.includes('/portfolio/prototype-');
 
+  // ==========================================
+  // KOMPONEN REDIRECT UNTUK PROTOTYPE (HANYA SEKALI)
+  // ==========================================
+  function PrototypeRedirect() {
+    const location = useLocation();
+
+    const pathParts = location.pathname.split('/');
+    const folderName = pathParts[pathParts.length - 1];
+    const iframeSrc = `/prototypes/${folderName}/index.html`;
+
+    return (
+      <div className="fixed inset-0 w-full h-full bg-white" style={{ zIndex: 9999 }}>
+        <iframe
+          src={iframeSrc}
+          className="w-full h-full border-0"
+          title="Prototype"
+          allowFullScreen
+        />
+        <div className="fixed bottom-6 right-6 z-[10000]">
+          <a
+            href={`https://wa.me/62882016312643?text=${encodeURIComponent("Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.")}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/20 transition-all duration-300 hover:scale-110 hover:bg-[#20ba5a] active:scale95 group"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 transition-transform duration-300 group-hover:rotate-6">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.128.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-2.078l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.455 5.703 1.458h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    );
+  }
+
+  // ==========================================
+  // RETURN
+  // ==========================================
   return (
     <div className="min-h-screen grid-bg relative overflow-x-hidden bg-darkBg text-white selection:bg-agency-orange selection:text-white">
-
-      {/* JIKA HALAMAN PROTOTYPE - TAMPILKAN FULL SCREEN TANPA ELEMEN LAIN */}
-      {isPrototypePage ? (
-        <Routes>
-          <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
-          <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
-          <Route path="/portfolio/prototype-corepack" element={<PrototypeRedirect />} />
-        </Routes>
-      ) : (
+      {/* SPLASH SCREEN */}
+      {!splashComplete && <SplashScreen onComplete={handleSplashComplete} />}
+      
+      {/* KONTEN UTAMA */}
+      {splashComplete && (
         <>
-          {/* NAVBAR HEADER: Auto-Hide on Scroll & Sticky Position (PC & HP) - VERSI PILL SHAPE DENGAN GLASSMORPHISM MODERN */}
-          <header
-            className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-[100px] transition-all duration-500 w-[95%] max-w-[80%] ${showHeader ? "translate-y-0 opacity-100" : "-translate-y-[150%] opacity-0"
-              }`}
-          >
-            {/* Background Glassmorphism dengan gradient & blur */}
-            <div className="absolute inset-0 rounded-[100px] bg-gradient-to-r from-[#FF5500]/5 via-white/5 to-[#FF5500]/5 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(255,85,0,0.08)] overflow-hidden">
-              {/* Efek glow oranye di tepi */}
-              <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl" />
-              <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-[#FF5500]/5 rounded-full blur-3xl" />
-
-              {/* Garis dekoratif di tepi bawah */}
-              <div className="absolute bottom-0 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
-            </div>
-
-            <div className="relative px-6 md:px-8 py-3 flex justify-between items-center">
-              {/* LOGO */}
-              <div className="flex items-center cursor-pointer select-none group" onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); }}>
-                <img src={logoImg} alt="MoStu Logo" className="h-8 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
-              </div>
-
-              {/* NAV LINK DESKTOP */}
-              <nav className="hidden md:flex items-center space-x-8 text-[12px] text-neutral-300 font-chivo font-normal uppercase tracking-widest">
-                {/* PERTAMA: Courses */}
-                <button onClick={() => ubahTabNavigasi("courses")} className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "courses" ? "text-[#FF5500]" : "text-neutral-300"}`}>
-                  Courses
-                  <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "courses" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
-                </button>
-
-                {/* KEDUA: Portfolio */}
-                <button onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); }} className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "portfolio" ? "text-[#FF5500]" : "text-neutral-300"}`}>
-                  Portfolio
-                  <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "portfolio" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
-                </button>
-
-                {/* KETIGA: Products */}
-                <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "products" ? "text-[#FF5500]" : "text-neutral-300"}`}>
-                  Products
-                  <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "products" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
-                </button>
-
-                {/* KEEMPAT: About Us */}
-                <button onClick={() => ubahTabNavigasi("about")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "about" ? "text-[#FF5500]" : "text-neutral-300"}`}>
-                  About Us
-                  <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "about" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
-                </button>
-              </nav>
-
-              {/* CTA MEMBER (DESKTOP ONLY) - DENGAN GRADIENT */}
-              <div className="hidden md:block">
-                <button
-                  onClick={() => setIsMemberModalOpen(true)}
-                  className="bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold px-5 py-2 rounded-full text-[10px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.3)] transition-all duration-300 shadow-md active:scale-95 text-center cursor-pointer"
-                >
-                  Get Member
-                </button>
-              </div>
-
-              {/* TOMBOL PENGONTROL DROPDOWN MOBILE - HAMBURGER MENU (Langsung Berubah) */}
-              <button
-                onClick={toggleMenu}
-                className="md:hidden flex flex-col items-center justify-center gap-[6px] w-8 h-8 bg-transparent border-none cursor-pointer select-none focus:outline-none relative"
-                aria-label="Toggle Menu"
+          {/* JIKA HALAMAN PROTOTYPE */}
+          {isPrototypePage ? (
+            <Routes>
+              <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
+              <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
+              <Route path="/portfolio/prototype-corepack" element={<PrototypeRedirect />} />
+            </Routes>
+          ) : (
+            <>
+              {/* NAVBAR HEADER */}
+              <header
+                className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 rounded-[100px] transition-all duration-500 w-[95%] max-w-[80%] ${showHeader ? "translate-y-0 opacity-100" : "-translate-y-[150%] opacity-0"
+                  }`}
               >
-                {/* Garis Atas - Pendek */}
-                <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen
-                  ? 'w-6 rotate-45 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
-                  : 'w-4'
-                  }`} />
+                {/* Background Glassmorphism */}
+                <div className="absolute inset-0 rounded-[100px] bg-gradient-to-r from-[#FF5500]/5 via-white/5 to-[#FF5500]/5 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(255,85,0,0.08)] overflow-hidden">
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl" />
+                  <div className="absolute -bottom-20 -left-20 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl" />
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-60 h-60 bg-[#FF5500]/5 rounded-full blur-3xl" />
+                  <div className="absolute bottom-0 left-[10%] right-[10%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent" />
+                </div>
 
-                {/* Garis Tengah - Panjang */}
-                <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen
-                  ? 'w-6 -rotate-45 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
-                  : 'w-6'
-                  }`} />
+                <div className="relative px-6 md:px-8 py-3 flex justify-between items-center">
+                  {/* LOGO */}
+                  <div className="flex items-center cursor-pointer select-none group" onClick={() => { ubahTabNavigasi("home"); setIsMobileMenuOpen(false); }}>
+                    <img src={logoImg} alt="MoStu Logo" className="h-8 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
+                  </div>
 
-                {/* Garis Bawah - Pendek (Hilang saat terbuka) */}
-                <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen ? 'w-0 opacity-0' : 'w-4'
-                  }`} />
-              </button>
+                  {/* NAV LINK DESKTOP */}
+                  <nav className="hidden md:flex items-center space-x-8 text-[12px] text-neutral-300 font-chivo font-normal uppercase tracking-widest">
+                    <button onClick={() => ubahTabNavigasi("courses")} className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "courses" ? "text-[#FF5500]" : "text-neutral-300"}`}>
+                      Courses
+                      <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "courses" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                    </button>
+                    <button onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); }} className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "portfolio" ? "text-[#FF5500]" : "text-neutral-300"}`}>
+                      Portfolio
+                      <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "portfolio" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                    </button>
+                    <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "products" ? "text-[#FF5500]" : "text-neutral-300"}`}>
+                      Products
+                      <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "products" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                    </button>
+                    <button onClick={() => ubahTabNavigasi("about")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "about" ? "text-[#FF5500]" : "text-neutral-300"}`}>
+                      About Us
+                      <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "about" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
+                    </button>
+                  </nav>
 
-              {/* DROPDOWN MENU - ANIMASI MASUK & KELUAR HALUS */}
-              {(isMobileMenuOpen || isMenuClosing) && (
-                <div className={`absolute top-full right-0 left-auto w-[55vw] max-w-70 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-5 flex flex-col space-y-3 md:hidden shadow-2xl z-50 overflow-visible text-right items-end mt-3 ${isMenuClosing ? 'dropdown-out' : 'dropdown-in'
-                  }`}>
-                  {/* Background glow */}
-                  <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none" />
-                  <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
-
-                  <button
-                    onClick={() => { ubahTabNavigasi("courses"); toggleMenu(); }}
-                    className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "courses" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
-                  >
-                    Courses
-                  </button>
-                  <button
-                    onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); toggleMenu(); }}
-                    className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "portfolio" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
-                  >
-                    Portfolio
-                  </button>
-                  <button
-                    onClick={() => { ubahTabNavigasi("products"); toggleMenu(); }}
-                    className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "products" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
-                  >
-                    Products
-                  </button>
-                  <button
-                    onClick={() => { ubahTabNavigasi("about"); toggleMenu(); }}
-                    className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "about" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
-                  >
-                    About Us
-                  </button>
-
-                  <div className="pt-1 w-full">
+                  {/* CTA MEMBER */}
+                  <div className="hidden md:block">
                     <button
-                      onClick={() => { setIsMemberModalOpen(true); toggleMenu(); }}
-                      className="w-full bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold py-2 rounded-xl text-[10px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.2)] transition-all duration-300 active:scale-95 text-center cursor-pointer"
+                      onClick={() => setIsMemberModalOpen(true)}
+                      className="bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold px-5 py-2 rounded-full text-[10px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.3)] transition-all duration-300 shadow-md active:scale-95 text-center cursor-pointer"
                     >
                       Get Member
                     </button>
                   </div>
-                </div>
-              )}
-            </div>
-          </header>
 
-          {/* AREA KONTEN UTAMA */}
-          <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+                  {/* TOMBOL MOBILE */}
+                  <button
+                    onClick={toggleMenu}
+                    className="md:hidden flex flex-col items-center justify-center gap-[6px] w-8 h-8 bg-transparent border-none cursor-pointer select-none focus:outline-none relative"
+                    aria-label="Toggle Menu"
+                  >
+                    <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen
+                      ? 'w-6 rotate-45 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                      : 'w-4'
+                      }`} />
+                    <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen
+                      ? 'w-6 -rotate-45 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+                      : 'w-6'
+                      }`} />
+                    <span className={`block h-[2.5px] bg-[#FF5500] rounded-full ${isMobileMenuOpen ? 'w-0 opacity-0' : 'w-4'
+                      }`} />
+                  </button>
 
-            <Routes>
+                  {/* DROPDOWN MENU */}
+                  {(isMobileMenuOpen || isMenuClosing) && (
+                    <div className={`absolute top-full right-0 left-auto w-[55vw] max-w-70 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-5 flex flex-col space-y-3 md:hidden shadow-2xl z-50 overflow-visible text-right items-end mt-3 ${isMenuClosing ? 'dropdown-out' : 'dropdown-in'
+                      }`}>
+                      <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none" />
+                      <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
 
-              {/* HOME */}
-              <Route
-                path="/"
-                element={
-                  <HeroSection
-                    scrollToSection={scrollToSection}
-                    setIsBriefModalOpen={setIsBriefModalOpen}
-                  />
-                }
-              />
+                      <button
+                        onClick={() => { ubahTabNavigasi("courses"); toggleMenu(); }}
+                        className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "courses" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
+                      >
+                        Courses
+                      </button>
+                      <button
+                        onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); toggleMenu(); }}
+                        className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "portfolio" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
+                      >
+                        Portfolio
+                      </button>
+                      <button
+                        onClick={() => { ubahTabNavigasi("products"); toggleMenu(); }}
+                        className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "products" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
+                      >
+                        Products
+                      </button>
+                      <button
+                        onClick={() => { ubahTabNavigasi("about"); toggleMenu(); }}
+                        className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "about" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
+                      >
+                        About Us
+                      </button>
 
-              {/* PORTFOLIO */}
-              <Route
-                path="/portfolio"
-                element={
-                  <div className="mt-20">
-                    <PortfolioTabSection
-                      currentFilter={portfolioFilter}
-                      setFilter={setPortfolioFilter}
-                      setActiveTab={ubahTabNavigasi}
-                    />
-                  </div>
-                }
-              />
-
-              {/* COURSES */}
-              <Route
-                path="/courses"
-                element={
-                  <div className="mt-20">
-                    <CoursesTabSection setActiveTab={ubahTabNavigasi} />
-                  </div>
-                }
-              />
-              <Route
-                path="/courses/:slug"
-                element={
-                  <div className="mt-20">
-                    <CourseDetailSection setActiveTab={ubahTabNavigasi} />
-                  </div>
-                }
-              />
-
-              {/* PROTOTYPES */}
-              <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
-              <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
-
-              {/* PRODUCTS */}
-              <Route
-                path="/products"
-                element={
-                  <div className="mt-20">
-                    {/* Efek glow background */}
-                    <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
-                    <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
-                    <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
-                      {/* Header Section */}
-                      <div className="text-center max-w-xl mx-auto mb-12 select-none">
-                        <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight relative inline-block">
-                          <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
-                            Our Digital Products
-                          </span>
-                          {/* Efek glow kecil dan rapi */}
-                          <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
-                          {/* Efek glow tipis di bawah */}
-                          <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
-                        </h2>
-                        <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
-                          Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
-                        </p>
-                      </div>
-
-                      {/* Grid Container untuk 4 Tools - GLASSMORPHISM */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
-                        {/* TOOL 1: AI VOICE GENERATOR */}
-                        <div className="group relative p-6 rounded-2xl flex flex-col justify-between opacity-0 animate-slide-up hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500">
-                          {/* Background Glassmorphism */}
-                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-white/5 to-[#FF5500]/10 backdrop-blur-xl border border-white/10 shadow-2xl shadow-[#FF5500]/5" />
-                          <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-[#FF5500]/0 via-[#FF5500]/0 to-[#FF5500]/5 group-hover:from-[#FF5500]/5 group-hover:via-[#FF5500]/10 group-hover:to-[#FF5500]/20 transition-all duration-700" />
-
-                          {/* Glow effects */}
-                          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/15 transition-all duration-700" />
-
-                          {/* Garis dekoratif */}
-                          <div className="absolute top-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500" />
-                          <div className="absolute bottom-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500" />
-                          <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-[#FF5500]/30 transition-all duration-500" />
-
-                          <div className="relative z-10">
-                            <div className="w-12 h-12 rounded-xl bg-[#FF5500]/20 backdrop-blur-sm border border-[#FF5500]/30 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300 group-hover:shadow-[0_0_30px_rgba(255,85,0,0.2)]">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
-                              </svg>
-                            </div>
-                            <h3 className="font-poppins font-bold text-lg text-white group-hover:text-[#FF5500] transition-colors duration-300 mb-1">
-                              AI Voice Generator
-                            </h3>
-                            <p className="text-neutral-400 text-xs font-light leading-relaxed">Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.</p>
-                          </div>
-
-                          <button onClick={(e) => { e.stopPropagation(); window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank"); }}
-                            className="relative z-10 mt-4 w-full border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] group-hover:shadow-[0_0_30px_rgba(255,85,0,0.1)]">
-                            Launch Tool ➔
-                          </button>
-                        </div>
-
-                        {/* TOOL 2: UI/UX PREMIUM TEMPLATES (COMING SOON) - Delay 100ms */}
-                        <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:100ms] select-none">
-                          <div>
-                            <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 0 2.4 2.249h1.64a2.25 2.25 0 0 0 2.4-2.249 3 3 0 0 0-.66-1.128ZM9.53 16.122a3 3 0 1 1 4.94 0M9.53 16.122a3 3 0 0 0 .47.11h3.41a3 3 0 0 0 .47-.11m4.94 0a3 3 0 0 1-.66 1.128 2.25 2.25 0 0 1 2.4 2.249h1.64a2.25 2.25 0 0 1 2.4-2.249 3 3 0 0 1-5.78-1.128ZM15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                              </svg>
-                            </div>
-                            <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                              Premium UI Kit
-                            </h3>
-                            <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                              Sistem komponen visual, landing page template, dan kerangka desain UI/UX modern siap pakai untuk Figma dan React.
-                            </p>
-                          </div>
-                          <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                            Coming Soon
-                          </span>
-                        </div>
-
-                        {/* TOOL 3: INSTANT LANDING GENERATOR (COMING SOON) - Delay 200ms */}
-                        <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:200ms] select-none">
-                          <div>
-                            <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" />
-                              </svg>
-                            </div>
-                            <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                              Page Generator
-                            </h3>
-                            <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                              Rakit halaman landing page promosi produk atau portofolio bisnis Anda secara instan dalam hitungan menit tanpa koding.
-                            </p>
-                          </div>
-                          <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                            Coming Soon
-                          </span>
-                        </div>
-
-                        {/* TOOL 4: CINEMATIC MOTION ASSETS (COMING SOON) - Delay 300ms */}
-                        <div className="bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:300ms] select-none">
-                          <div>
-                            <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25z" />
-                              </svg>
-                            </div>
-                            <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">
-                              Motion Assets Pack
-                            </h3>
-                            <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">
-                              Koleksi aset bumper video, overlay cinematic, sound effects, dan grafis gerak transisi premium untuk editor video.
-                            </p>
-                          </div>
-                          <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
-                            Coming Soon
-                          </span>
-                        </div>
-
+                      <div className="pt-1 w-full">
+                        <button
+                          onClick={() => { setIsMemberModalOpen(true); toggleMenu(); }}
+                          className="w-full bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold py-2 rounded-xl text-[10px] uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.2)] transition-all duration-300 active:scale-95 text-center cursor-pointer"
+                        >
+                          Get Member
+                        </button>
                       </div>
                     </div>
-                  </div>
-                }
-              />
+                  )}
+                </div>
+              </header>
 
-              {/* ABOUT */}
-              <Route
-                path="/about"
-                element={
-                  <div className="mt-20">
-                    <AboutTabSection />
-                  </div>
-                }
-              />
+              {/* AREA KONTEN UTAMA */}
+              <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+                <Routes>
+                  <Route
+                    path="/"
+                    element={
+                      <HeroSection
+                        scrollToSection={scrollToSection}
+                        setIsBriefModalOpen={setIsBriefModalOpen}
+                      />
+                    }
+                  />
+                  <Route
+                    path="/portfolio"
+                    element={
+                      <div className="mt-20">
+                        <PortfolioTabSection
+                          currentFilter={portfolioFilter}
+                          setFilter={setPortfolioFilter}
+                          setActiveTab={ubahTabNavigasi}
+                        />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="/courses"
+                    element={
+                      <div className="mt-20">
+                        <CoursesTabSection setActiveTab={ubahTabNavigasi} />
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="/courses/:slug"
+                    element={
+                      <div className="mt-20">
+                        <CourseDetailSection setActiveTab={ubahTabNavigasi} />
+                      </div>
+                    }
+                  />
+                  <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
+                  <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
+                  <Route
+                    path="/products"
+                    element={
+                      <div className="mt-20">
+                        {/* Products content - SAMA SEPERTI SEBELUMNYA */}
+                        <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+                        <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+                        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
+                        <div className="py-16 max-w-5xl mx-auto min-h-[75vh] flex flex-col justify-center animate-slide-up">
+                          <div className="text-center max-w-xl mx-auto mb-12 select-none">
+                            <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight relative inline-block">
+                              <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
+                                Our Digital Products
+                              </span>
+                              <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
+                              <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
+                            </h2>
+                            <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+                              Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
+                            {/* Tool cards - sama seperti sebelumnya */}
+                            <div className="group relative p-6 rounded-2xl flex flex-col justify-between opacity-0 animate-slide-up hover:-translate-y-2 hover:scale-[1.02] transition-all duration-500">
+                              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/10 via-white/5 to-[#FF5500]/10 backdrop-blur-xl border border-white/10 shadow-2xl shadow-[#FF5500]/5" />
+                              <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-[#FF5500]/0 via-[#FF5500]/0 to-[#FF5500]/5 group-hover:from-[#FF5500]/5 group-hover:via-[#FF5500]/10 group-hover:to-[#FF5500]/20 transition-all duration-700" />
+                              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#FF5500]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#FF5500]/15 transition-all duration-700" />
+                              <div className="absolute top-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500" />
+                              <div className="absolute bottom-0 left-[15%] right-[15%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/30 to-transparent group-hover:via-[#FF5500]/60 transition-all duration-500" />
+                              <div className="absolute inset-0 rounded-2xl border border-white/5 group-hover:border-[#FF5500]/30 transition-all duration-500" />
+                              <div className="relative z-10">
+                                <div className="w-12 h-12 rounded-xl bg-[#FF5500]/20 backdrop-blur-sm border border-[#FF5500]/30 flex items-center justify-center text-[#FF5500] mb-4 group-hover:scale-105 transition-transform duration-300 group-hover:shadow-[0_0_30px_rgba(255,85,0,0.2)]">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+                                  </svg>
+                                </div>
+                                <h3 className="font-poppins font-bold text-lg text-white group-hover:text-[#FF5500] transition-colors duration-300 mb-1">
+                                  AI Voice Generator
+                                </h3>
+                                <p className="text-neutral-400 text-xs font-light leading-relaxed">Ubah teks menjadi suara manusia buatan AI. Voice over yang sangat realistis, natural, dan siap pakai untuk kebutuhan konten video marketing Anda.</p>
+                              </div>
+                              <button onClick={(e) => { e.stopPropagation(); window.open("https://gemini.google.com/share/aa1654ce2d36", "_blank"); }}
+                                className="relative z-10 mt-4 w-full border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white hover:text-black hover:border-white text-neutral-300 font-chivo font-medium py-2 rounded-xl text-xs uppercase tracking-wider transition-all duration-300 active:scale-[0.98] group-hover:shadow-[0_0_30px_rgba(255,85,0,0.1)]">
+                                Launch Tool ➔
+                              </button>
+                            </div>
+                            {/* Tool 2, 3, 4 - Coming Soon */}
+                            {[ 
+                              { title: "Premium UI Kit", desc: "Sistem komponen visual, landing page template, dan kerangka desain UI/UX modern siap pakai untuk Figma dan React." },
+                              { title: "Page Generator", desc: "Rakit halaman landing page promosi produk atau portofolio bisnis Anda secara instan dalam hitungan menit tanpa koding." },
+                              { title: "Motion Assets Pack", desc: "Koleksi aset bumper video, overlay cinematic, sound effects, dan grafis gerak transisi premium untuk editor video." }
+                            ].map((item, idx) => (
+                              <div key={idx} className={`bg-neutral-900/20 backdrop-blur-sm p-6 rounded-2xl border border-neutral-900 flex flex-col justify-between opacity-0 animate-slide-up [animation-delay:${(idx + 1) * 100}ms] select-none`}>
+                                <div>
+                                  <div className="w-12 h-12 rounded-xl bg-neutral-950 border border-neutral-850 flex items-center justify-center text-neutral-500 mb-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M9.53 16.122a3 3 0 0 0-5.78 1.128 2.25 2.25 0 0 0 2.4 2.249h1.64a2.25 2.25 0 0 0 2.4-2.249 3 3 0 0 0-.66-1.128ZM9.53 16.122a3 3 0 1 1 4.94 0M9.53 16.122a3 3 0 0 0 .47.11h3.41a3 3 0 0 0 .47-.11m4.94 0a3 3 0 0 1-.66 1.128 2.25 2.25 0 0 1 2.4 2.249h1.64a2.25 2.25 0 0 1 2.4-2.249 3 3 0 0 1-5.78-1.128ZM15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                    </svg>
+                                  </div>
+                                  <h3 className="font-poppins font-bold text-lg mb-1 text-neutral-400">{item.title}</h3>
+                                  <p className="text-neutral-500 text-xs font-light leading-relaxed mb-4">{item.desc}</p>
+                                </div>
+                                <span className="inline-block text-center border border-neutral-800 text-neutral-500 text-[10px] font-mono uppercase tracking-widest py-1.5 rounded-xl bg-neutral-950/40">
+                                  Coming Soon
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    }
+                  />
+                  <Route
+                    path="/about"
+                    element={
+                      <div className="mt-20">
+                        <AboutTabSection />
+                      </div>
+                    }
+                  />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
 
-              {/* 404 - POSISI PALING BAWAH */}
-              <Route path="*" element={<NotFound />} />
+              {/* SECTION 2: SERVICES */}
+              {currentPath === "/" && (
+                <ServicesSection sec2Ref={sec2Ref} isSec2Visible={isSec2Visible} setActiveTab={ubahTabNavigasi} />
+              )}
 
-            </Routes>
+              {/* SECTION 3: QnA */}
+              {currentPath === "/" && <QnaSection />}
 
-          </main>
+              {/* FOOTER */}
+              <Footer setActiveTab={ubahTabNavigasi} scrollToSection={scrollToSection} />
 
-          {/* SECTION 2: SERVICES CONTAINER */}
-          {currentPath === "/" && (
-            <ServicesSection sec2Ref={sec2Ref} isSec2Visible={isSec2Visible} setActiveTab={ubahTabNavigasi} />
-          )}
+              {/* MODALS */}
+              <ProjectBriefModal isOpen={isBriefModalOpen} onClose={() => setIsBriefModalOpen(false)} />
+              <MemberRegistrationModal isOpen={isMemberModalOpen} onClose={() => setIsMemberModalOpen(false)} />
 
-          {/* SECTION 3: QnA CONTAINER */}
-          {currentPath === "/" && <QnaSection />}
-
-          {/* FOOTER CONTAINER */}
-          <Footer setActiveTab={ubahTabNavigasi} scrollToSection={scrollToSection} />
-
-          {/* Modul Pop-up Formulir Project Brief */}
-          <ProjectBriefModal isOpen={isBriefModalOpen} onClose={() => setIsBriefModalOpen(false)} />
-
-          {/* Modul Pop-up Pendaftaran Member Eksklusif MoStu */}
-          <MemberRegistrationModal isOpen={isMemberModalOpen} onClose={() => setIsMemberModalOpen(false)} />
-
-          {/* FLOATING WHATSAPP CTA BUTTON - DENGAN LABEL HOVER & ANIMASI SLIDE FROM RIGHT */}
-          <div
-            className="fixed z-50 animate-slide-up focus:outline-none group"
-            style={{
-              animationDelay: "0s, 0s",
-              bottom: isMobile ? '16px' : '24px',
-              right: isMobile ? '8px' : '24px',
-            }}
-          >
-            <div className="relative">
-              {/* Tooltip/Label "Hire Us!" */}
-              <div className={`absolute right-full top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap ${isMobile ? 'mr-[12px]' : 'mr-[20px]'
-                }`}>
-                <span className={`bg-white text-black font-chivo font-semibold rounded-lg border border-gray-200 shadow-lg shadow-black/10 relative ${isMobile
-                  ? 'text-[10px] px-2.5 py-1.5'
-                  : 'text-xs sm:text-sm px-3 sm:px-5 py-1.5 sm:py-2.5'
-                  }`}>
-                  Hire Us!
-                  <div className="absolute -right-[6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-l-[6px] border-t-transparent border-b-transparent border-l-white"></div>
-                </span>
-              </div>
-
-              {/* Tombol WhatsApp */}
-              <a
-                href={`https://wa.me/62882016312643?text=${encodeURIComponent(
-                  "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda."
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat via WhatsApp"
-                className={`flex items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:scale-110 active:scale-95 group relative ${isMobile ? 'w-[86px] h-[86px]' : 'w-[86px] h-[86px]'
-                  }`}
+              {/* WHATSAPP FLOATING BUTTON */}
+              <div
+                className="fixed z-50 animate-slide-up focus:outline-none group"
+                style={{
+                  animationDelay: "0s, 0s",
+                  bottom: isMobile ? '16px' : '24px',
+                  right: isMobile ? '8px' : '24px',
+                }}
               >
-                <div className={`absolute rounded-full bg-[#25D366]/20 animate-ping-slow ${isMobile ? 'inset-2' : 'inset-4'
-                  }`}></div>
-
-                <img
-                  src={waLogo}
-                  alt="WhatsApp"
-                  className="w-full h-full object-contain transition-transform duration-300 group-hover:rotate-6 relative z-10"
-                />
-              </a>
-            </div>
-          </div>
+                <div className="relative">
+                  <div className={`absolute right-full top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all duration-300 ease-out pointer-events-none whitespace-nowrap ${isMobile ? 'mr-[12px]' : 'mr-[20px]'
+                    }`}>
+                    <span className={`bg-white text-black font-chivo font-semibold rounded-lg border border-gray-200 shadow-lg shadow-black/10 relative ${isMobile
+                      ? 'text-[10px] px-2.5 py-1.5'
+                      : 'text-xs sm:text-sm px-3 sm:px-5 py-1.5 sm:py-2.5'
+                      }`}>
+                      Hire Us!
+                      <div className="absolute -right-[6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-l-[6px] border-t-transparent border-b-transparent border-l-white"></div>
+                    </span>
+                  </div>
+                  <a
+                    href={`https://wa.me/62882016312643?text=${encodeURIComponent(
+                      "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda."
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Chat via WhatsApp"
+                    className={`flex items-center justify-center rounded-full bg-transparent transition-all duration-300 hover:scale-110 active:scale-95 group relative ${isMobile ? 'w-[86px] h-[86px]' : 'w-[86px] h-[86px]'
+                      }`}
+                  >
+                    <div className={`absolute rounded-full bg-[#25D366]/20 animate-ping-slow ${isMobile ? 'inset-2' : 'inset-4'
+                      }`}></div>
+                    <img
+                      src={waLogo}
+                      alt="WhatsApp"
+                      className="w-full h-full object-contain transition-transform duration-300 group-hover:rotate-6 relative z-10"
+                    />
+                  </a>
+                </div>
+              </div>
+            </>
+          )}
         </>
       )}
     </div>
@@ -2216,10 +2230,10 @@ function CoursesTabSection() {
 
                 {/* Badge Status - TETAP ADA */}
                 <span className={`absolute top-2.5 left-2.5 sm:top-3 sm:left-3 text-[9px] sm:text-[10px] font-chivo font-bold uppercase tracking-wider px-2 sm:px-2.5 py-1 rounded-full backdrop-blur-sm border ${course.status === "ready"
-                    ? "bg-[#FF5500]/25 text-[#FF5500] border-[#FF5500]/40"
-                    : course.status === "soon"
-                      ? "bg-white/10 text-neutral-200 border-white/20"
-                      : "bg-neutral-950/60 text-neutral-500 border-neutral-800"
+                  ? "bg-[#FF5500]/25 text-[#FF5500] border-[#FF5500]/40"
+                  : course.status === "soon"
+                    ? "bg-white/10 text-neutral-200 border-white/20"
+                    : "bg-neutral-950/60 text-neutral-500 border-neutral-800"
                   }`}>
                   {course.badge}
                 </span>
