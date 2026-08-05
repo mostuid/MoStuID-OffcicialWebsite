@@ -399,7 +399,7 @@ function App() {
                   </div>
 
                   {/* NAV LINK DESKTOP */}
-                  <nav className="hidden md:flex items-center space-x-16 text-sm text-neutral-300 font-chivo font-normal uppercase tracking-widest">
+                  <nav className="hidden md:flex items-center space-x-10 text-sm text-neutral-300 font-chivo font-normal uppercase tracking-widest">
                     <button
                       onClick={() => {
                         ubahTabNavigasi("portfolio");
