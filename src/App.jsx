@@ -562,7 +562,7 @@ function App() {
                               <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
                               <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
                             </h2>
-                            <p className="text-neutral-200 font-semibold text-xs sm:text-sm mt-2">
+                            <p className="text-neutral-200 font-semibold text-sm sm:text-sm mt-2">
                               Eksplorasi ekosistem tools digital premium kami.
                             </p>
                           </div>
@@ -1570,7 +1570,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
             {/* Efek glow tipis di bawah */}
             <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
           </h2>
-          <p className="text-neutral-200 font-semibold text-xs sm:text-sm mt-2">Eksplorasi hasil karya terbaik kami.</p>
+          <p className="text-neutral-200 font-semibold text-sm sm:text-sm mt-2">Eksplorasi hasil karya terbaik kami.</p>
         </div>
 
         {/* Dropdown Kategori - Di sebelah kanan */}
@@ -2485,7 +2485,7 @@ function AboutTabSection() {
               {/* Efek glow tipis di bawah */}
               <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
             </h3>
-            <p className="text-neutral-200 font-semibold text-xs sm:text-sm mt-4">Sejarah perjalanan bisnis kami.</p>
+            <p className="text-neutral-200 font-semibold text-sm sm:text-sm mt-4">Sejarah perjalanan bisnis kami.</p>
           </div>
 
           {/* TIMELINE DENGAN GARIS TERHUBUNG - TEPAT DI TENGAH DOT */}
@@ -2496,7 +2496,7 @@ function AboutTabSection() {
             {/* Item 1 */}
             <div className="relative pl-6 pb-5 md:pb-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
-              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-sm sm:text-sm font-light leading-relaxed">
                 MoStu (Mostanir Studios) berawal pada tahun 2024 sebagai layanan Agency yang bergerak di bidang animasi, foto & videografi, pengembangan website, dan visualisasi 3D.
               </p>
             </div>
@@ -2504,7 +2504,7 @@ function AboutTabSection() {
             {/* Item 2 */}
             <div className="relative pl-6 pb-5 md:pb-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
-              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-sm sm:text-sm font-light leading-relaxed">
                 Ide ini lahir dari sebuah meja warkop, ditemani segelas kopi pancung khas Aceh dan obrolan panjang tentang mimpi, kreativitas, serta harapan untuk membangun sesuatu yang bermanfaat. Hingga hari ini, Mostanir Studios masih dalam proses bertumbuh dan belajar.
               </p>
             </div>
@@ -2512,7 +2512,7 @@ function AboutTabSection() {
             {/* Item 3 */}
             <div className="relative pl-6 pb-5 md:pb-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
-              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-sm sm:text-sm font-light leading-relaxed">
                 Kami memang bukan tim besar, bahkan belum memiliki perjalanan yang begitu panjang. Namun kami percaya, bahwa setiap karya yang dikerjakan dengan sungguh-sungguh akan menemukan jalannya sendiri.
               </p>
             </div>
@@ -2520,15 +2520,15 @@ function AboutTabSection() {
             {/* Item 4 */}
             <div className="relative pl-6 pb-5 md:pb-6">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_20px_rgba(255,85,0,0.4)] z-10" />
-              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-sm sm:text-sm font-light leading-relaxed">
                 Dari proyek ke proyek, kami terus mengembangkan kemampuan, memperluas pengalaman, dan berusaha memberikan hasil terbaik bagi setiap klien yang mempercayakan kebutuhannya kepada kami, dengan penuh tanggung jawab.
               </p>
             </div>
 
             {/* Item 5 (terakhir) */}
-            <div className="relative pl-6">
+            <div className="relative pl-6 mb-8">
               <div className="absolute left-0 top-2 w-4 h-4 bg-[#FF5500] rounded-full border-2 border-[#FF5500] -ml-[7px] shadow-[0_0_25px_rgba(255,85,0,0.5)] z-10" />
-              <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+              <p className="text-neutral-400 text-sm sm:text-sm font-light leading-relaxed">
                 Perjalanan ini masih panjang, dan kami memilih untuk terus belajar, berkarya, serta bertumbuh bersama setiap kepercayaan yang Anda berikan.
               </p>
             </div>
@@ -2575,7 +2575,7 @@ function AboutTabSection() {
             <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
             <h3 className="text-lg md:text-xl font-poppins font-bold text-white tracking-tight">Visi</h3>
           </div>
-          <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed pl-4">
+          <p className="text-neutral-400 text-sm sm:text-sm font-light leading-relaxed pl-4">
             Menjadi mitra kreatif digital terpercaya yang menghubungkan ide-ide brilian dengan eksekusi visual berkualitas tinggi, serta mendorong pertumbuhan bisnis di era digital.
           </p>
         </div>
@@ -2584,11 +2584,11 @@ function AboutTabSection() {
             <div className="w-1 h-8 bg-[#FF5500] rounded-full"></div>
             <h3 className="text-lg md:text-xl font-poppins font-bold text-white tracking-tight">Misi</h3>
           </div>
-          <ul className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed pl-4 space-y-2 list-disc list-inside">
-            <li>Memberikan layanan pengembangan website & software yang responsif dan berkualitas.</li>
-            <li>Menghadirkan konten visual storytelling yang impactful dan berdaya jual tinggi.</li>
-            <li>Membangun strategi brand yang kuat dan identitas digital yang konsisten.</li>
-            <li>Terus berinovasi dan mengikuti perkembangan teknologi digital terkini.</li>
+          <ul className="text-neutral-400 text-sm sm:text-sm font-light leading-relaxed pl-4 space-y-2 list-disc list-inside">
+            <li>Mengembangkan websites/apps yang berkualitas.</li>
+            <li>Menciptakan konten visual yang menarik dan efektif.</li>
+            <li>Membangun brand dan identitas digital yang kuat.</li>
+            <li>Berinovasi mengikuti perkembangan teknologi.</li>
           </ul>
         </div>
         <div className="md:col-span-4 space-y-3">
@@ -2598,16 +2598,16 @@ function AboutTabSection() {
           </div>
           <div className="pl-4 space-y-3">
             <div>
-              <h4 className="text-xs md:text-sm font-poppins font-semibold text-[#FF5500]">Kreatif & Inovatif</h4>
-              <p className="text-neutral-400 text-xs sm:text-sm font-light">Selalu mencari pendekatan baru dalam setiap karya.</p>
+              <h4 className="text-sm md:text-sm font-poppins font-semibold text-[#FF5500]">Kreatif & Inovatif</h4>
+              <p className="text-neutral-400 text-sm sm:text-sm font-light">Selalu mencari pendekatan baru dalam setiap karya.</p>
             </div>
             <div>
-              <h4 className="text-xs md:text-sm font-poppins font-semibold text-[#FF5500]">Integritas & Tanggung Jawab</h4>
-              <p className="text-neutral-400 text-xs sm:text-sm font-light">Bekerja dengan komitmen dan profesionalisme tinggi.</p>
+              <h4 className="text-sm md:text-sm font-poppins font-semibold text-[#FF5500]">Integritas & Tanggung Jawab</h4>
+              <p className="text-neutral-400 text-sm sm:text-sm font-light">Bekerja dengan komitmen dan profesionalisme tinggi.</p>
             </div>
             <div>
-              <h4 className="text-xs md:text-sm font-poppins font-semibold text-[#FF5500]">Kolaborasi</h4>
-              <p className="text-neutral-400 text-xs sm:text-sm font-light">Membangun sinergi dengan klien untuk hasil terbaik.</p>
+              <h4 className="text-sm md:text-sm font-poppins font-semibold text-[#FF5500]">Kolaborasi</h4>
+              <p className="text-neutral-400 text-sm sm:text-sm font-light">Membangun sinergi dengan klien untuk hasil terbaik.</p>
             </div>
           </div>
         </div>
@@ -2625,7 +2625,7 @@ function AboutTabSection() {
             {/* Efek glow tipis di bawah */}
             <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
           </h3>
-          <p className="text-neutral-400 font-semibold text-xs sm:text-sm mt-2">Sinergi para profesional di balik keandalan produk digital MoStu.</p>
+          <p className="text-neutral-200 font-semibold text-sm sm:text-sm mt-4">Sinergi profesional di balik MoStu Agency.</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-[1150px] mx-auto">
