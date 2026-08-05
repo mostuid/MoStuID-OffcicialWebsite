@@ -4,6 +4,7 @@ import founderimg from "./assets/founder.png";
 import cofounderimg from "./assets/co-founder.png";
 import whoNext from "./assets/Whos-Next.png";
 import logoImg from "./assets/logo-mostu.png";
+import { LOGO_BASE64 } from "./assets/logoBase64";
 import bgSec2 from './assets/bg-sec2.png';
 import webPorto1Img from "./assets/Web-Porto1.gif";
 import webPorto2Img from "./assets/Web-Porto2.gif";
@@ -36,12 +37,8 @@ function SplashScreen({ onComplete }) {
       const elapsed = Date.now() - startTime;
       const rawProgress = Math.min(elapsed / duration, 1);
       
-      // Easing function: cepat di awal, lambat di akhir (easeOutCubic)
-      // Progress berjalan cepat lalu melambat mendekati 100%
+      // Easing: cepat di awal, lambat di akhir
       const easedProgress = 1 - Math.pow(1 - rawProgress, 3);
-      // Alternatif: easeOutQuad (lebih halus)
-      // const easedProgress = 1 - Math.pow(1 - rawProgress, 2);
-      
       const newProgress = easedProgress * 100;
       setProgress(newProgress);
 
@@ -74,7 +71,6 @@ function SplashScreen({ onComplete }) {
       <div className="relative z-10 flex flex-col items-center">
         {/* Loading Circle dengan Logo di Tengah */}
         <div className="relative w-24 h-24">
-          {/* Background circle */}
           <svg className="w-24 h-24 transform -rotate-90">
             <circle
               cx="48"
@@ -100,19 +96,18 @@ function SplashScreen({ onComplete }) {
             />
           </svg>
           
-          {/* Logo di Tengah Lingkaran */}
+          {/* Logo di Tengah Lingkaran - MENGGUNAKAN BASE64 DARI FILE TERPISAH */}
           <div className="absolute inset-0 flex items-center justify-center">
             <img 
-              src={logoImg} 
+              src={LOGO_BASE64} // <-- PAKAI IMPORT DARI FILE TERPISAH
               alt="MoStu.ID" 
               className="w-12 h-12 object-contain"
             />
           </div>
         </div>
         
-        {/* Teks loading */}
         <p className="text-neutral-400 text-xs font-light mt-6 tracking-wider">
-          Loading...
+          Loading Assets...
         </p>
       </div>
     </div>
