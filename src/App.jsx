@@ -562,8 +562,8 @@ function App() {
                               <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
                               <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
                             </h2>
-                            <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
-                              Eksplorasi ekosistem tools digital premium kami yang dirancang khusus untuk mempercepat skalabilitas, produktivitas, dan kreativitas bisnismu.
+                            <p className="text-neutral-200 font-semibold text-xs sm:text-sm mt-2">
+                              Eksplorasi ekosistem tools digital premium kami.
                             </p>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-0">
@@ -1570,7 +1570,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
             {/* Efek glow tipis di bawah */}
             <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
           </h2>
-          <p className="text-neutral-400 max-w-xl font-light text-sm mx-auto md:mx-0 mt-2">Silahkan eksplorasi karya terbaik pilihan kami.</p>
+          <p className="text-neutral-200 font-semibold text-xs sm:text-sm mt-2">Eksplorasi hasil karya terbaik kami.</p>
         </div>
 
         {/* Dropdown Kategori - Di sebelah kanan */}
@@ -2473,7 +2473,9 @@ function AboutTabSection() {
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-stretch select-none">
         <div className="md:col-span-7 space-y-0 text-left relative">
-          <div className="text-left mb-6 md:mb-8 select-none">
+          
+          {/* Judul About MoStu - Rata tengah di mobile, rata kiri di desktop */}
+          <div className="text-center md:text-left mb-14 md:mb-8 select-none">
             <h3 className="text-4xl md:text-4xl font-poppins font-black tracking-tight text-white relative inline-block">
               <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
                 About MoStu
@@ -2483,7 +2485,7 @@ function AboutTabSection() {
               {/* Efek glow tipis di bawah */}
               <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
             </h3>
-            <p className="text-neutral-200 font-semibold text-xs sm:text-sm mt-2">Sejarah perjalanan bisnis kami.</p>
+            <p className="text-neutral-200 font-semibold text-xs sm:text-sm mt-4">Sejarah perjalanan bisnis kami.</p>
           </div>
 
           {/* TIMELINE DENGAN GARIS TERHUBUNG - TEPAT DI TENGAH DOT */}
