@@ -2483,7 +2483,7 @@ function AboutTabSection() {
               {/* Efek glow tipis di bawah */}
               <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
             </h3>
-            <p className="text-neutral-400 font-semibold text-xs sm:text-sm mt-2">Sejarah perjalanan kami dalam membangun solusi kreatif dan digital.</p>
+            <p className="text-neutral-200 font-semibold text-xs sm:text-sm mt-2">Sejarah perjalanan bisnis kami.</p>
           </div>
 
           {/* TIMELINE DENGAN GARIS TERHUBUNG - TEPAT DI TENGAH DOT */}
