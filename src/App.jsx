@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation, useParams } from "react-router-dom";
 import founderimg from "./assets/founder.png";
 import cofounderimg from "./assets/co-founder.png";
 import whoNext from "./assets/Whos-Next.png";
@@ -325,10 +325,10 @@ function App() {
 
               {/* NAV LINK DESKTOP */}
               <nav className="hidden md:flex items-center space-x-8 text-[12px] text-neutral-300 font-chivo font-normal uppercase tracking-widest">
-                {/* PERTAMA: Services */}
-                <button onClick={() => { ubahTabNavigasi("home"); setTimeout(() => scrollToSection("services-area"), 100); }} className="hover:text-[#FF5500] transition-colors py-1.5 cursor-pointer relative group">
-                  Services
-                  <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 rounded-full" />
+                {/* PERTAMA: Courses */}
+                <button onClick={() => ubahTabNavigasi("courses")} className={`hover:text-[#FF5500] transition-colors relative py-1.5 cursor-pointer group ${activeTab === "courses" ? "text-[#FF5500]" : "text-neutral-300"}`}>
+                  Courses
+                  <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "courses" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                 </button>
 
                 {/* KEDUA: Portfolio */}
@@ -392,10 +392,10 @@ function App() {
                   <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
 
                   <button
-                    onClick={() => { ubahTabNavigasi("home"); toggleMenu(); setTimeout(() => scrollToSection("services-area"), 100); }}
-                    className="w-full text-right text-neutral-300 hover:text-[#FF5500] font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors"
+                    onClick={() => { ubahTabNavigasi("courses"); toggleMenu(); }}
+                    className={`w-full text-right font-chivo text-[11px] uppercase tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "courses" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                   >
-                    Services
+                    Courses
                   </button>
                   <button
                     onClick={() => { ubahTabNavigasi("portfolio"); setPortfolioFilter("all"); toggleMenu(); }}
@@ -430,7 +430,7 @@ function App() {
           </header>
 
           {/* AREA KONTEN UTAMA */}
-          <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 overflow-y-clip">
+          <main className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
 
             <Routes>
 
@@ -455,6 +455,24 @@ function App() {
                       setFilter={setPortfolioFilter}
                       setActiveTab={ubahTabNavigasi}
                     />
+                  </div>
+                }
+              />
+
+              {/* COURSES */}
+              <Route
+                path="/courses"
+                element={
+                  <div className="mt-20">
+                    <CoursesTabSection setActiveTab={ubahTabNavigasi} />
+                  </div>
+                }
+              />
+              <Route
+                path="/courses/:slug"
+                element={
+                  <div className="mt-20">
+                    <CourseDetailSection setActiveTab={ubahTabNavigasi} />
                   </div>
                 }
               />
@@ -2004,6 +2022,383 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 }
 
 /* ==========================================
+   DATA KELAS ONLINE - SUMBER TUNGGAL UNTUK COURSES
+   ========================================== */
+const coursesData = [
+  {
+    slug: "ngonten",
+    title: "Kelas Ngonten",
+    status: "ready", // ready | soon | later
+    badge: "Dibuka",
+    shortDesc: "Bikin konten media sosial yang bikin orang berhenti scroll.",
+    icon: <img src={iconVisualStorytelling} alt="Ngonten Icon" className="w-14 h-14 sm:w-16 sm:h-16 object-contain opacity-90" />,
+    trailerId: "FbdM_EwI1pk",
+    hero: {
+      eyebrow: "Kelas Ngonten",
+      headline: "Berhenti nebak-nebak, mulai ngonten yang beneran dilihat orang",
+      subheadline: "Pelajari cara riset ide, bikin hook 3 detik pertama, dan susun konten yang konsisten tanpa harus mikir dari nol tiap hari."
+    },
+    painPoints: [
+      "Sudah posting rutin tapi reach-nya stuck di situ-situ aja.",
+      "Bingung mau ngonten apa setiap hari, akhirnya skip posting.",
+      "Konten terasa 'jualan banget' sampai orang malas nonton sampai habis."
+    ],
+    benefits: [
+      "Framework riset ide konten yang nggak pernah kehabisan bahan",
+      "Teknik hook 3 detik pertama supaya orang nggak langsung scroll",
+      "Cara bikin content plan mingguan yang realistis buat dikerjain sendiri",
+      "Studi kasus konten yang terbukti nambah engagement dan followers"
+    ],
+    curriculum: [
+      "Riset niche & audiens: ngonten buat siapa, kenapa mereka peduli",
+      "Formula hook, isi, dan closing yang gampang ditiru",
+      "Editing ringan biar konten terasa rapi tanpa effort berlebihan",
+      "Strategi posting & evaluasi performa tiap minggu"
+    ],
+    ctaText: "Daftar Kelas Ngonten",
+    waMessage: "Halo MoStu.ID, saya tertarik untuk ikut Kelas Ngonten. Boleh info jadwal dan detail pendaftarannya?"
+  },
+  {
+    slug: "web-development",
+    title: "Kelas Bikin Website",
+    status: "soon",
+    badge: "Segera Hadir",
+    shortDesc: "Bangun website sendiri dari nol sampai online, tanpa harus jago coding dulu.",
+    icon: <img src={iconWebDev} alt="Web Development Icon" className="w-14 h-14 sm:w-16 sm:h-16 object-contain opacity-90" />,
+    trailerId: "FbdM_EwI1pk",
+    hero: {
+      eyebrow: "Kelas Web Development",
+      headline: "Punya ide bisnis atau portofolio? Saatnya kamu yang bikin website-nya sendiri",
+      subheadline: "Belajar dari dasar HTML, CSS, sampai membangun website modern yang responsif — dibimbing langsung oleh tim yang sehari-hari mengerjakan proyek klien."
+    },
+    painPoints: [
+      "Selalu bergantung sama orang lain setiap butuh update website.",
+      "Sudah coba belajar sendiri dari internet, tapi materinya berserakan dan bikin bingung.",
+      "Takut coding itu susah dan cuma buat orang IT."
+    ],
+    benefits: [
+      "Roadmap belajar yang jelas, dari nol sampai bisa deploy website sendiri",
+      "Praktik langsung bikin proyek nyata, bukan cuma teori",
+      "Dibimbing oleh developer yang aktif mengerjakan proyek klien setiap hari",
+      "Akses komunitas untuk tanya-jawab selama proses belajar"
+    ],
+    curriculum: [
+      "Dasar HTML, CSS, dan struktur halaman web modern",
+      "Membuat tampilan responsif untuk HP, tablet, dan desktop",
+      "Pengenalan React dan cara kerja website interaktif",
+      "Deploy website supaya bisa diakses publik"
+    ],
+    ctaText: "Gabung Waitlist Web Development",
+    waMessage: "Halo MoStu.ID, saya ingin masuk waitlist Kelas Web Development. Tolong kabari saya saat pendaftaran dibuka ya."
+  },
+  {
+    slug: "app-development",
+    title: "Kelas Bikin Aplikasi",
+    status: "soon",
+    badge: "Segera Hadir",
+    shortDesc: "Wujudkan ide aplikasi impianmu jadi aplikasi yang benar-benar bisa dipakai.",
+    icon: <img src={iconAppDev} alt="App Development Icon" className="w-14 h-14 sm:w-16 sm:h-16 object-contain opacity-90" />,
+    trailerId: "FbdM_EwI1pk",
+    hero: {
+      eyebrow: "Kelas App Development",
+      headline: "Dari ide di kepala, jadi aplikasi yang bisa di-install orang lain",
+      subheadline: "Kelas ini mengajarkan cara berpikir dan membangun aplikasi mobile dari konsep sampai siap dirilis, dengan studi kasus dari proyek-proyek nyata."
+    },
+    painPoints: [
+      "Punya ide aplikasi tapi nggak tahu harus mulai dari mana.",
+      "Merasa app development itu ranah yang terlalu rumit untuk dipelajari sendiri.",
+      "Sudah pakai no-code tools tapi mentok pas butuh fitur yang lebih custom."
+    ],
+    benefits: [
+      "Memahami alur berpikir sebelum membangun aplikasi: dari masalah ke fitur",
+      "Praktik membangun aplikasi mobile dari awal sampai bisa dicoba di HP sendiri",
+      "Tips memilih fitur mana yang penting duluan supaya aplikasi cepat jadi",
+      "Insight dari pengalaman tim MoStu mengerjakan aplikasi untuk klien"
+    ],
+    curriculum: [
+      "Dasar logika pemrograman untuk aplikasi mobile",
+      "Membangun tampilan (UI) dan alur (UX) aplikasi yang mudah dipakai",
+      "Menghubungkan aplikasi dengan data (database sederhana)",
+      "Persiapan sebelum aplikasi dirilis ke pengguna"
+    ],
+    ctaText: "Gabung Waitlist App Development",
+    waMessage: "Halo MoStu.ID, saya ingin masuk waitlist Kelas App Development. Tolong kabari saya saat pendaftaran dibuka ya."
+  },
+  {
+    slug: "n8n-automation",
+    title: "n8n Automation",
+    status: "later",
+    badge: "Coming Soon",
+    shortDesc: "Otomatisasi workflow bisnis pakai n8n, tanpa perlu jadi programmer.",
+    icon: <img src={iconAIAgent} alt="n8n Automation Icon" className="w-14 h-14 sm:w-16 sm:h-16 object-contain opacity-60" />
+  },
+  {
+    slug: "animasi",
+    title: "Kelas Bikin Animasi",
+    status: "later",
+    badge: "Coming Soon",
+    shortDesc: "Animasi 2D/3D untuk motion graphics dan explainer video.",
+    icon: <img src={iconAnimationServices} alt="Animasi Icon" className="w-14 h-14 sm:w-16 sm:h-16 object-contain opacity-60" />
+  },
+  {
+    slug: "videografi-fotografi",
+    title: "Kelas Videografi/Fotografi",
+    status: "later",
+    badge: "Coming Soon",
+    shortDesc: "Produksi visual sinematik dan fotografi profesional dari nol.",
+    icon: <img src={iconVisualStorytelling} alt="Videografi Fotografi Icon" className="w-14 h-14 sm:w-16 sm:h-16 object-contain opacity-60" />
+  },
+];
+
+/* ==========================================
+   KOMPONEN MANDIRI: TAB COURSES (KELAS ONLINE)
+   ========================================== */
+function CoursesTabSection() {
+  const navigate = useNavigate();
+
+  const handleCourseClick = (course) => {
+    if (course.status === "later") return;
+    navigate(`/courses/${course.slug}`);
+  };
+
+  return (
+    <div className="py-12 min-h-[70vh] relative">
+      {/* Efek glow background - konsisten dengan tab lain */}
+      <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Header */}
+      <div className="text-center max-w-xl mx-auto mb-12 select-none relative z-10">
+        <div className="inline-block mb-4">
+          <span className="bg-[#FF5500]/20 text-[#FF5500] text-[10px] lg:text-xs font-chivo font-bold uppercase tracking-widest px-3 lg:px-4 py-1 lg:py-1.5 rounded-full border border-[#FF5500]/30 backdrop-blur-sm">
+            Kelas Online
+          </span>
+        </div>
+        <h2 className="text-3xl sm:text-4xl font-poppins font-black mb-3 tracking-tight relative inline-block">
+          <span className="bg-gradient-to-r from-[#FF5500] via-white to-[#FF5500] bg-clip-text text-transparent relative z-10">
+            Belajar Langsung Dari Kami
+          </span>
+          <span className="absolute -inset-1 bg-[#FF5500]/15 blur-md -z-0 rounded-lg"></span>
+          <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
+        </h2>
+        <p className="text-neutral-400 text-xs sm:text-sm font-light leading-relaxed">
+          Kelas online praktis yang disusun langsung dari pengalaman kami mengerjakan proyek klien sehari-hari.
+        </p>
+      </div>
+
+      {/* Grid Kartu Kelas - RASIO 4:5 */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 relative z-10">
+        {coursesData.map((course, i) => {
+          const isClickable = course.status !== "later";
+          return (
+            <div
+              key={course.slug}
+              onClick={() => handleCourseClick(course)}
+              className={`
+          group relative rounded-2xl overflow-hidden opacity-0 animate-slide-up
+          transition-all duration-400 flex flex-col border
+          ${isClickable
+                  ? "cursor-pointer bg-gradient-to-br from-neutral-900/90 to-neutral-800/90 border-white/5 hover:border-[#FF5500]/40 hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#FF5500]/20"
+                  : "cursor-default bg-neutral-900/20 border-neutral-900"
+                }
+        `}
+              style={{ animationDelay: `${i * 80}ms` }}
+            >
+              {/* THUMBNAIL - TANPA TOMBOL PLAY */}
+              <div className="relative w-full aspect-4/5 bg-gradient-to-br from-neutral-800 to-neutral-950 flex items-center justify-center overflow-hidden">
+                <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
+                <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#FF5500]/10 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FF5500]/5 rounded-full blur-2xl pointer-events-none" />
+
+                {course.icon}
+
+                {/* Badge Status - TETAP ADA */}
+                <span className={`absolute top-2.5 left-2.5 sm:top-3 sm:left-3 text-[9px] sm:text-[10px] font-chivo font-bold uppercase tracking-wider px-2 sm:px-2.5 py-1 rounded-full backdrop-blur-sm border ${course.status === "ready"
+                    ? "bg-[#FF5500]/25 text-[#FF5500] border-[#FF5500]/40"
+                    : course.status === "soon"
+                      ? "bg-white/10 text-neutral-200 border-white/20"
+                      : "bg-neutral-950/60 text-neutral-500 border-neutral-800"
+                  }`}>
+                  {course.badge}
+                </span>
+              </div>
+
+              {/* Konten teks */}
+              <div className="relative z-10 p-3.5 sm:p-4 flex-1 flex flex-col">
+                <h3 className={`font-poppins font-bold text-xs sm:text-sm lg:text-base mb-1 transition-colors duration-300 ${isClickable ? "text-white group-hover:text-[#FF5500]" : "text-neutral-400"}`}>
+                  {course.title}
+                </h3>
+                <p className={`text-[10px] sm:text-xs font-light leading-relaxed flex-1 line-clamp-2 ${isClickable ? "text-neutral-400" : "text-neutral-600"}`}>
+                  {course.shortDesc}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ==========================================
+   KOMPONEN MANDIRI: HALAMAN DETAIL KELAS
+   ========================================== */
+function CourseDetailSection() {
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const course = coursesData.find((c) => c.slug === slug);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [slug]);
+
+  if (!course) {
+    return (
+      <div className="py-24 text-center min-h-[60vh] flex flex-col items-center justify-center">
+        <p className="text-neutral-400 mb-4">Kelas yang kamu cari tidak ditemukan.</p>
+        <button onClick={() => navigate("/courses")} className="text-[#FF5500] font-chivo text-sm uppercase tracking-wider hover:underline cursor-pointer">
+          Kembali ke Courses
+        </button>
+      </div>
+    );
+  }
+
+  const waLink = `https://wa.me/62882016312643?text=${encodeURIComponent(course.waMessage || `Halo MoStu.ID, saya ingin tahu lebih lanjut tentang Kelas ${course.title}.`)}`;
+
+  // Fallback tampilan untuk kelas yang masih "Coming Soon" (belum ada materi storytelling)
+  if (course.status === "later" || !course.hero) {
+    return (
+      <div className="py-24 text-center min-h-[60vh] flex flex-col items-center justify-center relative">
+        <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+        <span className="bg-neutral-900/60 text-neutral-400 text-[10px] font-chivo font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-neutral-800 mb-4 relative z-10">
+          Coming Soon
+        </span>
+        <h2 className="text-2xl sm:text-3xl font-poppins font-black text-white mb-3 relative z-10">{course.title}</h2>
+        <p className="text-neutral-400 text-sm font-light max-w-md mx-auto mb-6 relative z-10">
+          Kelas ini sedang kami siapkan. Pantau terus halaman Courses untuk info jadwal pendaftarannya.
+        </p>
+        <button onClick={() => navigate("/courses")} className="relative z-10 text-[#FF5500] font-chivo text-sm uppercase tracking-wider hover:underline cursor-pointer">
+          Kembali ke Courses
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="py-12 max-w-4xl mx-auto space-y-12 relative">
+      {/* Efek glow background */}
+      <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
+
+      {/* Tombol Kembali */}
+      <button
+        onClick={() => navigate("/courses")}
+        className="relative z-10 flex items-center gap-2 text-neutral-400 hover:text-[#FF5500] font-chivo text-xs uppercase tracking-wider transition-colors cursor-pointer"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+        </svg>
+        Kembali ke Courses
+      </button>
+
+      {/* Hero */}
+      <div className="relative z-10 text-center max-w-2xl mx-auto animate-slide-up">
+        <span className={`inline-block text-[10px] font-chivo font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border mb-4 ${course.status === "ready" ? "bg-[#FF5500]/20 text-[#FF5500] border-[#FF5500]/30" : "bg-white/10 text-neutral-200 border-white/20"
+          }`}>
+          {course.hero.eyebrow}
+        </span>
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl font-poppins font-black text-white tracking-tight mb-4 leading-tight">
+          {course.hero.headline}
+        </h1>
+        <p className="text-neutral-400 text-sm sm:text-base font-light leading-relaxed">
+          {course.hero.subheadline}
+        </p>
+      </div>
+
+      {/* Video Trailer */}
+      <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-[#FF5500]/10 animate-slide-up">
+        <iframe
+          className="w-full h-full"
+          src={`https://www.youtube.com/embed/${course.trailerId}?rel=0&modestbranding=1`}
+          title={`Trailer Kelas ${course.title}`}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
+
+      {/* Pain Points */}
+      {course.painPoints && (
+        <div className="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {course.painPoints.map((point, idx) => (
+            <div key={idx} className="p-4 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+              <p className="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed">{point}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Benefits */}
+      {course.benefits && (
+        <div className="relative z-10">
+          <h3 className="text-lg sm:text-xl font-poppins font-bold text-white mb-4 text-center">
+            Yang Akan Kamu Dapatkan
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {course.benefits.map((benefit, idx) => (
+              <div key={idx} className="flex items-start gap-3 p-3.5 rounded-xl bg-gradient-to-br from-white/10 via-white/5 to-[#FF5500]/10 border border-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-[#FF5500] shrink-0 mt-0.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                </svg>
+                <p className="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed">{benefit}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Curriculum */}
+      {course.curriculum && (
+        <div className="relative z-10">
+          <h3 className="text-lg sm:text-xl font-poppins font-bold text-white mb-4 text-center">
+            Apa Saja Yang Dipelajari
+          </h3>
+          <div className="space-y-2.5">
+            {course.curriculum.map((item, idx) => (
+              <div key={idx} className="flex items-center gap-3 p-3.5 rounded-xl bg-neutral-900/40 border border-neutral-800">
+                <span className="shrink-0 w-6 h-6 rounded-full bg-[#FF5500]/20 text-[#FF5500] text-[11px] font-chivo font-bold flex items-center justify-center">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <p className="text-neutral-300 text-xs sm:text-sm font-light">{item}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* CTA Bawah */}
+      <div className="relative z-10 text-center pt-4 pb-4">
+        <a
+          href={waLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2.5 bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold px-8 py-4 rounded-xl text-sm uppercase tracking-wider hover:shadow-[0_0_30px_rgba(255,85,0,0.3)] transition-all duration-300 active:scale-95 shadow-lg cursor-pointer"
+        >
+          {course.ctaText}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+        <p className="text-neutral-500 text-[11px] font-light mt-3">Chat langsung dengan tim kami di WhatsApp</p>
+      </div>
+    </div>
+  );
+}
+
+/* ==========================================
    KOMPONEN MANDIRI: TAB ABOUT US (DIPERBAIKI)
    ==========================================  */
 function AboutTabSection() {
@@ -2016,7 +2411,7 @@ function AboutTabSection() {
 
   return (
     <div className="py-12 max-w-5x2 mx-auto space-y-20 animate-slide-up ">
-      
+
       {/* Efek glow background */}
       <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
