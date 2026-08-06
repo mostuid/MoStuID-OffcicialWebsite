@@ -14,7 +14,6 @@ import webPorto2Img from "./assets/Web-Porto2.gif";
 import webPorto3Img from "./assets/Web-Porto3.gif";
 import webPorto4Img from "./assets/Web-Porto4.gif";
 import webPorto5Img from "./assets/Web-Porto5.gif";
-import animPorto1Img from "./assets/Anim-Porto1.jpg";
 import videoPorto1Img from "./assets/Video-Porto1.png";
 import videoPorto2Img from "./assets/Video-Porto2.png";
 import waLogo from "./assets/waLogo.png";
@@ -1399,114 +1398,175 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
   const projects = [
     {
+      title: "Gardenia Meeting Room (PAG Animation)",
+      cat: "animation",
+      desc: "Animasi pembelajaran dengan penyampaian visual yang jelas, ringkas, dan mudah dipahami.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "ZfPSIhIT2u0"
+    },
+    {
       title: "Piring Situek",
       cat: "web-dev",
-      desc: "Website bisnis UMKM piring cantik yang terbuat dari pelepah pinang",
+      desc: "Website bisnis UMKM piring cantik yang terbuat dari pelepah pinang.",
       meta: "Web Development Project • 2026",
-      delay: "",
       link: "https://situek.com/",
       image: webPorto5Img,
-    },
-    {
-      title: "MoStu Airline Prototype",
-      cat: "web-dev",
-      desc: "Prototype landing page modern dengan animasi parallax",
-      meta: "Web Prototype • 2026",
-      delay: "",
-      link: null,
-      image: webPorto4Img,
-      isPrototype: true,
-      folderName: "prototype-airlines"
-    },
-    {
-      title: "Terapi Kesehatan Sejati",
-      cat: "web-dev",
-      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
-      meta: "Web Development Project • 2026",
-      delay: "",
-      link: "https://terapikesehatansejati.com/",
-      image: webPorto1Img,
-    },
-    {
-      title: "Go Green Parallax Prototype",
-      cat: "web-dev",
-      desc: "Website interaktif dengan animasi parallax untuk campaign lingkungan",
-      meta: "Web Prototype • 2026",
-      delay: "",
-      link: null,
-      image: webPorto2Img,
-      isPrototype: true,
-      folderName: "prototype-gogreen"
-    },
-    {
-      title: "Core Pack Prototype",
-      cat: "web-dev",
-      desc: "Website interaktif dengan animasi parallax untuk campaign bisnis packaging",
-      meta: "Web Prototype • 2026",
-      delay: "",
-      link: null,
-      image: webPorto3Img,
-      isPrototype: true,
-      folderName: "prototype-corepack"
-    },
-    {
-      title: "Nama Aplikasi Anda",
-      cat: "app-dev",
-      desc: "Deskripsi singkat tentang aplikasi yang Anda kembangkan",
-      meta: "App Development Project • 2026",
-      delay: "[animation-delay:200ms]",
-      link: null,
-      image: webPorto1Img,
-    },
-    {
-      title: "Digital Product Campaign",
-      cat: "visual-story",
-      desc: "Video promosi produk digital dengan visual menarik, komunikatif, dan berorientasi hasil.",
-      meta: "Videography Projects • 2026",
-      delay: "[animation-delay:300ms]",
-      link: null,
-      image: videoPorto1Img,
-      videoYoutubeId: "FbdM_EwI1pk"
     },
     {
       title: "Video Cinematic Aqiqah",
       cat: "visual-story",
       desc: "Mengabadikan momen aqiqah melalui visual sinematik yang emosional, hangat, dan penuh makna.",
       meta: "Videography Projects • 2026",
-      delay: "[animation-delay:300ms]",
       link: null,
       image: videoPorto2Img,
       videoYoutubeId: "bVjdp2FYwoI"
     },
     {
-      title: "Video Profil Prof. Dr. Ghazali Syamni",
-      cat: "visual-story",
-      desc: "Video profil pengukuhan guru besar dengan mengangkat perjalanan akademik, kontribusi keilmuan beliau.",
-      meta: "Videography Projects • 2026",
-      delay: "[animation-delay:300ms]",
+      title: "Arun Regas Meeting Room (PAG Animation)",
+      cat: "animation",
+      desc: "Video edukasi keselamatan yang dikembangkan untuk meningkatkan pemahaman karyawan.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
       link: null,
       image: null,
-      videoYoutubeId: "zFJzxtdbuok"
+      videoYoutubeId: "6FqccjJoNsA"
+    },
+    {
+      title: "Go Green Parallax Prototype",
+      cat: "web-dev",
+      desc: "Website interaktif dengan animasi parallax untuk campaign lingkungan.",
+      meta: "Web Prototype • 2026",
+      link: null,
+      image: webPorto2Img,
+      isPrototype: true,
+      folderName: "prototype-gogreen"
+    },
+    {
+      title: "HSSE Demo Room (PAG Animation)",
+      cat: "animation",
+      desc: "Konten animasi untuk mendukung sosialisasi standar HSSE di lingkungan operasional.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "X8ZYb5uPA-Y"
+    },
+    {
+      title: "Terapi Kesehatan Sejati",
+      cat: "web-dev",
+      desc: "Website promosi layanan terapi kesehatan yang informatif dan berorientasi pada peningkatan kepercayaan pasien.",
+      meta: "Web Development Project • 2026",
+      link: "https://terapikesehatansejati.com/",
+      image: webPorto1Img,
     },
     {
       title: "Video Profil Prof. Dr. drh. Farida",
       cat: "visual-story",
       desc: "Menghadirkan cerita perjalanan akademik melalui visual yang sinematik dan komunikatif.",
       meta: "Videography Projects • 2026",
-      delay: "[animation-delay:300ms]",
       link: null,
       image: null,
       videoYoutubeId: "vSMJBn-kT_I"
     },
     {
-      title: "PT Perta Arun Gas Animation",
+      title: "Cut Nyak Dhien Meeting Room (PAG Animation)",
       cat: "animation",
-      desc: "Visual edukatif untuk meningkatkan kesadaran keselamatan dan budaya kerja.",
-      meta: "Animation Project • 2026",
-      delay: "[animation-delay:400ms]",
-      link: "https://www.youtube.com/playlist?list=PLYQpjQwcSKW9jG1wHX6KXY_sMytqHeHQ0",
-      image: animPorto1Img,
-      videoYoutubeId: null
+      desc: "Media pembelajaran visual untuk mendukung penerapan budaya keselamatan di lingkungan kerja.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "Y8Hs9PiioX4"
+    },
+    {
+      title: "Nama Aplikasi Anda",
+      cat: "app-dev",
+      desc: "Deskripsi singkat tentang aplikasi yang Anda kembangkan.",
+      meta: "App Development Project • 2026",
+      link: null,
+      image: webPorto1Img,
+    },
+    {
+      title: "Multi Purpose Building (PAG Animation)",
+      cat: "animation",
+      desc: "Animasi informatif yang menyampaikan prosedur keselamatan secara menarik dan mudah dipahami.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "8cEiHKGphOg"
+    },
+    {
+      title: "Core Pack Prototype",
+      cat: "web-dev",
+      desc: "Website interaktif dengan animasi parallax untuk campaign bisnis packaging.",
+      meta: "Web Prototype • 2026",
+      link: null,
+      image: webPorto3Img,
+      isPrototype: true,
+      folderName: "prototype-corepack"
+    },
+    {
+      title: "Digital Product Campaign",
+      cat: "visual-story",
+      desc: "Video promosi produk digital dengan visual menarik, komunikatif, dan berorientasi hasil.",
+      meta: "Videography Projects • 2026",
+      link: null,
+      image: videoPorto1Img,
+      videoYoutubeId: "FbdM_EwI1pk"
+    },
+    {
+      title: "Malahayati Meeting Room (PAG Animation)",
+      cat: "animation",
+      desc: "Animasi explainer yang mengedepankan pesan keselamatan kerja secara efektif dan komunikatif.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "ShAONj4T1og"
+    },
+    {
+      title: "MoStu Airline Prototype",
+      cat: "web-dev",
+      desc: "Prototype landing page modern dengan animasi parallax.",
+      meta: "Web Prototype • 2026",
+      link: null,
+      image: webPorto4Img,
+      isPrototype: true,
+      folderName: "prototype-airlines"
+    },
+    {
+      title: "Teuku Umar Meeting Room (PAG Animation)",
+      cat: "animation",
+      desc: "Animasi edukatif untuk meningkatkan kesadaran HSSE dan budaya kerja yang aman.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "WTB_hhqREG0"
+    },
+    {
+      title: "Video Profil Prof. Dr. Ghazali Syamni",
+      cat: "visual-story",
+      desc: "Video profil pengukuhan guru besar dengan mengangkat perjalanan akademik dan kontribusi keilmuan beliau.",
+      meta: "Videography Projects • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "zFJzxtdbuok"
+    },
+    {
+      title: "LNG Hub Meeting Room (PAG Animation)",
+      cat: "animation",
+      desc: "Animasi explainer sebagai media edukasi untuk memperkuat budaya keselamatan kerja.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "ADTREAXhhQA"
+    },
+    {
+      title: "Sayap Kanan Hall (PAG Animation)",
+      cat: "animation",
+      desc: "Video explainer keselamatan kerja yang dirancang untuk mendukung program HSSE perusahaan.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "DOpL-puiDAI"
     },
   ];
 
