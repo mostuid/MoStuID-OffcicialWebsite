@@ -934,22 +934,13 @@ function HeroSection({ scrollToSection }) {
 
       {/* SISI KIRI: TEXT & ACTIONS */}
       <div
-        className={`w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 ${isMobile ? 'absolute top-20 left-0 right-0' : ''}`}
-        style={isMobile ? {
-          position: 'absolute',
-          top: '120px', // atau sesuai kebutuhan
-          left: 0,
-          right: 0,
-          paddingLeft: '16px',
-          paddingRight: '16px',
-          zIndex: 20
-        } : undefined}
+        className={`w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 ${isMobile ? 'pt-8' : ''}`}
       >
         <div className="relative mb-2 sm:mb-4">
           <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
             Digital & Creative
           </p>
-          <h1 className="font-poppins font-bold text-[16vw] lg:text-[170px] tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left">
+          <h1 className="font-poppins font-bold text-[clamp(48px,16vw,96px)] lg:text-[170px] tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left">
             <span
               className="block bg-clip-text text-transparent relative z-10 animate-shimmer-sweep"
               style={{
@@ -1031,7 +1022,7 @@ function HeroSection({ scrollToSection }) {
 
         return (
           <div
-            className={`w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0 ${isMobile ? 'mt-48' : ''}`}
+            className={`w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0 ${isMobile ? 'mt-10 sm:mt-14' : ''}`}
             style={{
               height: isMobile ? SETTING_HP.tinggiWadah : "100%",
               overflow: isMobile ? "visible" : "visible"
