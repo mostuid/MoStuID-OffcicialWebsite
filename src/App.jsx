@@ -2684,7 +2684,7 @@ function QnaSection() {
     },
     {
       q: "Bagaimana cara memulai kolaborasi proyek?",
-      a: "Cukup klik tombol 'Start a Project' atau hubungi langsung via email/media sosial kami. Tim kami akan segera menjadwalkan sesi konsultasi gratis untuk menganalisis strategi kebutuhan Anda.",
+      a: "Cukup klik tombol 'Get Order' atau hubungi langsung via email/media sosial kami. Tim kami akan segera menjadwalkan sesi konsultasi gratis untuk menganalisis strategi kebutuhan Anda.",
       animClass: "animate-slide-right",
       delayStyle: { animationDelay: "0.45s" }
     }
