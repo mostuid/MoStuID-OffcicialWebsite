@@ -1388,8 +1388,8 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
 
   const categories = [
     { id: "all", name: "All Our Projects" },
-    { id: "web-dev", name: "Web/Software" },
-    { id: "app-dev", name: "App Developing" },
+    { id: "web-dev", name: "Web Development" },
+    { id: "app-dev", name: "App Development" },
     { id: "ai-agent", name: "AI Automation" },
     { id: "visual-story", name: "Visual Storytelling" },
     { id: "animation", name: "Animation Services" },
@@ -2735,7 +2735,7 @@ function QnaSection() {
     },
     {
       q: "Berapa biaya atau harga untuk setiap layanan di MoStu?",
-      a: "Harga layanan kami bersifat fleksibel and disesuaikan dengan skala serta kompleksitas proyek Anda. Kami menyediakan paket terstruktur untuk UMKM hingga solusi kustom korporat. Hubungi kami untuk mendapatkan penawaran harga yang transparan sesuai anggaran Anda.",
+      a: "Harga layanan kami bersifat fleksibel and disesuaikan dengan skala serta kompleksitas proyek Anda. Kami menyediakan paket terstruktur untuk UMKM hingga solusi kustom korporat. Hubungi kami untuk mendapatkan penawaran harga yang sesuai anggaran Anda.",
       animClass: "animate-slide-right",
       delayStyle: { animationDelay: "0.15s" }
     },
