@@ -347,7 +347,7 @@ function App() {
         />
         <div className="fixed bottom-6 right-6 z-[10000]">
           <a
-            href={`https://wa.me/62882016312643?text=${encodeURIComponent("Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.")}`}
+            href={`https://wa.me/6285111401924?text=${encodeURIComponent("Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center w-12 h-12 rounded-full bg-[#25D366] text-white shadow-xl shadow-[#25D366]/20 transition-all duration-300 hover:scale-110 hover:bg-[#20ba5a] active:scale95 group"
@@ -659,7 +659,7 @@ function App() {
                     </span>
                   </div>
                   <a
-                    href={`https://wa.me/62882016312643?text=${encodeURIComponent(
+                    href={`https://wa.me/6285111401924?text=${encodeURIComponent(
                       "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda."
                     )}`}
                     target="_blank"
@@ -743,7 +743,7 @@ function TypewriterEffect({ services }) {
    KOMPONEN MANDIRI: SECTION 1 (HERO CONTAINER)
    ========================================== */
 function HeroSection({ scrollToSection }) {
-  const waNumber = "62882016312643";
+  const waNumber = "6285111401924";
   const waMessage = encodeURIComponent(
     "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.  Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
   );
@@ -977,7 +977,7 @@ function HeroSection({ scrollToSection }) {
         </div>
         <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
           <a
-            href={`https://wa.me/62882016312643?text=${encodeURIComponent(
+            href={`https://wa.me/6285111401924?text=${encodeURIComponent(
               "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda. Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
             )}`}
             target="_blank"
@@ -2148,7 +2148,7 @@ function CourseDetailSection() {
     );
   }
 
-  const waLink = `https://wa.me/62882016312643?text=${encodeURIComponent(course.waMessage || `Halo MoStu.ID, saya ingin tahu lebih lanjut tentang Kelas ${course.title}.`)}`;
+  const waLink = `https://wa.me/6285111401924?text=${encodeURIComponent(course.waMessage || `Halo MoStu.ID, saya ingin tahu lebih lanjut tentang Kelas ${course.title}.`)}`;
 
   if (course.status === "later" || !course.hero) {
     return (
@@ -2908,7 +2908,7 @@ function Footer({ setActiveTab, scrollToSection }) {
                 <span>mostuid@gmail.com</span>
               </a>
               <a
-                href="tel:+62882016312643"
+                href="tel:+6285111401924"
                 className="font-chivo font-light text-[11px] sm:text-xs text-neutral-400 hover:text-white transition-colors cursor-pointer flex items-center gap-2 group"
               >
                 <svg
