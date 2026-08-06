@@ -1489,7 +1489,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       videoYoutubeId: "zFJzxtdbuok"
     },
     {
-      title: "Video Profil Prof. Dr. drh. Farida Athaillah M.Si",
+      title: "Video Profil Prof. Dr. drh. Farida",
       cat: "visual-story",
       desc: "Menghadirkan cerita perjalanan akademik melalui visual yang sinematik dan komunikatif.",
       meta: "Videography Projects • 2026",
