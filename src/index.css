@@ -712,3 +712,487 @@
 }
 
 
+/* ==========================================
+   RESPONSIVE BREAKPOINTS UNTUK LAPTOP
+   ========================================== */
+
+/* ===== LAPTOP STANDAR (1366px - 1600px) ===== */
+@media (min-width: 1366px) and (max-width: 1600px) {
+  /* Hero Section - Sesuaikan ukuran font */
+  .hero-title {
+    font-size: 140px !important;
+  }
+  
+  /* Services Grid - 3 kolom tetap rapi */
+  .services-grid {
+    gap: 1.25rem !important;
+  }
+  
+  /* Container nama di Hero */
+  .hero-name-container {
+    min-width: 260px !important;
+    padding: 0.75rem 1rem !important;
+  }
+}
+
+/* ===== LAPTOP 15 INCH (1280px - 1365px) ===== */
+@media (min-width: 1280px) and (max-width: 1365px) {
+  /* Hero Section */
+  .hero-title {
+    font-size: 120px !important;
+  }
+  
+  /* Services Grid */
+  .services-grid {
+    gap: 1rem !important;
+  }
+  
+  /* Container nama di Hero */
+  .hero-name-container {
+    min-width: 230px !important;
+    padding: 0.6rem 0.9rem !important;
+  }
+  
+  /* Portfolio Grid - 3 kolom dengan gap lebih kecil */
+  .portfolio-grid {
+    gap: 1.25rem !important;
+  }
+  
+  /* Courses Grid */
+  .courses-grid {
+    gap: 1.25rem !important;
+  }
+}
+
+/* ===== LAPTOP 14 INCH (1180px - 1279px) ===== */
+@media (min-width: 1180px) and (max-width: 1279px) {
+  /* Hero Section */
+  .hero-title {
+    font-size: 100px !important;
+  }
+  
+  /* Hero subtitle */
+  .hero-subtitle {
+    font-size: 12px !important;
+    letter-spacing: 0.15em !important;
+  }
+  
+  /* Services Grid */
+  .services-grid {
+    gap: 0.875rem !important;
+  }
+  
+  .service-card {
+    padding: 1rem !important;
+  }
+  
+  .service-icon {
+    width: 56px !important;
+    height: 56px !important;
+  }
+  
+  .service-title {
+    font-size: 0.875rem !important;
+  }
+  
+  .service-desc {
+    font-size: 0.7rem !important;
+  }
+  
+  /* Container nama di Hero */
+  .hero-name-container {
+    min-width: 200px !important;
+    padding: 0.5rem 0.75rem !important;
+    bottom: 80px !important;
+  }
+  
+  .hero-name-text {
+    font-size: 1.25rem !important;
+  }
+  
+  .hero-role-text {
+    font-size: 0.6rem !important;
+  }
+  
+  /* Portfolio Grid */
+  .portfolio-grid {
+    gap: 1rem !important;
+  }
+  
+  /* Courses Grid */
+  .courses-grid {
+    gap: 1rem !important;
+  }
+  
+  /* Circle background di Hero */
+  .hero-circle {
+    width: 480px !important;
+    height: 480px !important;
+  }
+  
+  /* Gambar talent di Hero */
+  .hero-talent-img {
+    max-width: 480px !important;
+  }
+  
+  /* Navbar */
+  .navbar-nav {
+    gap: 1.5rem !important;
+  }
+  
+  .navbar-nav button {
+    font-size: 0.6rem !important;
+  }
+}
+
+/* ===== LAPTOP 13 INCH / SMALL LAPTOP (1024px - 1179px) ===== */
+@media (min-width: 1024px) and (max-width: 1179px) {
+  /* Hero Section */
+  .hero-title {
+    font-size: 80px !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 10px !important;
+    letter-spacing: 0.1em !important;
+  }
+  
+  .hero-actions {
+    gap: 0.75rem !important;
+  }
+  
+  .hero-actions a {
+    padding: 0.5rem 1.25rem !important;
+    font-size: 0.6rem !important;
+    width: 120px !important;
+  }
+  
+  /* Services Grid - 2 kolom di laptop kecil */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.875rem !important;
+  }
+  
+  .service-card {
+    padding: 0.875rem !important;
+  }
+  
+  .service-icon {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  
+  .service-title {
+    font-size: 0.75rem !important;
+  }
+  
+  .service-desc {
+    font-size: 0.65rem !important;
+  }
+  
+  /* Container nama di Hero */
+  .hero-name-container {
+    min-width: 180px !important;
+    padding: 0.4rem 0.65rem !important;
+    bottom: 60px !important;
+    left: 72% !important;
+  }
+  
+  .hero-name-text {
+    font-size: 1rem !important;
+  }
+  
+  .hero-role-text {
+    font-size: 0.5rem !important;
+  }
+  
+  /* Circle background di Hero */
+  .hero-circle {
+    width: 400px !important;
+    height: 400px !important;
+  }
+  
+  /* Gambar talent di Hero */
+  .hero-talent-img {
+    max-width: 400px !important;
+  }
+  
+  /* Portfolio Grid - 2 kolom di laptop kecil */
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  /* Courses Grid - 2 kolom */
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  /* Navbar */
+  .navbar-nav {
+    gap: 1rem !important;
+  }
+  
+  .navbar-nav button {
+    font-size: 0.55rem !important;
+  }
+  
+  .navbar-cta {
+    padding: 0.4rem 1rem !important;
+    font-size: 0.55rem !important;
+  }
+  
+  /* Products Grid */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+  
+  /* Hero left padding */
+  .hero-text-area {
+    padding-left: 0 !important;
+  }
+}
+
+/* ==========================================
+   TABLET LANDSCAPE (901px - 1023px) 
+   ========================================== */
+@media (min-width: 901px) and (max-width: 1023px) {
+  /* Hero Section - mobile-like layout */
+  .hero-container {
+    grid-template-columns: 1fr !important;
+    min-height: auto !important;
+    padding-top: 100px !important;
+    padding-bottom: 60px !important;
+  }
+  
+  .hero-text-area {
+    text-align: center !important;
+    padding: 0 1rem !important;
+  }
+  
+  .hero-title {
+    font-size: 70px !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 10px !important;
+    justify-content: center !important;
+  }
+  
+  .hero-actions {
+    justify-content: center !important;
+  }
+  
+  /* Services Grid - 2 kolom */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+  
+  /* Portfolio Grid - 2 kolom */
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.875rem !important;
+  }
+  
+  /* Courses Grid - 2 kolom */
+  .courses-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.875rem !important;
+  }
+  
+  /* Products Grid - 2 kolom */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.875rem !important;
+  }
+  
+  /* About Team - 2 kolom */
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  /* QnA - padding lebih kecil */
+  .qna-section {
+    padding: 3rem 1rem !important;
+  }
+}
+
+/* ==========================================
+   LAYAR LEBAR (1601px - 1920px) 
+   ========================================== */
+@media (min-width: 1601px) and (max-width: 1920px) {
+  /* Hero Section */
+  .hero-title {
+    font-size: 180px !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 16px !important;
+  }
+  
+  /* Container nama di Hero */
+  .hero-name-container {
+    min-width: 340px !important;
+    padding: 1.25rem 1.5rem !important;
+  }
+  
+  .hero-name-text {
+    font-size: 2rem !important;
+  }
+  
+  .hero-role-text {
+    font-size: 0.875rem !important;
+  }
+  
+  /* Circle background di Hero */
+  .hero-circle {
+    width: 720px !important;
+    height: 720px !important;
+  }
+  
+  /* Gambar talent di Hero */
+  .hero-talent-img {
+    max-width: 650px !important;
+  }
+  
+  /* Services Grid - 3 kolom dengan spacing lebih besar */
+  .services-grid {
+    gap: 2rem !important;
+  }
+  
+  /* Portfolio Grid - 3 kolom */
+  .portfolio-grid {
+    gap: 1.75rem !important;
+  }
+  
+  /* Courses Grid - 3 kolom */
+  .courses-grid {
+    gap: 1.75rem !important;
+  }
+  
+  /* Products Grid - 4 kolom */
+  .products-grid {
+    gap: 1.75rem !important;
+  }
+}
+
+/* ==========================================
+   LAYAR 4K (1921px ke atas) 
+   ========================================== */
+@media (min-width: 1921px) {
+  .hero-title {
+    font-size: 220px !important;
+  }
+  
+  .hero-subtitle {
+    font-size: 20px !important;
+  }
+  
+  .hero-name-container {
+    min-width: 400px !important;
+    padding: 1.5rem 2rem !important;
+  }
+  
+  .hero-name-text {
+    font-size: 2.5rem !important;
+  }
+  
+  .hero-role-text {
+    font-size: 1rem !important;
+  }
+  
+  .hero-circle {
+    width: 850px !important;
+    height: 850px !important;
+  }
+  
+  .hero-talent-img {
+    max-width: 750px !important;
+  }
+  
+  .services-grid {
+    gap: 2.5rem !important;
+  }
+  
+  .portfolio-grid {
+    gap: 2rem !important;
+  }
+  
+  .courses-grid {
+    gap: 2rem !important;
+  }
+  
+  .products-grid {
+    gap: 2rem !important;
+  }
+}
+
+/* ==========================================
+   FIX UNTUK NAVBAR DI LAPTOP KECIL
+   ========================================== */
+@media (min-width: 1024px) and (max-width: 1179px) {
+  header .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  
+  header nav {
+    gap: 0.75rem !important;
+  }
+  
+  header nav button {
+    font-size: 0.5rem !important;
+    letter-spacing: 0.1em !important;
+  }
+}
+
+/* ==========================================
+   FIX UNTUK FOOTER DI LAPTOP KECIL
+   ========================================== */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  footer .footer-grid {
+    gap: 1.5rem !important;
+  }
+  
+  footer .footer-contact {
+    gap: 1rem !important;
+  }
+}
+
+/* ==========================================
+   FIX UNTUK ABOUT SECTION DI LAPTOP KECIL
+   ========================================== */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .about-grid {
+    gap: 1.5rem !important;
+  }
+  
+  .about-timeline {
+    padding-left: 0.5rem !important;
+  }
+  
+  .about-timeline-item {
+    padding-left: 1.5rem !important;
+    padding-bottom: 1rem !important;
+  }
+}
+
+/* ==========================================
+   FIX UNTUK QNA SECTION DI LAPTOP KECIL
+   ========================================== */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .qna-item {
+    padding: 0.875rem !important;
+  }
+  
+  .qna-question {
+    font-size: 0.875rem !important;
+  }
+  
+  .qna-answer {
+    font-size: 0.75rem !important;
+  }
+}

@@ -940,7 +940,7 @@ function HeroSection({ scrollToSection }) {
           <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
             Digital & Creative
           </p>
-          <h1 className="font-poppins font-bold text-[clamp(48px,16vw,96px)] lg:text-[170px] tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left">
+          <h1 className="font-poppins font-bold text-[clamp(48px,16vw,96px)] lg:text-[170px] hero-title">
             <span
               className="block bg-clip-text text-transparent relative z-10 animate-shimmer-sweep"
               style={{
@@ -1029,11 +1029,10 @@ function HeroSection({ scrollToSection }) {
             }}
           >
             {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
-            <div
-              className="absolute bottom-[0.5%] right-auto lg:right-[-3%] bg-[#FF5500] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s]"
+            <div className="absolute bottom-[0.5%] right-auto lg:right-[-3%] bg-[#FF5500] rounded-full -z-10 hero-circle"
               style={{
-                width: isMobile ? SETTING_HP.lebarLingkaran : `min(${SETTING_PC.lebarLingkaran}, calc(100vh - 190px))`,
-                height: isMobile ? SETTING_HP.lebarLingkaran : `min(${SETTING_PC.lebarLingkaran}, calc(100vh - 190px))`
+                width: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran,
+                height: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran
               }}
             />
 
@@ -1063,15 +1062,12 @@ function HeroSection({ scrollToSection }) {
                     }}
                   >
                     {/* FOTO TALENT SLIDING */}
-                    <div className={`h-full w-auto relative flex items-end ${imgAnimClass}`}>
+                    <div className={`h-full w-auto relative ${imgAnimClass}`}>
                       <img
                         src={slide.img}
                         alt={slide.name}
                         className="h-full w-auto object-contain object-bottom relative z-10 select-none pointer-events-none transform origin-bottom transition-transform duration-700 hover:scale-[1.02]"
-                        style={{
-                          maxWidth: isMobile ? SETTING_HP.lebarMaxFoto : SETTING_PC.lebarMaxFoto,
-                          maxHeight: isMobile ? undefined : "calc(100vh - 170px)"
-                        }}
+                        style={{ maxWidth: isMobile ? SETTING_HP.lebarMaxFoto : SETTING_PC.lebarMaxFoto }}
                       />
                     </div>
                   </div>
@@ -1080,8 +1076,7 @@ function HeroSection({ scrollToSection }) {
             </div>
 
             {/* CONTAINER TRANSPARAN PAPAN NAMA - DENGAN GLASSMORPHISM DOMINAN #FF5500 */}
-            <div
-              className="absolute z-30 flex flex-col justify-center items-center text-left select-none bg-[#FF5500]/10 backdrop-blur-xl border border-[#FF5500]/30 rounded-xl shadow-2xl shadow-[#FF5500]/30"
+            <div className="absolute z-30 flex flex-col justify-center items-center text-left select-none bg-[#FF5500]/10 backdrop-blur-xl border border-[#FF5500]/30 rounded-xl shadow-2xl shadow-[#FF5500]/30 hero-name-container"
               style={{
                 left: isMobile ? textContainerConfig.hpLeft : textContainerConfig.pcLeft,
                 bottom: isMobile ? textContainerConfig.hpBottom : textContainerConfig.pcBottom,
@@ -1251,7 +1246,7 @@ function ServicesSection({ setActiveTab }) {
         </div>
 
         {/* Grid Layanan - 2 KOLOM DI MOBILE, 3 KOLOM DI DESKTOP */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5 max-w-6xl mx-auto services-grid">
           {servicesData.map((service, index) => {
             return (
               <div
@@ -1625,7 +1620,7 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       </div>
 
       {/* GRID DAFTAR PORTOFOLIO - VERSI STABIL */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10 portfolio-grid">
         {filteredProjects.map((project, i) => (
           <div
             key={`${project.title}-${i}`}
@@ -1946,7 +1941,7 @@ function CoursesTabSection() {
       </div>
 
       {/* Grid Kartu Kelas */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 relative z-10">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 relative z-10 courses-grid">
         {coursesData.map((course, i) => {
           const isClickable = course.status !== "later";
           const hasThumbnail = !!course.thumbnail;
