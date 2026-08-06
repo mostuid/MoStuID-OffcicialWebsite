@@ -891,9 +891,7 @@ function HeroSection({ scrollToSection }) {
 
   return (
     <div
-      className={`relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center px-0 lg:px-4
-    ${isMobile ? 'h-[100dvh] min-h-[100dvh] pt-16 pb-0' : 'min-h-screen lg:h-screen pt-16 lg:pt-0 pb-0 lg:pb-0'}
-  `}
+      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center min-h-screen lg:h-screen pt-16 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
       style={{ clipPath: isMobile ? "none" : "inset(0px -100vw 0px -100vw)" }}
     >
       {/* EFEK GLOW BACKGROUND - SEPERTI QNA */}
@@ -990,25 +988,30 @@ function HeroSection({ scrollToSection }) {
           </a>
         </div>
 
-        {/* IKON MOUSE - Hanya tampil di desktop */}
-        {!isMobile && (
-          <div
-            className="transition-all duration-500 ease-out absolute"
-            style={{
-              position: "absolute",
-              zIndex: 100,
-              pointerEvents: mouseOpacity > 0 ? "auto" : "none",
-              opacity: mouseOpacity,
-              left: "167px",
-              top: "400px",
-              transform: `translateY(${mouseTranslateY}px) scale(${0.95 + mouseOpacity * 0.05})`
-            }}
-          >
-            <div onClick={() => scrollToSection("services-area")} className="w-5 h-9 border-2 border-white rounded-full flex justify-center p-1.5 animate-bounce cursor-pointer hover:border-white transition-colors">
-              <div className="w-0.5 h-2 bg-neutral-300 rounded-full"></div>
+        {/* IKON MOUSE */}
+        {(() => {
+          const POSISI_HP = { left: "1px", bottom: "-470px" };
+          const POSISI_PC = { left: "167px", top: "400px" };
+          return (
+            <div
+              className="transition-all duration-500 ease-out"
+              style={{
+                position: isMobile ? "absolute" : "absolute",
+                zIndex: 100,
+                pointerEvents: mouseOpacity > 0 ? "auto" : "none",
+                opacity: mouseOpacity,
+                left: isMobile ? POSISI_HP.left : POSISI_PC.left,
+                bottom: isMobile ? POSISI_HP.bottom : "auto",
+                top: isMobile ? "auto" : POSISI_PC.top,
+                transform: `translateY(${mouseTranslateY}px) scale(${0.95 + mouseOpacity * 0.05})`
+              }}
+            >
+              <div onClick={() => scrollToSection("services-area")} className="w-5 h-9 border-2 border-white rounded-full flex justify-center p-1.5 animate-bounce cursor-pointer hover:border-white transition-colors">
+                <div className="w-0.5 h-2 bg-neutral-300 rounded-full"></div>
+              </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
       </div>
 
       {/* SISI KANAN: ANIMATED SLIDER AREA */}
