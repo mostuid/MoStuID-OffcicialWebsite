@@ -1063,7 +1063,7 @@ function HeroSection({ scrollToSection }) {
                     }}
                   >
                     {/* FOTO TALENT SLIDING */}
-                    <div className={`h-full w-auto relative ${imgAnimClass}`}>
+                    <div className={`h-full w-auto relative flex items-end ${imgAnimClass}`}>
                       <img
                         src={slide.img}
                         alt={slide.name}
