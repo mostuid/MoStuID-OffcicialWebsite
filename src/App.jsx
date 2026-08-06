@@ -1032,8 +1032,8 @@ function HeroSection({ scrollToSection }) {
             <div
               className="absolute bottom-[0.5%] right-auto lg:right-[-3%] bg-[#FF5500] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s]"
               style={{
-                width: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran,
-                height: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran
+                width: isMobile ? SETTING_HP.lebarLingkaran : `min(${SETTING_PC.lebarLingkaran}, calc(100vh - 190px))`,
+                height: isMobile ? SETTING_HP.lebarLingkaran : `min(${SETTING_PC.lebarLingkaran}, calc(100vh - 190px))`
               }}
             />
 
@@ -1068,7 +1068,10 @@ function HeroSection({ scrollToSection }) {
                         src={slide.img}
                         alt={slide.name}
                         className="h-full w-auto object-contain object-bottom relative z-10 select-none pointer-events-none transform origin-bottom transition-transform duration-700 hover:scale-[1.02]"
-                        style={{ maxWidth: isMobile ? SETTING_HP.lebarMaxFoto : SETTING_PC.lebarMaxFoto }}
+                        style={{
+                          maxWidth: isMobile ? SETTING_HP.lebarMaxFoto : SETTING_PC.lebarMaxFoto,
+                          maxHeight: isMobile ? undefined : "calc(100vh - 170px)"
+                        }}
                       />
                     </div>
                   </div>
