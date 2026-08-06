@@ -891,7 +891,9 @@ function HeroSection({ scrollToSection }) {
 
   return (
     <div
-      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center min-h-screen lg:h-screen pt-16 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
+      className={`relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center px-0 lg:px-4
+    ${isMobile ? 'h-[100dvh] min-h-[100dvh] pt-16 pb-0' : 'min-h-screen lg:h-screen pt-16 lg:pt-0 pb-0 lg:pb-0'}
+  `}
       style={{ clipPath: isMobile ? "none" : "inset(0px -100vw 0px -100vw)" }}
     >
       {/* EFEK GLOW BACKGROUND - SEPERTI QNA */}
