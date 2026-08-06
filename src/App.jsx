@@ -739,13 +739,13 @@ function TypewriterEffect({ services }) {
   );
 }
 
-/* ==========================================
-   KOMPONEN MANDIRI: SECTION 1 (HERO CONTAINER)
-   ========================================== */
+// ==========================================
+// KOMPONEN HERO SECTION - VERSI DIPERBAIKI
+// ==========================================
 function HeroSection({ scrollToSection }) {
   const waNumber = "6285111401924";
   const waMessage = encodeURIComponent(
-    "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.  Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
+    "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda. Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
   );
   const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
 
@@ -753,10 +753,8 @@ function HeroSection({ scrollToSection }) {
   const [mouseOpacity, setMouseOpacity] = useState(1);
   const [mouseTranslateY, setMouseTranslateY] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
-  /* =========================================================================
-     🔥 SLOT ANGGOTA BARU KUSTOM & KONFIGURASI LAYOUT CONTAINER NAMA
-     ========================================================================= */
   const heroSlides = [
     {
       id: 'founder',
@@ -772,37 +770,23 @@ function HeroSection({ scrollToSection }) {
     },
   ];
 
-  const textContainerConfig = {
-    pcLeft: "78%",
-    pcBottom: "120px",
-    hpLeft: "50%",
-    hpBottom: "70px",
-
-    pcMinWidth: "300px",
-    pcMinHeight: "50px",
-    pcPadding: "1rem",
-
-    hpMinWidth: "250px",
-    hpMinHeight: "50px",
-    hpPadding: "0.75rem"
-  };
-
-  /* ========================================================================= */
-
   const [activeSlide, setActiveSlide] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // ✅ FIXED: Gabungkan menjadi satu state untuk deteksi mobile
+  // ✅ DETEKSI LAYAR DENGAN LEBIH BAIK
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+    const checkScreen = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      setIsMobile(width < 1024);
+      setIsSmallScreen(width < 1024 && height < 800);
     };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    checkScreen();
+    window.addEventListener('resize', checkScreen);
+    return () => window.removeEventListener('resize', checkScreen);
   }, []);
 
-  // LOGIKA AUTO-LOOP SLIDE (Ganti tiap 5 detik)
+  // Auto-loop slide
   useEffect(() => {
     const slideInterval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % heroSlides.length);
@@ -811,7 +795,7 @@ function HeroSection({ scrollToSection }) {
     return () => clearInterval(slideInterval);
   }, [heroSlides.length]);
 
-  // LOGIKA PENGETIKAN LINIER MENGGUNAKAN SATU INTERVAL AMAN
+  // Typewriter effect
   const [displayName, setDisplayName] = useState("");
   const [displayRole, setDisplayRole] = useState("");
 
@@ -829,7 +813,6 @@ function HeroSection({ scrollToSection }) {
 
     const typewriterInterval = setInterval(() => {
       currentTick++;
-
       if (currentTick <= nameLength) {
         setDisplayName(currentName.substring(0, currentTick));
       } else if (currentTick <= totalTicks) {
@@ -843,6 +826,7 @@ function HeroSection({ scrollToSection }) {
     return () => clearInterval(typewriterInterval);
   }, [activeSlide]);
 
+  // Shiny effect
   useEffect(() => {
     let timerStart, timerReset, timeoutNext, intervalLoop;
     timerStart = setTimeout(() => {
@@ -865,6 +849,7 @@ function HeroSection({ scrollToSection }) {
     };
   }, []);
 
+  // Scroll effect
   const SETTING_SCROLL_HP = { mulaiPudar: 10, hilangTotal: 80, jarakSembunyi: 150 };
   const SETTING_SCROLL_PC = { mulaiPudar: 40, hilangTotal: 300, jarakSembunyi: 200 };
 
@@ -892,16 +877,16 @@ function HeroSection({ scrollToSection }) {
 
   return (
     <div
-      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center min-h-screen lg:h-screen pt-16 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
+      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-4 items-center min-h-screen lg:h-screen pt-12 lg:pt-0 pb-0 lg:pb-0 px-4 lg:px-4"
       style={{ clipPath: isMobile ? "none" : "inset(0px -100vw 0px -100vw)" }}
     >
-      {/* EFEK GLOW BACKGROUND - SEPERTI QNA */}
+      {/* EFEK GLOW BACKGROUND */}
       <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
 
-      {/* SUNTIKAN KEYFRAMES ANIMASI FOTO SELANG SELING */}
+      {/* ANIMASI KEYFRAMES */}
       <style>{`
         @keyframes slideInFromRight {
           0% { transform: translateX(35px); opacity: 0; }
@@ -931,16 +916,36 @@ function HeroSection({ scrollToSection }) {
         .typewriter-cursor { border-right: 2px solid #FF5500; animation: cursorBlink 0.75s step-end infinite; }
       `}</style>
 
-
+      {/* ============================================ */}
       {/* SISI KIRI: TEXT & ACTIONS */}
+      {/* ============================================ */}
       <div
-        className={`w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 ${isMobile ? 'pt-8' : ''}`}
+        className={`w-full lg:col-span-7 xl:col-span-8 flex flex-col justify-center pt-4 sm:pt-8 lg:pt-0 relative z-20 text-center lg:text-left px-2 lg:px-0 ${isMobile ? 'pt-4' : ''}`}
       >
-        <div className="relative mb-2 sm:mb-4">
-          <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
+        <div className="relative mb-1 sm:mb-3">
+          {/* "Digital & Creative" - Responsif dengan posisi yang benar */}
+          <p
+            className="font-chivo font-thin text-white tracking-wide select-none mb-0 lg:mb-0"
+            style={{
+              fontSize: isSmallScreen ? '14px' : isMobile ? 'clamp(14px, 3vw, 24px)' : 'clamp(20px, 2.5vw, 30px)',
+              position: isMobile ? 'relative' : 'absolute',
+              top: isMobile ? 'auto' : '-1.8rem',
+              left: isMobile ? 'auto' : '28%',
+              zIndex: 10,
+              whiteSpace: isMobile ? 'normal' : 'nowrap',
+            }}
+          >
             Digital & Creative
           </p>
-          <h1 className="font-poppins font-bold text-[clamp(48px,16vw,96px)] lg:text-[170px] tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left">
+
+          {/* "AGENCY" - Ukuran responsif */}
+          <h1
+            className="font-poppins font-bold tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left"
+            style={{
+              fontSize: isSmallScreen ? 'clamp(48px, 12vw, 72px)' : isMobile ? 'clamp(48px, 16vw, 80px)' : 'clamp(72px, 10vw, 170px)',
+              marginTop: isMobile ? '0' : '0.25rem',
+            }}
+          >
             <span
               className="block bg-clip-text text-transparent relative z-10 animate-shimmer-sweep"
               style={{
@@ -952,11 +957,18 @@ function HeroSection({ scrollToSection }) {
             >
               AGENCY
             </span>
-            {/* Efek glow kecil dan rapi */}
             <span className="absolute -inset-1 bg-[#FF5500]/20 blur-2xl -z-0 rounded-lg pointer-events-none" />
           </h1>
         </div>
-        <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
+
+        {/* Typewriter Effect - Responsif */}
+        <div
+          className="font-chivo font-normal text-white tracking-[0.12em] md:tracking-[0.22em] px-1 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-4 flex items-center justify-center lg:justify-start gap-1 uppercase"
+          style={{
+            fontSize: isSmallScreen ? '8px' : isMobile ? 'clamp(8px, 1.8vw, 12px)' : 'clamp(12px, 1.2vw, 16px)',
+            marginTop: isMobile ? '2px' : '2px',
+          }}
+        >
           <TypewriterEffect
             services={[
               "WE BUILD STUNNING WEBSITES & APPS",
@@ -966,48 +978,65 @@ function HeroSection({ scrollToSection }) {
             ]}
           />
         </div>
-        <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
+
+        {/* Tombol Aksi - Responsif */}
+        <div
+          className="flex items-center justify-center lg:justify-start space-x-3 sm:space-x-4 pt-4 sm:pt-8 px-1 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]"
+        >
           <a
             href={`https://wa.me/6285111401924?text=${encodeURIComponent(
               "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda. Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 w-[140px] sm:w-[160px] inline-block"
+            className="bg-white text-black window-click font-chivo font-semibold px-4 sm:px-7 py-2 sm:py-3 rounded-lg text-[10px] sm:text-xs tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 inline-block"
+            style={{
+              width: isSmallScreen ? '100px' : isMobile ? '120px' : '160px',
+              fontSize: isSmallScreen ? '9px' : isMobile ? '10px' : '13px',
+            }}
           >
             Get Order
           </a>
 
-          {/* Tombol Get in Touch! */}
           <a
             href={waLink}
             target="_blank"
             rel="noopener noreferrer"
-            className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block w-[140px] sm:w-[160px]"
+            className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-4 sm:px-7 py-2 sm:py-3 rounded-lg text-[10px] sm:text-xs tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block"
+            style={{
+              width: isSmallScreen ? '100px' : isMobile ? '120px' : '160px',
+              fontSize: isSmallScreen ? '9px' : isMobile ? '10px' : '13px',
+            }}
           >
             Reach Us!
           </a>
         </div>
 
-        {/* IKON MOUSE */}
+        {/* MOUSE SCROLL INDICATOR */}
         {(() => {
-          const POSISI_HP = { left: "1px", bottom: "-470px" };
-          const POSISI_PC = { left: "167px", top: "400px" };
+          const POSISI_HP = { left: "1px", bottom: "-380px" };
+          const POSISI_PC = { left: "167px", top: "380px" };
+
+          // Sembunyikan mouse indicator di layar sangat kecil
+          if (isSmallScreen) return null;
+
           return (
             <div
-              className="transition-all duration-500 ease-out"
+              className="transition-all duration-500 ease-out hidden lg:block"
               style={{
-                position: isMobile ? "absolute" : "absolute",
+                position: "absolute",
                 zIndex: 100,
                 pointerEvents: mouseOpacity > 0 ? "auto" : "none",
                 opacity: mouseOpacity,
-                left: isMobile ? POSISI_HP.left : POSISI_PC.left,
-                bottom: isMobile ? POSISI_HP.bottom : "auto",
-                top: isMobile ? "auto" : POSISI_PC.top,
+                left: POSISI_PC.left,
+                top: POSISI_PC.top,
                 transform: `translateY(${mouseTranslateY}px) scale(${0.95 + mouseOpacity * 0.05})`
               }}
             >
-              <div onClick={() => scrollToSection("services-area")} className="w-5 h-9 border-2 border-white rounded-full flex justify-center p-1.5 animate-bounce cursor-pointer hover:border-white transition-colors">
+              <div
+                onClick={() => scrollToSection("services-area")}
+                className="w-5 h-9 border-2 border-white rounded-full flex justify-center p-1.5 animate-bounce cursor-pointer hover:border-[#FF5500] transition-colors"
+              >
                 <div className="w-0.5 h-2 bg-neutral-300 rounded-full"></div>
               </div>
             </div>
@@ -1015,29 +1044,71 @@ function HeroSection({ scrollToSection }) {
         })()}
       </div>
 
-      {/* SISI KANAN: ANIMATED SLIDER AREA */}
+      {/* ============================================ */}
+      {/* SISI KANAN: ANIMATED SLIDER */}
+      {/* ============================================ */}
       {(() => {
-        const SETTING_HP = { tinggiWadah: "520px", lebarLingkaran: "400px", lebarMaxFoto: "550px" };
-        const SETTING_PC = { lebarLingkaran: "620px", lebarMaxFoto: "580px" };
+        // Konfigurasi responsif untuk slider
+        const getSliderConfig = () => {
+          if (isSmallScreen) {
+            return {
+              tinggiWadah: "380px",
+              lebarLingkaran: "280px",
+              lebarMaxFoto: "320px",
+              nameCardLeft: "50%",
+              nameCardBottom: "30px",
+              nameCardMinWidth: "160px",
+              nameCardPadding: "6px 10px",
+              nameCardFontSize: "14px",
+              nameCardRoleSize: "8px",
+            };
+          }
+          if (isMobile) {
+            return {
+              tinggiWadah: "460px",
+              lebarLingkaran: "360px",
+              lebarMaxFoto: "440px",
+              nameCardLeft: "50%",
+              nameCardBottom: "40px",
+              nameCardMinWidth: "200px",
+              nameCardPadding: "8px 14px",
+              nameCardFontSize: "18px",
+              nameCardRoleSize: "9px",
+            };
+          }
+          return {
+            tinggiWadah: "100%",
+            lebarLingkaran: "min(540px, calc(100vh - 200px))",
+            lebarMaxFoto: "520px",
+            nameCardLeft: "72%",
+            nameCardBottom: "100px",
+            nameCardMinWidth: "260px",
+            nameCardPadding: "12px 20px",
+            nameCardFontSize: "22px",
+            nameCardRoleSize: "11px",
+          };
+        };
+
+        const config = getSliderConfig();
 
         return (
           <div
-            className={`w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0 ${isMobile ? 'mt-10 sm:mt-14' : ''}`}
+            className={`w-full lg:col-span-5 xl:col-span-4 relative flex justify-center lg:justify-end items-end mt-4 lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0 ${isMobile ? 'mt-6 sm:mt-10' : ''}`}
             style={{
-              height: isMobile ? SETTING_HP.tinggiWadah : "100%",
-              overflow: isMobile ? "visible" : "visible"
+              height: isMobile ? config.tinggiWadah : "100%",
+              overflow: "visible",
             }}
           >
-            {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
+            {/* LINGKARAN BACKGROUND */}
             <div
               className="absolute bottom-[0.5%] right-auto lg:right-[-3%] bg-[#FF5500] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s]"
               style={{
-                width: isMobile ? SETTING_HP.lebarLingkaran : `min(${SETTING_PC.lebarLingkaran}, calc(100vh - 190px))`,
-                height: isMobile ? SETTING_HP.lebarLingkaran : `min(${SETTING_PC.lebarLingkaran}, calc(100vh - 190px))`
+                width: isMobile ? config.lebarLingkaran : config.lebarLingkaran,
+                height: isMobile ? config.lebarLingkaran : config.lebarLingkaran,
               }}
             />
 
-            {/* WRAPPER ELEMEN SLIDER FOTO */}
+            {/* SLIDER FOTO */}
             <div className="relative w-full h-full flex justify-center lg:justify-end items-end px-0">
               {heroSlides.map((slide) => {
                 const isActive = slide.id === heroSlides[activeSlide].id;
@@ -1062,15 +1133,14 @@ function HeroSection({ scrollToSection }) {
                       pointerEvents: isActive ? "auto" : "none"
                     }}
                   >
-                    {/* FOTO TALENT SLIDING */}
                     <div className={`h-full w-auto relative flex items-end ${imgAnimClass}`}>
                       <img
                         src={slide.img}
                         alt={slide.name}
-                        className="h-full w-auto object-contain object-bottom relative z-10 select-none pointer-events-none transform origin-bottom transition-transform duration-700 hover:scale-[1.02]"
+                        className="h-full w-auto object-contain object-bottom relative z-10 select-none pointer-events-none"
                         style={{
-                          maxWidth: isMobile ? SETTING_HP.lebarMaxFoto : SETTING_PC.lebarMaxFoto,
-                          maxHeight: isMobile ? undefined : "calc(100vh - 170px)"
+                          maxWidth: isMobile ? config.lebarMaxFoto : config.lebarMaxFoto,
+                          maxHeight: isMobile ? undefined : "calc(100vh - 180px)"
                         }}
                       />
                     </div>
@@ -1079,44 +1149,45 @@ function HeroSection({ scrollToSection }) {
               })}
             </div>
 
-            {/* CONTAINER TRANSPARAN PAPAN NAMA - DENGAN GLASSMORPHISM DOMINAN #FF5500 */}
+            {/* PAPAN NAMA - GLASSMORPHISM */}
             <div
-              className="absolute z-30 flex flex-col justify-center items-center text-left select-none bg-[#FF5500]/10 backdrop-blur-xl border border-[#FF5500]/30 rounded-xl shadow-2xl shadow-[#FF5500]/30"
+              className="absolute z-30 flex flex-col justify-center items-center text-center select-none bg-[#FF5500]/10 backdrop-blur-xl border border-[#FF5500]/30 rounded-xl shadow-2xl shadow-[#FF5500]/30"
               style={{
-                left: isMobile ? textContainerConfig.hpLeft : textContainerConfig.pcLeft,
-                bottom: isMobile ? textContainerConfig.hpBottom : textContainerConfig.pcBottom,
-                minWidth: isMobile ? '200px' : textContainerConfig.pcMinWidth,
-                minHeight: isMobile ? '56px' : textContainerConfig.pcMinHeight,
-                padding: isMobile ? '10px 12px' : textContainerConfig.pcPadding,
-                transform: isMobile && textContainerConfig.hpLeft === "50%"
-                  ? "translate(-50%, -15px)"
-                  : "translateY(-30px)"
+                left: isMobile ? config.nameCardLeft : config.nameCardLeft,
+                bottom: isMobile ? config.nameCardBottom : config.nameCardBottom,
+                minWidth: isMobile ? config.nameCardMinWidth : config.nameCardMinWidth,
+                minHeight: isMobile ? '44px' : '56px',
+                padding: isMobile ? config.nameCardPadding : config.nameCardPadding,
+                transform: isMobile && config.nameCardLeft === "50%"
+                  ? "translate(-50%, 0)"
+                  : "translateY(0)",
+                maxWidth: isSmallScreen ? '180px' : isMobile ? '220px' : '320px',
               }}
             >
-              {/* Background gradasi #FF5500 */}
               <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF5500]/20 via-[#FF5500]/5 to-[#FF5500]/10 pointer-events-none" />
-
-              {/* Efek glow #FF5500 di sudut */}
               <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#FF5500]/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
               <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-[#FF5500]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Garis dekoratif #FF5500 di tepi */}
               <div className="absolute top-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/50 to-transparent" />
               <div className="absolute bottom-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/50 to-transparent" />
-
-              {/* Pinggiran glow */}
               <div className="absolute inset-0 rounded-xl border border-[#FF5500]/20 pointer-events-none" />
 
-              {/* NAMA - WARNA PUTIH */}
-              <h2 className="font-poppins font-bold text-lg sm:text-2xl text-white tracking-tight drop-shadow-[0_0_20px_rgba(255,85,0,0.3)] min-h-7 sm:min-h-9 flex items-center relative z-10">
+              <h2
+                className="font-poppins font-bold text-white tracking-tight drop-shadow-[0_0_20px_rgba(255,85,0,0.3)] min-h-6 flex items-center relative z-10"
+                style={{
+                  fontSize: isSmallScreen ? '13px' : isMobile ? config.nameCardFontSize : config.nameCardFontSize,
+                }}
+              >
                 <span className={displayName && displayName.length < heroSlides[activeSlide].name.length ? "typewriter-cursor" : ""}>
                   {displayName}
                 </span>
               </h2>
 
-              {/* ROLE - WARNA PUTIH DENGAN OPACITY 60% */}
-              <p className="font-mono text-white/60 text-[10px] sm:text-xs uppercase tracking-wider font-semibold mt-0.5 drop-shadow-[0_0_15px_rgba(255,85,0,0.4)] min-h-4 flex items-center relative z-10">
+              <p
+                className="font-mono text-white/60 uppercase tracking-wider font-semibold mt-0.5 drop-shadow-[0_0_15px_rgba(255,85,0,0.4)] min-h-3 flex items-center relative z-10"
+                style={{
+                  fontSize: isSmallScreen ? '7px' : isMobile ? config.nameCardRoleSize : config.nameCardRoleSize,
+                }}
+              >
                 <span className={displayRole ? "typewriter-cursor" : ""}>
                   {displayRole}
                 </span>
@@ -1125,7 +1196,6 @@ function HeroSection({ scrollToSection }) {
           </div>
         );
       })()}
-
     </div>
   );
 }
