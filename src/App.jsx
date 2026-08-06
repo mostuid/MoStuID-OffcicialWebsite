@@ -2315,7 +2315,7 @@ function CourseDetailSection() {
             rel="noopener noreferrer"
             className="mt-4 w-full bg-gradient-to-r from-[#FF5500] to-[#e64a00] text-white font-chivo font-bold py-3.5 rounded-xl text-sm uppercase tracking-wider text-center hover:shadow-[0_0_40px_rgba(255,85,0,0.4)] transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-xl shadow-[#FF5500]/20"
           >
-            Daftar Sekarang →
+            Daftar Sekarang
           </a>
         </div>
       </div>
