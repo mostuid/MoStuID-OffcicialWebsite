@@ -1424,15 +1424,6 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       videoYoutubeId: "bVjdp2FYwoI"
     },
     {
-      title: "Arun Regas Meeting Room (PAG Animation)",
-      cat: "animation",
-      desc: "Video edukasi keselamatan yang dikembangkan untuk meningkatkan pemahaman karyawan.",
-      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
-      link: null,
-      image: null,
-      videoYoutubeId: "6FqccjJoNsA"
-    },
-    {
       title: "Go Green Parallax Prototype",
       cat: "web-dev",
       desc: "Website interaktif dengan animasi parallax untuk campaign lingkungan.",
@@ -1460,6 +1451,15 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       image: webPorto1Img,
     },
     {
+      title: "Arun Regas Meeting Room (PAG Animation)",
+      cat: "animation",
+      desc: "Video edukasi keselamatan yang dikembangkan untuk meningkatkan pemahaman karyawan.",
+      meta: "HSSE Explainer Animation • PT Perta Arun Gas • 2026",
+      link: null,
+      image: null,
+      videoYoutubeId: "6FqccjJoNsA"
+    },
+    {
       title: "Video Profil Prof. Dr. drh. Farida",
       cat: "visual-story",
       desc: "Menghadirkan cerita perjalanan akademik melalui visual yang sinematik dan komunikatif.",
@@ -1477,14 +1477,14 @@ function PortfolioTabSection({ currentFilter, setFilter }) {
       image: null,
       videoYoutubeId: "Y8Hs9PiioX4"
     },
-    {
-      title: "Nama Aplikasi Anda",
-      cat: "app-dev",
-      desc: "Deskripsi singkat tentang aplikasi yang Anda kembangkan.",
-      meta: "App Development Project • 2026",
-      link: null,
-      image: webPorto1Img,
-    },
+    //{
+    //title: "Nama Aplikasi Anda",
+    //cat: "app-dev",
+    //desc: "Deskripsi singkat tentang aplikasi yang Anda kembangkan.",
+    //meta: "App Development Project • 2026",
+    //link: null,
+    //image: webPorto1Img,
+    //},
     {
       title: "Multi Purpose Building (PAG Animation)",
       cat: "animation",
@@ -2266,10 +2266,13 @@ function CourseDetailSection() {
 
       {/* ==================== VIDEO + HARGA ==================== */}
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
-        {/* Video - 2 kolom */}
+        {/* Video - 2 kolom dengan rasio 9:16 di mobile, 16:9 di desktop */}
         <div className="lg:col-span-2 relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-[#FF5500]/10 group bg-black">
-          {/* Container video dengan posisi relative */}
-          <div className="relative aspect-video">
+          {/* Container video dengan rasio berbeda: 9:16 di mobile, 16:9 di desktop */}
+          <div className="relative w-full">
+            {/* Mobile: 9:16 (177.78%), Desktop: 16:9 (56.25%) */}
+            <div className="lg:pb-[56.25%] pb-[177.78%]" />
+
             {/* Thumbnail */}
             <img
               src={course.trailerThumbnail || `https://img.youtube.com/vi/${course.trailerId}/hqdefault.jpg`}
