@@ -740,7 +740,91 @@ function TypewriterEffect({ services }) {
 
 /* ==========================================
    KOMPONEN MANDIRI: SECTION 1 (HERO CONTAINER)
+   -- REVISI LAYOUT: teks & foto disatukan dalam SATU div flex
+      agar tidak lagi "terpisah" saat zoom/resolusi browser berubah.
    ========================================== */
+/* ==========================================
+   KOMPONEN MANDIRI: SECTION 1 (HERO CONTAINER)
+   -- REVISI LAYOUT: teks & foto disatukan dalam SATU div flex
+      (prinsip sama seperti hero situek.com kamu), dan semua ukuran
+      sekarang pakai ANGKA PX TETAP PER BREAKPOINT (bukan clamp/vw/%),
+      supaya gampang di-fine-tune manual seperti gaya CSS Situek.
+   ========================================== */
+
+/* =========================================================================
+   🔧 KONFIGURASI UKURAN PER BREAKPOINT (edit angka di sini untuk tuning)
+   Breakpoint: desktop (>=1024), tablet (768-1023), mobileLg (640-767),
+   mobileMd (480-639), mobileSm (<480) — persis semangat breakpoint Situek
+   (1024 / 820 / 640 / 480), hanya titik potongnya sedikit disesuaikan ke
+   breakpoint bawaan Tailwind (768) supaya konsisten dengan class lg:/sm:.
+   ========================================================================= */
+const HERO_CONFIG = {
+  desktop: {
+    h1Size: 170,          // px, ukuran font "AGENCY"
+    labelSize: 30,        // px, ukuran font "Digital & Creative"
+    labelTop: -38,        // px, jarak label ke atas h1 (nilai negatif)
+    labelRight: 40,       // px, jarak label dari kanan blok teks
+    circleSize: 620,      // px, diameter lingkaran oranye
+    photoMaxWidth: 580,   // px, lebar maksimum foto talent
+    photoMinHeight: 640,  // px, jaga-jaga agar wrapper foto tidak collapse
+    badgeMinWidth: 300,   // px
+    badgeRight: 40,       // px, jarak badge nama dari kanan wrapper foto
+    badgeBottom: 70,      // px, jarak badge nama dari bawah wrapper foto
+    mouseLeft: 166,        // px, posisi ikon mouse dari kiri blok teks
+    mouseTop: 690,        // px, posisi ikon mouse dari atas blok teks
+  },
+  tablet: { // 768 - 1023
+    h1Size: 110,
+    labelSize: 22,
+    circleSize: 460,
+    photoMaxWidth: 560,
+    photoMinHeight: 480,
+    badgeMinWidth: 240,
+    badgeBottom: 60,
+  },
+  mobileLg: { // 640 - 767
+    h1Size: 88,
+    labelSize: 20,
+    circleSize: 400,
+    photoMaxWidth: 400,
+    photoMinHeight: 420,
+    badgeMinWidth: 220,
+    badgeBottom: 50,
+  },
+  mobileMd: { // 480 - 639
+    h1Size: 64,
+    labelSize: 16,
+    circleSize: 320,
+    photoMaxWidth: 320,
+    photoMinHeight: 360,
+    badgeMinWidth: 200,
+    badgeBottom: 40,
+  },
+  mobileSm: { // < 480
+    h1Size: 60,
+    labelSize: 20,
+    circleSize: 300,
+    photoMaxWidth: 350,
+    photoMinHeight: 350,
+    badgeMinWidth: 190,
+    badgeBottom: 32,
+  },
+};
+
+// Urutan breakpoint dari besar ke kecil. Tambah/ubah titik potong di sini
+// kalau mau breakpoint baru (mis. 1440 untuk layar besar) — tinggal
+// tambah baris baru + entry baru di HERO_CONFIG.
+const BREAKPOINT_ORDER = [
+  { key: "desktop", min: 1024 },
+  { key: "tablet", min: 768 },
+  { key: "mobileLg", min: 640 },
+  { key: "mobileMd", min: 480 },  { key: "mobileSm", min: 0 },];function getTierKey(width) {
+  for (const bp of BREAKPOINT_ORDER) {
+    if (width >= bp.min) return bp.key;
+  }
+  return "mobileSm";
+}
+
 function HeroSection({ scrollToSection }) {
   const waNumber = "6285111401924";
   const waMessage = encodeURIComponent(
@@ -751,11 +835,14 @@ function HeroSection({ scrollToSection }) {
   const [isShiny, setIsShiny] = useState(true);
   const [mouseOpacity, setMouseOpacity] = useState(1);
   const [mouseTranslateY, setMouseTranslateY] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [tier, setTier] = useState("desktop");
+  const isMobile = tier !== "desktop";
 
-  /* =========================================================================
-     🔥 SLOT ANGGOTA BARU KUSTOM & KONFIGURASI LAYOUT CONTAINER NAMA
-     ========================================================================= */
+  // Config aktif untuk breakpoint saat ini. Kalau sebuah field tidak
+  // didefinisikan di tier kecil (mis. labelTop hanya ada di desktop
+  // karena label itu cuma absolute di desktop), fallback ke desktop.
+  const cfg = { ...HERO_CONFIG.desktop, ...HERO_CONFIG[tier] };
+
   const heroSlides = [
     {
       id: 'founder',
@@ -771,34 +858,18 @@ function HeroSection({ scrollToSection }) {
     },
   ];
 
-  const textContainerConfig = {
-    pcLeft: "78%",
-    pcBottom: "120px",
-    hpLeft: "50%",
-    hpBottom: "70px",
-
-    pcMinWidth: "300px",
-    pcMinHeight: "50px",
-    pcPadding: "1rem",
-
-    hpMinWidth: "250px",
-    hpMinHeight: "50px",
-    hpPadding: "0.75rem"
-  };
-
-  /* ========================================================================= */
-
   const [activeSlide, setActiveSlide] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
 
-  // ✅ FIXED: Gabungkan menjadi satu state untuk deteksi mobile
+  // ✅ Deteksi breakpoint (bukan cuma boolean mobile/desktop lagi, tapi
+  // 5 tingkatan mengikuti BREAKPOINT_ORDER di atas)
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
+    const checkTier = () => {
+      setTier(getTierKey(window.innerWidth));
     };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    checkTier();
+    window.addEventListener('resize', checkTier);
+    return () => window.removeEventListener('resize', checkTier);
   }, []);
 
   // LOGIKA AUTO-LOOP SLIDE (Ganti tiap 5 detik)
@@ -891,7 +962,7 @@ function HeroSection({ scrollToSection }) {
 
   return (
     <div
-      className="relative flex flex-col lg:grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-4 items-center min-h-screen lg:h-screen pt-16 lg:pt-0 pb-0 lg:pb-0 px-0 lg:px-4"
+      className="relative w-full h-[100svh] lg:h-screen"
       style={{ clipPath: isMobile ? "none" : "inset(0px -100vw 0px -100vw)" }}
     >
       {/* EFEK GLOW BACKGROUND - SEPERTI QNA */}
@@ -930,79 +1001,93 @@ function HeroSection({ scrollToSection }) {
         .typewriter-cursor { border-right: 2px solid #FF5500; animation: cursorBlink 0.75s step-end infinite; }
       `}</style>
 
+      {/* =========================================================================
+          ✅ SATU DIV UTAMA yang membungkus TEKS + FOTO — sama seperti
+          `.hero > div` di situek.com. Keduanya jadi flex-child dari parent
+          yang SAMA (flex-basis %), dan `items-stretch` membuat keduanya
+          selalu berbagi tinggi yang sama juga. Semua angka ukuran di bawah
+          ini diambil dari HERO_CONFIG (px tetap per breakpoint), BUKAN
+          clamp/vw, persis gaya Situek.
+          ========================================================================= */}
+      <div className="relative z-10 w-full h-full flex flex-col lg:flex-row items-stretch pt-32 lg:pt-0 px-4 lg:px-[3%] gap-4 lg:gap-2">
 
-      {/* SISI KIRI: TEXT & ACTIONS */}
-      <div
-        className={`w-full lg:col-span-8 flex flex-col justify-center pt-6 sm:pt-12 lg:pt-0 relative z-20 text-center lg:text-left px-4 lg:px-0 ${isMobile ? 'pt-8' : ''}`}
-      >
-        <div className="relative mb-2 sm:mb-4">
-          <p className="font-chivo font-thin text-base sm:text-2xl lg:text-[30px] text-white tracking-wide lg:absolute lg:top-[-2.3rem] lg:left-[28.3rem] z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0">
-            Digital & Creative
-          </p>
-          <h1 className="font-poppins font-bold text-[clamp(48px,16vw,96px)] lg:text-[170px] tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left">
-            <span
-              className="block bg-clip-text text-transparent relative z-10 animate-shimmer-sweep"
+        {/* SISI KIRI: TEXT & ACTIONS */}
+        <div className="relative z-20 w-full lg:basis-[56%] shrink-0 lg:shrink flex flex-col justify-center pt-4 lg:pt-0 text-center lg:text-left">
+          <div className="relative mb-2 sm:mb-4">
+            {/* "Digital & Creative": posisi absolute HANYA berlaku di desktop
+                (labelTop/labelRight cuma didefinisikan di tier desktop).
+                Di mobile dia statis mengalir di atas h1 seperti biasa. */}
+            <p
+              className="font-chivo font-thin text-white tracking-wide lg:absolute z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0"
               style={{
-                WebkitTextFillColor: "transparent",
-                backgroundImage: "linear-gradient(90deg, #FF5500 0%, #ffffff 35%, #ffffff 65%, #FF5500 100%)",
-                backgroundSize: "200% 100%",
-                backgroundPosition: "0% center"
+                fontSize: isMobile ? `${cfg.labelSize}px` : `${cfg.labelSize}px`,
+                top: isMobile ? "auto" : `${cfg.labelTop}px`,
+                right: isMobile ? "auto" : `${cfg.labelRight}px`,
               }}
             >
-              AGENCY
-            </span>
-            {/* Efek glow kecil dan rapi */}
-            <span className="absolute -inset-1 bg-[#FF5500]/20 blur-2xl -z-0 rounded-lg pointer-events-none" />
-          </h1>
-        </div>
-        <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
-          <TypewriterEffect
-            services={[
-              "WE BUILD STUNNING WEBSITES & APPS",
-              "WE DELIVER CINEMATIC VISUAL STORYTELLING",
-              "WE PRODUCE ENGAGING ANIMATIONS",
-              "WE DEVELOP STRONG BRAND STRATEGIES"
-            ]}
-          />
-        </div>
-        <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
-          <a
-            href={`https://wa.me/6285111401924?text=${encodeURIComponent(
-              "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda. Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
-            )}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 w-[140px] sm:w-[160px] inline-block"
-          >
-            Get Order
-          </a>
+              Digital & Creative
+            </p>
+            <h1
+              className="font-poppins font-bold tracking-tight leading-none drop-shadow-[0_10px_25px_rgba(0,0,0,0.65)] relative z-20 select-none opacity-0 animate-title-left"
+              style={{ fontSize: `${cfg.h1Size}px` }}
+            >
+              <span
+                className="block bg-clip-text text-transparent relative z-10 animate-shimmer-sweep"
+                style={{
+                  WebkitTextFillColor: "transparent",
+                  backgroundImage: "linear-gradient(90deg, #FF5500 0%, #ffffff 35%, #ffffff 65%, #FF5500 100%)",
+                  backgroundSize: "200% 100%",
+                  backgroundPosition: "0% center"
+                }}
+              >
+                AGENCY
+              </span>
+              {/* Efek glow kecil dan rapi */}
+              <span className="absolute -inset-1 bg-[#FF5500]/20 blur-2xl -z-0 rounded-lg pointer-events-none" />
+            </h1>
+          </div>
+          <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
+            <TypewriterEffect
+              services={[
+                "WE BUILD STUNNING WEBSITES & APPS",
+                "WE DELIVER CINEMATIC VISUAL STORYTELLING",
+                "WE PRODUCE ENGAGING ANIMATIONS",
+                "WE DEVELOP STRONG BRAND STRATEGIES"
+              ]}
+            />
+          </div>
+          <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
+            <a
+              href={`https://wa.me/6285111401924?text=${encodeURIComponent(
+                "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda. Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
+              )}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 w-[140px] sm:w-[160px] inline-block"
+            >
+              Get Order
+            </a>
 
-          {/* Tombol Get in Touch! */}
-          <a
-            href={waLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block w-[140px] sm:w-[160px]"
-          >
-            Reach Us!
-          </a>
-        </div>
+            {/* Tombol Get in Touch! */}
+            <a
+              href={waLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block w-[140px] sm:w-[160px]"
+            >
+              Reach Us!
+            </a>
+          </div>
 
-        {/* IKON MOUSE */}
-        {(() => {
-          const POSISI_HP = { left: "1px", bottom: "-470px" };
-          const POSISI_PC = { left: "167px", top: "400px" };
-          return (
+          {/* IKON MOUSE (khusus desktop, posisi px tetap relatif ke blok teks) */}
+          {!isMobile && (
             <div
-              className="transition-all duration-500 ease-out"
+              className="hidden lg:block absolute z-[100] transition-all duration-500 ease-out"
               style={{
-                position: isMobile ? "absolute" : "absolute",
-                zIndex: 100,
+                left: `${cfg.mouseLeft}px`,
+                top: `${cfg.mouseTop}px`,
                 pointerEvents: mouseOpacity > 0 ? "auto" : "none",
                 opacity: mouseOpacity,
-                left: isMobile ? POSISI_HP.left : POSISI_PC.left,
-                bottom: isMobile ? POSISI_HP.bottom : "auto",
-                top: isMobile ? "auto" : POSISI_PC.top,
                 transform: `translateY(${mouseTranslateY}px) scale(${0.95 + mouseOpacity * 0.05})`
               }}
             >
@@ -1010,118 +1095,128 @@ function HeroSection({ scrollToSection }) {
                 <div className="w-0.5 h-2 bg-neutral-300 rounded-full"></div>
               </div>
             </div>
-          );
-        })()}
-      </div>
+          )}
+        </div>
 
-      {/* SISI KANAN: ANIMATED SLIDER AREA */}
-      {(() => {
-        const SETTING_HP = { tinggiWadah: "520px", lebarLingkaran: "400px", lebarMaxFoto: "550px" };
-        const SETTING_PC = { lebarLingkaran: "620px", lebarMaxFoto: "580px" };
+        {/* SISI KANAN: ANIMATED SLIDER AREA
+            ✅ Anak flex biasa (bukan lg:absolute bottom-0 right-0 lagi),
+            persis seperti `.hero-right{flex:1;position:relative}` di
+            situek.com — foto & badge di dalamnya absolute relatif ke
+            KOTAK INI SENDIRI, bukan ke hero secara keseluruhan. */}
+        <div
+          className="relative z-10 w-full flex-1 min-h-0 lg:basis-[42%] lg:shrink-0 flex justify-center lg:justify-end items-end"
+          style={{ minHeight: `${cfg.photoMinHeight}px` }}
+        >
 
-        return (
+          {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
           <div
-            className={`w-full lg:col-span-4 relative flex justify-center lg:justify-end items-end mt-auto lg:mt-0 lg:h-full lg:absolute lg:bottom-0 lg:right-0 z-10 px-0 ${isMobile ? 'mt-10 sm:mt-14' : ''}`}
+            className="absolute bottom-[2%] right-auto lg:right-[2%] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s] bg-[#FF5500]"
             style={{
-              height: isMobile ? SETTING_HP.tinggiWadah : "100%",
-              overflow: isMobile ? "visible" : "visible"
+              width: `${cfg.circleSize}px`,
+              height: `${cfg.circleSize}px`,
+            }}
+          />
+
+          {/* WRAPPER ELEMEN SLIDER FOTO */}
+          <div className="relative w-full h-full flex justify-center lg:justify-end items-end">
+            {heroSlides.map((slide) => {
+              const isActive = slide.id === heroSlides[activeSlide].id;
+              const isEvenIndex = heroSlides.indexOf(slide) % 2 === 0;
+
+              let imgAnimClass = "opacity-0 pointer-events-none";
+
+              if (isActive) {
+                imgAnimClass = isEvenIndex ? "slide-in-right-custom" : "slide-in-left-custom";
+              } else if (hasInteracted) {
+                const wasActive = heroSlides.indexOf(slide) === (activeSlide === 0 ? heroSlides.length - 1 : activeSlide - 1);
+                if (wasActive) {
+                  imgAnimClass = isEvenIndex ? "slide-out-left-custom" : "slide-out-right-custom";
+                }
+              }
+
+              return (
+                <div
+                  key={slide.id}
+                  className="absolute bottom-0 flex flex-col items-center lg:items-end justify-end w-full h-full px-0"
+                  style={{
+                    pointerEvents: isActive ? "auto" : "none"
+                  }}
+                >
+                  {/* FOTO TALENT SLIDING */}
+                  <div className={`h-full w-auto relative ${imgAnimClass}`}>
+                    <img
+                      src={slide.img}
+                      alt={slide.name}
+                      className="h-full w-auto object-contain object-bottom relative z-10 select-none pointer-events-none transform origin-bottom transition-transform duration-700 hover:scale-[1.02]"
+                      style={{ maxWidth: `${cfg.photoMaxWidth}px` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CONTAINER TRANSPARAN PAPAN NAMA - DENGAN GLASSMORPHISM DOMINAN #FF5500
+              posisi & minWidth sekarang px tetap dari HERO_CONFIG */}
+          <div
+            className="absolute z-30 flex flex-col justify-center items-center text-left select-none bg-[#FF5500]/10 backdrop-blur-xl border border-[#FF5500]/30 rounded-xl shadow-2xl shadow-[#FF5500]/30"
+            style={{
+              right: isMobile ? "auto" : `${cfg.badgeRight}px`,
+              left: isMobile ? "50%" : "auto",
+              bottom: isMobile ? `${cfg.badgeBottom}px` : `${cfg.badgeBottom}px`,
+              minWidth: `${cfg.badgeMinWidth}px`,
+              padding: isMobile ? "10px 12px" : "16px",
+              transform: isMobile ? "translate(-50%, -15px)" : "translateY(-30px)"
             }}
           >
-            {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
-            <div
-              className="absolute bottom-[0.5%] right-auto lg:right-[-3%] bg-[#FF5500] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s]"
-              style={{
-                width: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran,
-                height: isMobile ? SETTING_HP.lebarLingkaran : SETTING_PC.lebarLingkaran
-              }}
-            />
+            {/* Background gradasi #FF5500 */}
+            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF5500]/20 via-[#FF5500]/5 to-[#FF5500]/10 pointer-events-none" />
 
-            {/* WRAPPER ELEMEN SLIDER FOTO */}
-            <div className="relative w-full h-full flex justify-center lg:justify-end items-end px-0">
-              {heroSlides.map((slide) => {
-                const isActive = slide.id === heroSlides[activeSlide].id;
-                const isEvenIndex = heroSlides.indexOf(slide) % 2 === 0;
+            {/* Efek glow #FF5500 di sudut */}
+            <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#FF5500]/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-[#FF5500]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
 
-                let imgAnimClass = "opacity-0 pointer-events-none";
+            {/* Garis dekoratif #FF5500 di tepi */}
+            <div className="absolute top-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/50 to-transparent" />
+            <div className="absolute bottom-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/50 to-transparent" />
 
-                if (isActive) {
-                  imgAnimClass = isEvenIndex ? "slide-in-right-custom" : "slide-in-left-custom";
-                } else if (hasInteracted) {
-                  const wasActive = heroSlides.indexOf(slide) === (activeSlide === 0 ? heroSlides.length - 1 : activeSlide - 1);
-                  if (wasActive) {
-                    imgAnimClass = isEvenIndex ? "slide-out-left-custom" : "slide-out-right-custom";
-                  }
-                }
+            {/* Pinggiran glow */}
+            <div className="absolute inset-0 rounded-xl border border-[#FF5500]/20 pointer-events-none" />
 
-                return (
-                  <div
-                    key={slide.id}
-                    className="absolute bottom-0 flex flex-col items-center lg:items-end justify-end w-full h-full px-0"
-                    style={{
-                      pointerEvents: isActive ? "auto" : "none"
-                    }}
-                  >
-                    {/* FOTO TALENT SLIDING */}
-                    <div className={`h-full w-auto relative ${imgAnimClass}`}>
-                      <img
-                        src={slide.img}
-                        alt={slide.name}
-                        className="h-full w-auto object-contain object-bottom relative z-10 select-none pointer-events-none transform origin-bottom transition-transform duration-700 hover:scale-[1.02]"
-                        style={{ maxWidth: isMobile ? SETTING_HP.lebarMaxFoto : SETTING_PC.lebarMaxFoto }}
-                      />
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            {/* NAMA - WARNA PUTIH */}
+            <h2 className="font-poppins font-bold text-lg sm:text-2xl text-white tracking-tight drop-shadow-[0_0_20px_rgba(255,85,0,0.3)] min-h-7 sm:min-h-9 flex items-center relative z-10 whitespace-nowrap">
+              <span className={displayName && displayName.length < heroSlides[activeSlide].name.length ? "typewriter-cursor" : ""}>
+                {displayName}
+              </span>
+            </h2>
 
-            {/* CONTAINER TRANSPARAN PAPAN NAMA - DENGAN GLASSMORPHISM DOMINAN #FF5500 */}
-            <div
-              className="absolute z-30 flex flex-col justify-center items-center text-left select-none bg-[#FF5500]/10 backdrop-blur-xl border border-[#FF5500]/30 rounded-xl shadow-2xl shadow-[#FF5500]/30"
-              style={{
-                left: isMobile ? textContainerConfig.hpLeft : textContainerConfig.pcLeft,
-                bottom: isMobile ? textContainerConfig.hpBottom : textContainerConfig.pcBottom,
-                minWidth: isMobile ? '200px' : textContainerConfig.pcMinWidth,
-                minHeight: isMobile ? '56px' : textContainerConfig.pcMinHeight,
-                padding: isMobile ? '10px 12px' : textContainerConfig.pcPadding,
-                transform: isMobile && textContainerConfig.hpLeft === "50%"
-                  ? "translate(-50%, -15px)"
-                  : "translateY(-30px)"
-              }}
-            >
-              {/* Background gradasi #FF5500 */}
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#FF5500]/20 via-[#FF5500]/5 to-[#FF5500]/10 pointer-events-none" />
-
-              {/* Efek glow #FF5500 di sudut */}
-              <div className="absolute -top-12 -right-12 w-32 h-32 bg-[#FF5500]/30 rounded-full blur-3xl pointer-events-none animate-pulse" />
-              <div className="absolute -bottom-12 -left-12 w-32 h-32 bg-[#FF5500]/20 rounded-full blur-3xl pointer-events-none animate-pulse" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
-
-              {/* Garis dekoratif #FF5500 di tepi */}
-              <div className="absolute top-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/50 to-transparent" />
-              <div className="absolute bottom-0 left-[20%] right-[20%] h-[1px] bg-gradient-to-r from-transparent via-[#FF5500]/50 to-transparent" />
-
-              {/* Pinggiran glow */}
-              <div className="absolute inset-0 rounded-xl border border-[#FF5500]/20 pointer-events-none" />
-
-              {/* NAMA - WARNA PUTIH */}
-              <h2 className="font-poppins font-bold text-lg sm:text-2xl text-white tracking-tight drop-shadow-[0_0_20px_rgba(255,85,0,0.3)] min-h-7 sm:min-h-9 flex items-center relative z-10">
-                <span className={displayName && displayName.length < heroSlides[activeSlide].name.length ? "typewriter-cursor" : ""}>
-                  {displayName}
-                </span>
-              </h2>
-
-              {/* ROLE - WARNA PUTIH DENGAN OPACITY 60% */}
-              <p className="font-mono text-white/60 text-[10px] sm:text-xs uppercase tracking-wider font-semibold mt-0.5 drop-shadow-[0_0_15px_rgba(255,85,0,0.4)] min-h-4 flex items-center relative z-10">
-                <span className={displayRole ? "typewriter-cursor" : ""}>
-                  {displayRole}
-                </span>
-              </p>
-            </div>
+            {/* ROLE - WARNA PUTIH DENGAN OPACITY 60% */}
+            <p className="font-mono text-white/60 text-[10px] sm:text-xs uppercase tracking-wider font-semibold mt-0.5 drop-shadow-[0_0_15px_rgba(255,85,0,0.4)] min-h-4 flex items-center relative z-10 whitespace-nowrap">
+              <span className={displayRole ? "typewriter-cursor" : ""}>
+                {displayRole}
+              </span>
+            </p>
           </div>
-        );
-      })()}
+        </div>
 
+      </div>
+
+      {/* IKON MOUSE KHUSUS MOBILE - fixed di pojok bawah hero */}
+      {isMobile && (
+        <div
+          className="absolute z-[100] left-3 bottom-4 transition-all duration-500 ease-out"
+          style={{
+            pointerEvents: mouseOpacity > 0 ? "auto" : "none",
+            opacity: mouseOpacity,
+            transform: `translateY(${mouseTranslateY * 0.5}px) scale(${0.95 + mouseOpacity * 0.05})`
+          }}
+        >
+          <div onClick={() => scrollToSection("services-area")} className="w-5 h-9 border-2 border-white rounded-full flex justify-center p-1.5 animate-bounce cursor-pointer">
+            <div className="w-0.5 h-2 bg-neutral-300 rounded-full"></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
