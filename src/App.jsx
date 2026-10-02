@@ -836,7 +836,7 @@ function HeroSection({ scrollToSection }) {
   const [mouseOpacity, setMouseOpacity] = useState(1);
   const [mouseTranslateY, setMouseTranslateY] = useState(0);
   const [tier, setTier] = useState("desktop");
-  const isMobile = tier !== "desktop";
+  const isMobile = tier !== "desktop" && tier !== "tablet";
 
   // Config aktif untuk breakpoint saat ini. Kalau sebuah field tidak
   // didefinisikan di tier kecil (mis. labelTop hanya ada di desktop
@@ -962,7 +962,7 @@ function HeroSection({ scrollToSection }) {
 
   return (
     <div
-      className="relative w-full h-[100svh] lg:h-screen"
+      className="relative w-full h-[100svh] md:h-screen"
       style={{ clipPath: isMobile ? "none" : "inset(0px -100vw 0px -100vw)" }}
     >
       {/* EFEK GLOW BACKGROUND - SEPERTI QNA */}
@@ -1009,16 +1009,16 @@ function HeroSection({ scrollToSection }) {
           ini diambil dari HERO_CONFIG (px tetap per breakpoint), BUKAN
           clamp/vw, persis gaya Situek.
           ========================================================================= */}
-      <div className="relative z-10 w-full h-full flex flex-col lg:flex-row items-stretch pt-32 lg:pt-0 px-4 lg:px-[3%] gap-4 lg:gap-2">
+      <div className="relative z-10 w-full h-full flex flex-col md:flex-row items-stretch pt-32 md:pt-0 px-4 md:px-[3%] gap-4 md:gap-2">
 
         {/* SISI KIRI: TEXT & ACTIONS */}
-        <div className="relative z-20 w-full lg:basis-[56%] shrink-0 lg:shrink flex flex-col justify-center pt-4 lg:pt-0 text-center lg:text-left">
+        <div className="relative z-20 w-full md:basis-[56%] shrink-0 md:shrink flex flex-col justify-center pt-4 md:pt-0 text-center md:text-left">
           <div className="relative mb-2 sm:mb-4">
             {/* "Digital & Creative": posisi absolute HANYA berlaku di desktop
                 (labelTop/labelRight cuma didefinisikan di tier desktop).
                 Di mobile dia statis mengalir di atas h1 seperti biasa. */}
             <p
-              className="font-chivo font-thin text-white tracking-wide lg:absolute z-10 whitespace-nowrap animate-slide-right select-none mb-1 lg:mb-0"
+              className="font-chivo font-thin text-white tracking-wide md:absolute z-10 whitespace-nowrap animate-slide-right select-none mb-1 md:mb-0"
               style={{
                 fontSize: isMobile ? `${cfg.labelSize}px` : `${cfg.labelSize}px`,
                 top: isMobile ? "auto" : `${cfg.labelTop}px`,
@@ -1046,7 +1046,7 @@ function HeroSection({ scrollToSection }) {
               <span className="absolute -inset-1 bg-[#FF5500]/20 blur-2xl -z-0 rounded-lg pointer-events-none" />
             </h1>
           </div>
-          <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 lg:pl-2 lg:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center lg:justify-start gap-1 uppercase">
+          <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] md:tracking-[0.22em] px-2 md:pl-2 md:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center md:justify-start gap-1 uppercase">
             <TypewriterEffect
               services={[
                 "WE BUILD STUNNING WEBSITES & APPS",
@@ -1056,7 +1056,7 @@ function HeroSection({ scrollToSection }) {
               ]}
             />
           </div>
-          <div className="flex items-center justify-center lg:justify-start space-x-4 pt-6 sm:pt-10 px-2 lg:pl-2 lg:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
+          <div className="flex items-center justify-center md:justify-start space-x-4 pt-6 sm:pt-10 px-2 md:pl-2 md:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
             <a
               href={`https://wa.me/6285111401924?text=${encodeURIComponent(
                 "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda. Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
@@ -1082,7 +1082,7 @@ function HeroSection({ scrollToSection }) {
           {/* IKON MOUSE (khusus desktop, posisi px tetap relatif ke blok teks) */}
           {!isMobile && (
             <div
-              className="hidden lg:block absolute z-[100] transition-all duration-500 ease-out"
+              className="hidden md:block absolute z-[100] transition-all duration-500 ease-out"
               style={{
                 left: `${cfg.mouseLeft}px`,
                 top: `${cfg.mouseTop}px`,
@@ -1104,13 +1104,13 @@ function HeroSection({ scrollToSection }) {
             situek.com — foto & badge di dalamnya absolute relatif ke
             KOTAK INI SENDIRI, bukan ke hero secara keseluruhan. */}
         <div
-          className="relative z-10 w-full flex-1 min-h-0 lg:basis-[42%] lg:shrink-0 flex justify-center lg:justify-end items-end"
+          className="relative z-10 w-full flex-1 min-h-0 md:basis-[42%] md:shrink-0 flex justify-center md:justify-end items-end"
           style={{ minHeight: `${cfg.photoMinHeight}px` }}
         >
 
           {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
           <div
-            className="absolute bottom-[2%] right-auto lg:right-[2%] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s] bg-[#FF5500]"
+            className="absolute bottom-[2%] right-auto md:right-[2%] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s] bg-[#FF5500]"
             style={{
               width: `${cfg.circleSize}px`,
               height: `${cfg.circleSize}px`,
@@ -1118,7 +1118,7 @@ function HeroSection({ scrollToSection }) {
           />
 
           {/* WRAPPER ELEMEN SLIDER FOTO */}
-          <div className="relative w-full h-full flex justify-center lg:justify-end items-end">
+          <div className="relative w-full h-full flex justify-center md:justify-end items-end">
             {heroSlides.map((slide) => {
               const isActive = slide.id === heroSlides[activeSlide].id;
               const isEvenIndex = heroSlides.indexOf(slide) % 2 === 0;
@@ -1137,7 +1137,7 @@ function HeroSection({ scrollToSection }) {
               return (
                 <div
                   key={slide.id}
-                  className="absolute bottom-0 flex flex-col items-center lg:items-end justify-end w-full h-full px-0"
+                  className="absolute bottom-0 flex flex-col items-center md:items-end justify-end w-full h-full px-0"
                   style={{
                     pointerEvents: isActive ? "auto" : "none"
                   }}
