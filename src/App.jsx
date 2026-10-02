@@ -1009,7 +1009,7 @@ function HeroSection({ scrollToSection }) {
           ini diambil dari HERO_CONFIG (px tetap per breakpoint), BUKAN
           clamp/vw, persis gaya Situek.
           ========================================================================= */}
-      <div className="relative z-10 w-full h-full flex flex-col md:flex-row items-stretch pt-32 md:pt-0 px-4 md:px-[3%] gap-4 md:gap-2">
+      <div className="relative z-10 w-full h-full flex flex-col md:flex-row items-stretch pt-32 md:pt-32 px-4 md:px-[3%] gap-4 md:gap-2">
 
         {/* SISI KIRI: TEXT & ACTIONS */}
         <div className="relative z-20 w-full md:basis-[56%] shrink-0 md:shrink flex flex-col justify-center pt-4 md:pt-0 text-center md:text-left">
