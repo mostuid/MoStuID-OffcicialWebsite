@@ -1105,7 +1105,7 @@ function HeroSection({ scrollToSection }) {
             KOTAK INI SENDIRI, bukan ke hero secara keseluruhan. */}
         <div
           className="relative z-10 w-full flex-1 min-h-0 md:basis-[42%] md:shrink-0 flex justify-center md:justify-end items-end"
-          style={{ minHeight: `${cfg.photoMinHeight}px` }}
+          style={{ minHeight: isMobile ? `${cfg.photoMinHeight}px` : "0px" }}
         >
 
           {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
