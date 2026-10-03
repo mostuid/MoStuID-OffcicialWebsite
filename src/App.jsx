@@ -373,7 +373,7 @@ function App() {
                           Portfolio
                         </button>
                         <button
-                          onClick={() => { ubahTabNavigasi("products"); }}
+                          onClick={() => { ubahTabNavigasi("apps"); }}
                           className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "apps" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
                         >Apps</button>
                         <button
