@@ -323,15 +323,17 @@ function HeroSection({ scrollToSection }) {
               <span className="absolute -inset-1 bg-[#FF5500]/20 blur-2xl -z-0 rounded-lg pointer-events-none" />
             </h1>
           </div>
-          <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] landscape:tracking-[0.22em] px-2 landscape:pl-2 landscape:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] min-h-5 flex items-center justify-center landscape:justify-start gap-1 uppercase">
-            <TypewriterEffect
-              services={[
-                "WE BUILD STUNNING WEBSITES & APPS",
-                "WE DELIVER CINEMATIC VISUAL STORYTELLING",
-                "WE PRODUCE ENGAGING ANIMATIONS",
-                "WE DEVELOP STRONG BRAND STRATEGIES"
-              ]}
-            />
+          <div className="font-chivo font-normal text-[10px] sm:text-sm text-white tracking-[0.12em] landscape:tracking-[0.22em] px-2 landscape:pl-2 landscape:px-0 relative z-10 select-none opacity-0 animate-slide-right [animation-delay:150ms] h-12 sm:h-auto sm:min-h-6 flex items-center justify-center landscape:justify-start uppercase text-center landscape:text-left">
+            <span className="inline">
+              <TypewriterEffect
+                services={[
+                  "WE BUILD STUNNING WEBSITES & APPS",
+                  "WE DELIVER CINEMATIC VISUAL STORYTELLING",
+                  "WE PRODUCE ENGAGING ANIMATIONS",
+                  "WE DEVELOP STRONG BRAND STRATEGIES"
+                ]}
+              />
+            </span>
           </div>
           <div className="flex items-center justify-center landscape:justify-start space-x-4 pt-6 sm:pt-10 px-2 landscape:pl-2 landscape:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
             <a
