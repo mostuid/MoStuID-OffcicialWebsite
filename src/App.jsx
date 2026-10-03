@@ -5,6 +5,8 @@ import AboutTabSection from "./pages/About";
 import PortfolioTabSection from "./pages/Portfolio";
 import { CoursesTabSection, CourseDetailSection } from "./pages/Courses";
 import { AppsTabSection } from "./pages/Apps";
+import { ProductsTabSection } from "./pages/Products";
+import { ToolsTabSection } from "./pages/Tools";
 import waLogo from "./assets/waLogo.png";
 import logoImg from "./assets/logo-mostu.png";
 
@@ -310,11 +312,7 @@ function App() {
                       Portfolio
                       <span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "portfolio" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
                     </button>
-                    <button
-                      onClick={() => ubahTabNavigasi("apps")}
-                      className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "apps" ? "text-[#FF5500]" : "text-neutral-300"}`}
-                    >Apps<span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "apps" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} />
-                    </button>
+                    <button onClick={() => ubahTabNavigasi("products")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "products" ? "text-[#FF5500]" : "text-neutral-300"}`}>Products<span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "products" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} /></button><button onClick={() => ubahTabNavigasi("tools")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "tools" ? "text-[#FF5500]" : "text-neutral-300"}`}>Tools<span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "tools" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} /></button><button onClick={() => ubahTabNavigasi("apps")} className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "apps" ? "text-[#FF5500]" : "text-neutral-300"}`}>Apps<span className={`absolute -bottom-1 left-0 right-0 h-[2px] bg-[#FF5500] transition-all duration-300 rounded-full ${activeTab === "apps" ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`} /></button>
                     <button
                       onClick={() => ubahTabNavigasi("about")}
                       className={`hover:text-[#FF5500] tracking-wide transition-colors relative py-1.5 cursor-pointer group ${activeTab === "about" ? "text-[#FF5500]" : "text-neutral-300"}`}
@@ -372,10 +370,7 @@ function App() {
                         >
                           Portfolio
                         </button>
-                        <button
-                          onClick={() => { ubahTabNavigasi("apps"); }}
-                          className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "apps" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
-                        >Apps</button>
+                        <button onClick={() => { ubahTabNavigasi("products"); }} className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "products" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}>Products</button><button onClick={() => { ubahTabNavigasi("tools"); }} className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "tools" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}>Tools</button><button onClick={() => { ubahTabNavigasi("apps"); }} className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "apps" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}>Apps</button>
                         <button
                           onClick={() => { ubahTabNavigasi("about"); }}
                           className={`w-full text-center font-chivo text-sm tracking-widest py-2 border-b border-white/5 cursor-pointer transition-colors ${activeTab === "about" ? "text-[#FF5500] font-bold" : "text-neutral-300 hover:text-[#FF5500]"}`}
@@ -409,6 +404,8 @@ function App() {
                   <Route path="/courses/:slug" element={<CourseDetailSection setActiveTab={ubahTabNavigasi} />} />
                   <Route path="/portfolio/prototype-airlines" element={<PrototypeRedirect />} />
                   <Route path="/portfolio/prototype-gogreen" element={<PrototypeRedirect />} />
+                  <Route path="/products" element={<ProductsTabSection />} />
+                  <Route path="/tools" element={<ToolsTabSection />} />
                   <Route path="/apps" element={<AppsTabSection />} />
                   <Route path="/about" element={<AboutTabSection />} />
                   <Route path="*" element={<NotFound />} />
