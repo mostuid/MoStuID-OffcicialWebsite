@@ -82,32 +82,11 @@ function App() {
       setTimeout(() => {
         setIsMenuClosing(false);
       }, 280);
-      // Jika hash saat ini adalah #menu, berarti kita menutup secara manual, pop history-nya
-      if (window.location.hash === "#menu") {
-        window.history.back();
-      }
     } else {
       setIsMobileMenuOpen(true);
       setIsMenuClosing(false);
-      // Push state dengan hash #menu agar back button bisa di-intercept
-      window.history.pushState(null, "", window.location.pathname + window.location.search + "#menu");
     }
   };
-
-  // Tangani tombol back untuk menutup menu
-  useEffect(() => {
-    const handlePopState = () => {
-      if (isMobileMenuOpen && window.location.hash !== "#menu") {
-        setIsMobileMenuOpen(false);
-        setIsMenuClosing(true);
-        setTimeout(() => {
-          setIsMenuClosing(false);
-        }, 280);
-      }
-    };
-    window.addEventListener("popstate", handlePopState);
-    return () => window.removeEventListener("popstate", handlePopState);
-  }, [isMobileMenuOpen]);
 
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
