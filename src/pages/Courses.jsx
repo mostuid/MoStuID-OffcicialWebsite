@@ -345,9 +345,8 @@ export function CoursesTabSection() {
       </div>
 
       {/* CTA Bottom */}
-      <div className="relative z-10 mt-10 md:mt-12 text-center animate-slide-up [animation-delay:400ms] w-full">
-        {/* Perubahan: Tambahkan w-full, flex-col total di mobile, dan justify-between di layar besar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-full px-5 sm:px-6 py-4 sm:py-2.5 hover:border-[#FF5500]/40 transition-all duration-300 group w-full">
+      <div className="relative z-10 mt-10 md:mt-12 text-center animate-slide-up [animation-delay:400ms] w-[95%] max-w-[80%] mx-auto">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl sm:rounded-full px-5 sm:px-6 py-4 sm:py-2.5 hover:border-[#FF5500]/40 transition-all duration-300 group w-full box-border">
 
           <span className="text-neutral-200 text-[13px] sm:text-sm font-chivo font-medium group-hover:text-white transition-colors duration-300 text-center sm:text-left">
             Butuh rekomendasi kelas yang cocok untukmu?
@@ -416,18 +415,20 @@ export function CourseDetailSection() {
   }
 
   return (
-    <div className="pt-28 md:pt-32 pb-8 md:pb-12 w-[95%] max-w-[80%] mx-auto relative overflow-hidden">
+    <div className="pt-28 md:pt-32 pb-8 md:pb-12 w-full relative overflow-hidden">
       {/* Efek glow background */}
       <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#FF5500]/8 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Tombol Kembali */}
-      <button
-        onClick={() => navigate("/courses")}
-        className="relative z-10 flex items-center gap-2 text-neutral-400 hover:text-[#FF5500] font-chivo text-xs uppercase tracking-wider transition-all duration-300 group mb-8"
-      >
+      {/* Wrapper Konten */}
+      <div className="w-[95%] max-w-[80%] mx-auto relative z-10">
+        {/* Tombol Kembali */}
+        <button
+          onClick={() => navigate("/courses")}
+          className="relative z-10 flex items-center gap-2 text-neutral-400 hover:text-[#FF5500] font-chivo text-xs uppercase tracking-wider transition-all duration-300 group mb-8"
+        >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300">
           <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
         </svg>
@@ -697,6 +698,7 @@ export function CourseDetailSection() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

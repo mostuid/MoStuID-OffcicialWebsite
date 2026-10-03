@@ -433,7 +433,7 @@ function App() {
                       ? 'text-[10px] px-2.5 py-1.5'
                       : 'text-xs sm:text-sm px-3 sm:px-5 py-1.5 sm:py-2.5'
                       }`}>
-                      Hire Us!
+                      Get in Touch!
                       <div className="absolute -right-[6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-l-[6px] border-t-transparent border-b-transparent border-l-white"></div>
                     </span>
                   </div>
@@ -499,7 +499,10 @@ function Footer({ setActiveTab, scrollToSection }) {
             <button onClick={() => { setActiveTab("portfolio"); window.scrollTo(0, 0); }} className="hover:text-[#FF5500] transition-colors cursor-pointer">Portfolio</button>
             <button onClick={() => { setActiveTab("about"); window.scrollTo(0, 0); }} className="hover:text-[#FF5500] transition-colors cursor-pointer">About Us</button>
           </div>
-          <p className="opacity-50">© 2024-2026 MoStu.ID. All rights reserved.</p>
+          <p className="opacity-50 text-center md:text-right">
+            © 2024-2026 MoStu.ID. <br className="block md:hidden" />
+            All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

@@ -12,6 +12,7 @@ import iconAIAgent from "../assets/Icon AI-Agent.png";
 import iconVisualStorytelling from "../assets/Icon Visual Story Telling.png";
 import iconBrandingStrategy from "../assets/Icon Branding Strategy.png";
 import iconAnimationServices from "../assets/Icon Animation Services.png";
+import { AppsTabSection } from "./Apps";
 
 const BREAKPOINT_ORDER = [
   { key: "desktopLg", min: 1440 },
@@ -108,7 +109,7 @@ function getTierKey() {
   }
 }
 
-function HeroSection({ scrollToSection }) {
+function HeroSection({ scrollToSection, setActiveTab }) {
   const waNumber = "6285111401924";
   const waMessage = encodeURIComponent(
     "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda.  Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
@@ -143,6 +144,17 @@ function HeroSection({ scrollToSection }) {
 
   const [activeSlide, setActiveSlide] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [customMessage, setCustomMessage] = useState("");
+
+  const handleSend = () => {
+    if (!customMessage.trim()) return;
+    const url = `https://wa.me/6285111401924?text=${encodeURIComponent(customMessage)}`;
+    window.open(url, "_blank");
+    setIsModalOpen(false);
+    setCustomMessage("");
+  };
 
   // ✅ Deteksi breakpoint berdasarkan width & orientasi
   useEffect(() => {
@@ -336,26 +348,23 @@ function HeroSection({ scrollToSection }) {
             </span>
           </div>
           <div className="flex items-center justify-center landscape:justify-start space-x-4 pt-6 sm:pt-10 px-2 landscape:pl-2 landscape:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
-            <a
-              href={`https://wa.me/6285111401924?text=${encodeURIComponent(
-                "Halo MoStu.ID, saya ingin berkonsultasi mengenai layanan agensi digital Anda. Mohon informasikan detail layanan, harga, dan bagaimana cara memulai proyek dengan tim Anda. Terima kasih!"
-              )}`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setIsModalOpen(true)}
               className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 w-[140px] sm:w-[160px] inline-block"
             >
-              Get Order
-            </a>
+              Reach Us!
+            </button>
 
             {/* Tombol Get in Touch! */}
-            <a
-              href={waLink}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => {
+                setActiveTab("apps");
+                window.scrollTo(0, 0);
+              }}
               className="border border-neutral-700 bg-neutral-900/40 text-neutral-300 font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-white/30 hover:text-white hover:border-white transition-all duration-300 active:scale-95 cursor-pointer text-center block w-[140px] sm:w-[160px]"
             >
-              Reach Us!
-            </a>
+              Our Apps
+            </button>
           </div>
 
 
@@ -467,7 +476,42 @@ function HeroSection({ scrollToSection }) {
 
       </div>
 
-
+      {/* Modal Popup Contact */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
+          <div className="relative bg-neutral-900 border border-white/10 p-6 sm:p-8 rounded-2xl w-full max-w-md shadow-2xl animate-slide-up">
+            <button 
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h3 className="text-xl font-poppins font-bold text-white mb-2">Reach Us!</h3>
+            <p className="text-sm text-neutral-400 mb-6 font-chivo">Tuliskan pesan atau kebutuhan proyekmu, lalu kirim langsung ke WhatsApp admin kami.</p>
+            
+            <textarea
+              value={customMessage}
+              onChange={(e) => setCustomMessage(e.target.value)}
+              placeholder="Contoh: Halo MoStu.ID, saya ingin berkonsultasi mengenai pembuatan website e-commerce..."
+              className="w-full h-32 bg-white/5 border border-white/10 rounded-xl p-4 text-white text-sm font-chivo outline-none focus:border-[#FF5500]/50 focus:bg-white/10 transition-all resize-none mb-6 placeholder-neutral-600"
+            ></textarea>
+            
+            <button
+              onClick={handleSend}
+              disabled={!customMessage.trim()}
+              className="w-full flex items-center justify-center gap-2 bg-[#FF5500] hover:bg-[#e64a00] disabled:bg-neutral-700 disabled:text-neutral-500 disabled:cursor-not-allowed text-white font-chivo font-bold px-6 py-3 rounded-xl transition-all duration-300 cursor-pointer"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg>
+              <span>Kirim ke WhatsApp</span>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -909,7 +953,7 @@ function ScrollAnimateWrapper({ children, qnaAnimationClass }) {
 export default function Home({ scrollToSection, setActiveTab }) {
   return (
     <>
-      <HeroSection scrollToSection={scrollToSection} />
+      <HeroSection scrollToSection={scrollToSection} setActiveTab={setActiveTab} />
       <ServicesSection setActiveTab={setActiveTab} />
       <QnaSection />
     </>
