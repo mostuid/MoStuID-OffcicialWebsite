@@ -82,11 +82,34 @@ function App() {
       setTimeout(() => {
         setIsMenuClosing(false);
       }, 280);
+      
+      // Jika kita menutup secara manual, pop history agar tidak nyangkut
+      if (window.history.state && window.history.state.menuOpen) {
+        window.history.back();
+      }
     } else {
       setIsMobileMenuOpen(true);
       setIsMenuClosing(false);
+      // Push state baru (menuOpen: true) tanpa mengubah URL
+      const currentState = window.history.state || {};
+      window.history.pushState({ ...currentState, menuOpen: true }, "", window.location.pathname + window.location.search);
     }
   };
+
+  // Tangani tombol back untuk menutup menu
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+        setIsMenuClosing(true);
+        setTimeout(() => {
+          setIsMenuClosing(false);
+        }, 280);
+      }
+    };
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, [isMobileMenuOpen]);
 
   const [showHeader, setShowHeader] = useState(true);
   const lastScrollY = useRef(0);
