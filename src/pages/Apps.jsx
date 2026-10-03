@@ -25,11 +25,11 @@ export function AppsTabSection() {
           {[
             {
               title: "Catet Aja Apps",
-              desc: "Aplikasi pencatatan dan manajemen kasir warung pintar berbasis Android. Mudah digunakan dan dirancang untuk mempercepat produktivitas usaha kecil Anda.",
+              desc: "Catet Aja adalah aplikasi kasir dan pembukuan berbasis Android yang membantu usaha kecil mencatat transaksi, mengelola keuangan, mencetak struk, dan membuat laporan harian, bulanan, serta tahunan dengan mudah dan praktis.",
               link: "https://drive.usercontent.google.com/download?id=1sBKSt0o37ZalKvuqEBIIqFyxktGpZj1M&export=download&authuser=0&confirm=t&uuid=35db4cda-809c-4f5f-bb4c-f40af899cb8f&at=AMrWOn0FXQg4Widt7t9ARQhUvHwY:1791055981288",
               btnText: "Download APK",
               icon: (
-                <img src={catetAjaIcon} alt="Catet Aja Apps Icon" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 rounded-3xl" />
+                <img src={catetAjaIcon} alt="Catet Aja Apps Icon" fetchPriority="high" loading="eager" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 rounded-3xl" />
               )
             },
             {
