@@ -18,7 +18,7 @@ export function AppsTabSection() {
             <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
           </h2>
           <p className="text-neutral-200 font-semibold text-sm sm:text-sm mt-2">
-            Unduh aplikasi mobile buatan MoStu untuk Android.
+            Unduh aplikasi mobile buatan Kami.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto gap-6 px-4 sm:px-0">
