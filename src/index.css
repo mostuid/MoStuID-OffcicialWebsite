@@ -729,3 +729,6 @@
     transform: scale(1);
   }
 }
+
+/* Hilangkan panah datalist bawaan browser */
+.hide-datalist-arrow::-webkit-calendar-picker-indicator, .hide-datalist-arrow::-webkit-list-button { display: none !important; opacity: 0 !important; -webkit-appearance: none !important; appearance: none !important; background: transparent !important; color: transparent !important; }

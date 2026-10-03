@@ -147,6 +147,9 @@ function HeroSection({ scrollToSection, setActiveTab }) {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
+  const [senderName, setSenderName] = useState("");
+  const [category, setCategory] = useState("");
+  const [deadline, setDeadline] = useState("");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -172,10 +175,20 @@ function HeroSection({ scrollToSection, setActiveTab }) {
 
   const handleSend = () => {
     if (!customMessage.trim()) return;
-    const url = `https://wa.me/6285111401924?text=${encodeURIComponent(customMessage)}`;
+
+    let finalMessage = `"${customMessage}"\n`;
+    finalMessage += `_____________________________________\n`;
+    finalMessage += `Nama Pengirim: ${senderName || "-"}\n`;
+    finalMessage += `Kategori Layanan: ${category || "-"}\n`;
+    finalMessage += `Target Deadline: ${deadline || "-"}`;
+
+    const url = `https://wa.me/6285111401924?text=${encodeURIComponent(finalMessage)}`;
     window.open(url, "_blank");
     closeModal();
     setCustomMessage("");
+    setSenderName("");
+    setCategory("");
+    setDeadline("");
   };
 
   // ✅ Deteksi breakpoint berdasarkan width & orientasi
@@ -503,7 +516,7 @@ function HeroSection({ scrollToSection, setActiveTab }) {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={closeModal} />
           <div className="relative bg-neutral-900 border border-white/10 p-6 sm:p-8 rounded-2xl w-full max-w-md shadow-2xl animate-slide-up">
-            <button 
+            <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors cursor-pointer"
             >
@@ -513,14 +526,81 @@ function HeroSection({ scrollToSection, setActiveTab }) {
             </button>
             <h3 className="text-xl font-poppins font-bold text-white mb-2">Reach Us!</h3>
             <p className="text-sm text-neutral-400 mb-6 font-chivo">Tuliskan pesan atau kebutuhan proyekmu, lalu kirim langsung ke WhatsApp admin kami.</p>
-            
+
+            <div className="mb-4">
+              <input
+                type="text"
+                value={senderName}
+                onChange={(e) => setSenderName(e.target.value)}
+                placeholder="Nama Pengirim"
+                className="w-full bg-neutral-900/80 border border-neutral-700 hover:border-[#FF5500]/50 rounded-xl p-3 pl-4 pr-4 text-white text-sm font-chivo outline-none focus:border-[#FF5500] focus:ring-1 focus:ring-[#FF5500]/50 transition-all shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)]"
+              />
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 mb-4">
+              <div className="w-full relative group">
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full bg-neutral-900/80 border border-neutral-700 hover:border-[#FF5500]/50 rounded-xl p-3 pl-4 pr-10 text-white text-sm font-chivo outline-none focus:border-[#FF5500] focus:ring-1 focus:ring-[#FF5500]/50 transition-all appearance-none shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)]"
+                >
+                  <option value="" disabled className="bg-neutral-900 text-neutral-400">Kategori Layanan</option>
+                  <option value="Web Development" className="bg-neutral-900 text-white">Web Development</option>
+                  <option value="App Development" className="bg-neutral-900 text-white">App Development</option>
+                  <option value="AI Automation" className="bg-neutral-900 text-white">AI Automation</option>
+                  <option value="Visual Storytelling" className="bg-neutral-900 text-white">Visual Storytelling</option>
+                  <option value="Animation Services" className="bg-neutral-900 text-white">Animation Services</option>
+                  <option value="Branding Strategy" className="bg-neutral-900 text-white">Branding Strategy</option>
+                </select>
+                <div
+                  className="absolute right-0 top-0 bottom-0 w-12 flex items-center justify-center cursor-pointer text-neutral-400 group-hover:text-[#FF5500] transition-colors"
+                  onClick={(e) => {
+                    const el = e.currentTarget.parentElement.querySelector('select');
+                    if (el && el.showPicker) el.showPicker();
+                  }}
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+              <div className="w-full relative group">
+                <input
+                  list="deadline-options"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                  placeholder="Target Deadline"
+                  className="w-full bg-neutral-900/80 border border-neutral-700 hover:border-[#FF5500]/50 rounded-xl p-3 pl-4 pr-10 text-white text-sm font-chivo outline-none focus:border-[#FF5500] focus:ring-1 focus:ring-[#FF5500]/50 transition-all shadow-[inset_0_2px_10px_rgba(0,0,0,0.3)] appearance-none hide-datalist-arrow"
+                />
+                <datalist id="deadline-options">
+                  <option value="3 Hari" />
+                  <option value="1 Minggu" />
+                  <option value="2 Minggu" />
+                  <option value="1 Bulan" />
+                  <option value="Lebih dari 1 Bulan" />
+                </datalist>
+                <div
+                  className="absolute right-0 top-0 bottom-0 w-12 flex items-center justify-center cursor-pointer text-neutral-400 group-hover:text-[#FF5500] transition-colors"
+                  onClick={(e) => {
+                    const el = e.currentTarget.parentElement.querySelector('input');
+                    if (el && el.showPicker) el.showPicker();
+                  }}
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-white text-sm font-chivo font-medium mb-2">Deskripsi Project:</p>
             <textarea
               value={customMessage}
               onChange={(e) => setCustomMessage(e.target.value)}
               placeholder="Contoh: Halo MoStu.ID, saya ingin berkonsultasi mengenai pembuatan website e-commerce..."
-              className="w-full h-32 bg-white/5 border border-white/10 rounded-xl p-4 text-white text-sm font-chivo outline-none focus:border-[#FF5500]/50 focus:bg-white/10 transition-all resize-none mb-6 placeholder-neutral-600"
+              className="w-full h-24 bg-white/5 border border-white/10 rounded-xl p-4 text-white text-sm font-chivo outline-none focus:border-[#FF5500]/50 focus:bg-white/10 transition-all resize-none mb-6 placeholder-neutral-600"
             ></textarea>
-            
+
             <button
               onClick={handleSend}
               disabled={!customMessage.trim()}
@@ -529,7 +609,7 @@ function HeroSection({ scrollToSection, setActiveTab }) {
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884zM18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
               </svg>
-              <span>Kirim ke WhatsApp</span>
+              <span>Kirim ke WhatsApp Admin</span>
             </button>
           </div>
         </div>
@@ -794,27 +874,33 @@ function QnaSection() {
   const qnaData = [
     {
       q: "Layanan apa saja yang disediakan oleh MoStu?",
-      a: "Kami berfokus pada tiga pilar utama kreatif digital: Pengembangan Website & Software super cepat, Visual Storytelling (Animasi, 3D Render, Video Sinematik), serta Perancangan Strategi Identitas Brand & Konten Media Sosial.",
+      a: "Kami menyediakan solusi digital komprehensif mulai dari Web Development, App Development, AI Automation, Visual Storytelling, Animation Services, hingga Branding Strategy. Selain itu, kami juga mengembangkan Apps dan menyediakan Tools serta Courses edukatif.",
       animClass: "animate-slide-left",
       delayStyle: { animationDelay: "0s" }
     },
     {
-      q: "Berapa biaya atau harga untuk setiap layanan di MoStu?",
-      a: "Harga layanan kami bersifat fleksibel and disesuaikan dengan skala serta kompleksitas proyek Anda. Kami menyediakan paket terstruktur untuk UMKM hingga solusi kustom korporat. Hubungi kami untuk mendapatkan penawaran harga yang sesuai anggaran Anda.",
+      q: "Apakah MoStu.ID hanya melayani proyek pesanan (kustom)?",
+      a: "Tentu tidak! Kami juga memiliki berbagai inovasi karya mandiri berupa Products, Tools, dan Apps yang siap pakai. Anda bisa menjelajahi berbagai aplikasi pintar, ekstensi, aset desain, hingga alat produktivitas menarik kami langsung di menu navigasi!",
       animClass: "animate-slide-right",
       delayStyle: { animationDelay: "0.15s" }
     },
     {
-      q: "Apakah eksekusi proyek bisa disesuaikan dengan kebutuhan kustom?",
-      a: "Ya, seluruh proses desain, pengembangan web, hingga aset visual di agensi kami dikerjakan secara exclusif and presisi tanpa template kaku, murni mengikuti strategi target audiens bisnis Anda.",
+      q: "Berapa biaya atau harga untuk setiap layanan di MoStu?",
+      a: "Harga layanan kami bersifat fleksibel dan disesuaikan dengan skala serta kompleksitas proyek Anda. Kami menyediakan paket terstruktur untuk UMKM hingga solusi kustom korporat. Hubungi kami untuk penawaran harga yang sesuai anggaran Anda.",
       animClass: "animate-slide-left",
       delayStyle: { animationDelay: "0.3s" }
     },
     {
-      q: "Bagaimana cara memulai kolaborasi proyek?",
-      a: "Cukup klik tombol 'Get Order' atau hubungi langsung via email/media sosial kami. Tim kami akan segera menjadwalkan sesi konsultasi gratis untuk menganalisis strategi kebutuhan Anda.",
+      q: "Apakah eksekusi proyek bisa disesuaikan dengan kebutuhan kustom?",
+      a: "Ya, seluruh proses pengembangan aplikasi, website, integrasi AI, hingga pembuatan aset visual dikerjakan secara eksklusif dan presisi, menyesuaikan sepenuhnya dengan kebutuhan unik serta target audiens bisnis Anda.",
       animClass: "animate-slide-right",
       delayStyle: { animationDelay: "0.45s" }
+    },
+    {
+      q: "Bagaimana cara memulai kolaborasi proyek?",
+      a: "Cukup klik tombol 'Reach Us!' di halaman ini untuk mengirim pesan via WhatsApp dengan mengisi nama, kategori layanan, target deadline, dan deskripsi proyek Anda. Tim kami akan segera merespons untuk konsultasi lebih lanjut.",
+      animClass: "animate-slide-left",
+      delayStyle: { animationDelay: "0.6s" }
     }
   ];
 
@@ -918,11 +1004,13 @@ function QnaSection() {
                   </div>
 
                   {/* Jawaban - ukuran sama dengan deskripsi Services */}
-                  <div className={`transition-all duration-300 ease-out overflow-hidden ${openIndex === idx ? 'max-h-60 mt-4 border-t border-white/10 pt-4' : 'max-h-0'
+                  <div className={`transition-all duration-300 ease-out overflow-hidden ${openIndex === idx ? 'max-h-96 mt-4' : 'max-h-0'
                     }`}>
-                    <p className="font-poppins font-normal text-[11px] sm:text-xs lg:text-sm text-neutral-300 leading-relaxed group-hover:text-neutral-200 transition-colors duration-300">
-                      {item.a}
-                    </p>
+                    <div className="bg-gradient-to-br from-white/90 to-white/60 backdrop-blur-md border border-white/40 rounded-xl p-4 sm:p-5 shadow-[inset_0_0_20px_rgba(255,255,255,0.5)]">
+                      <p className="font-poppins font-medium text-[11px] sm:text-xs lg:text-sm text-neutral-900 leading-relaxed drop-shadow-sm">
+                        {item.a}
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
