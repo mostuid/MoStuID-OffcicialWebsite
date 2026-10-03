@@ -174,7 +174,7 @@ function HeroSection({ scrollToSection, setActiveTab }) {
   }, [isModalOpen]);
 
   const handleSend = () => {
-    if (!customMessage.trim()) return;
+    if (!customMessage.trim() || !senderName.trim() || !category || !deadline.trim()) return;
 
     let finalMessage = `"${customMessage}"\n`;
     finalMessage += `_____________________________________\n`;
@@ -603,7 +603,7 @@ function HeroSection({ scrollToSection, setActiveTab }) {
 
             <button
               onClick={handleSend}
-              disabled={!customMessage.trim()}
+              disabled={!customMessage.trim() || !senderName.trim() || !category || !deadline.trim()}
               className="w-full flex items-center justify-center gap-2 bg-[#FF5500] hover:bg-[#e64a00] disabled:bg-neutral-700 disabled:text-neutral-500 disabled:cursor-not-allowed text-white font-chivo font-bold px-6 py-3 rounded-xl transition-all duration-300 cursor-pointer"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
