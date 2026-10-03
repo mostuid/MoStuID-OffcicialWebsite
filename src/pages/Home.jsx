@@ -371,7 +371,7 @@ function HeroSection({ scrollToSection }) {
 
           {/* LINGKARAN BACKGROUND ABSOLUT STATIS */}
           <div
-            className="absolute bottom-[2%] right-auto landscape:right-[2%] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-slide-up [animation-delay:0.4s] bg-[#FF5500]"
+            className="absolute bottom-[2%] right-auto landscape:right-[2%] rounded-full -z-10 shadow-[0_0_60px_rgba(255,85,0,0.25)] opacity-0 animate-zoom-in [animation-delay:0.3s] bg-[#FF5500]"
             style={{
               width: `${cfg.circleSize}px`,
               height: `${cfg.circleSize}px`,
@@ -588,8 +588,7 @@ function ServicesSection({ setActiveTab }) {
           </p>
         </div>
 
-        {/* Grid Layanan - 2 KOLOM DI MOBILE, 3 KOLOM DI DESKTOP */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-5 w-full">
           {servicesData.map((service, index) => {
             return (
               <div
