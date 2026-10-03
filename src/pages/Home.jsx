@@ -408,6 +408,8 @@ function HeroSection({ scrollToSection }) {
                     <img
                       src={slide.img}
                       alt={slide.name}
+                      fetchPriority={isActive ? "high" : "auto"}
+                      loading={isActive ? "eager" : "lazy"}
                       className="h-full w-auto object-contain object-bottom relative z-10 select-none pointer-events-none transform origin-bottom transition-transform duration-700 hover:scale-[1.02]"
                       style={{ maxWidth: `${cfg.photoMaxWidth}px` }}
                     />
