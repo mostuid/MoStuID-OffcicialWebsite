@@ -63,7 +63,7 @@ export function AppsTabSection() {
                           </h3>
                           <div className="flex items-center justify-center md:justify-start gap-2">
                             <span className="px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono text-neutral-300 uppercase tracking-widest backdrop-blur-sm">APK</span>
-                            <span className="px-3 py-1 bg-[#FF5500]/10 border border-[#FF5500]/20 rounded-full text-[10px] font-mono text-[#FF5500] uppercase tracking-widest backdrop-blur-sm">Free</span>
+                            <span className="px-3 py-1 bg-[#FF5500]/10 border border-[#FF5500]/20 rounded-full text-[10px] font-mono text-[#FF5500] uppercase tracking-widest backdrop-blur-sm">Android</span>
                           </div>
                         </div>
                       </div>
