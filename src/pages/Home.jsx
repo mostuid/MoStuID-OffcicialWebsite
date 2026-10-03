@@ -148,11 +148,33 @@ function HeroSection({ scrollToSection, setActiveTab }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
 
+  const openModal = () => {
+    setIsModalOpen(true);
+    window.history.pushState({ modal: 'contact' }, '');
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    if (window.history.state && window.history.state.modal === 'contact') {
+      window.history.back();
+    }
+  };
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isModalOpen) {
+        setIsModalOpen(false);
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [isModalOpen]);
+
   const handleSend = () => {
     if (!customMessage.trim()) return;
     const url = `https://wa.me/6285111401924?text=${encodeURIComponent(customMessage)}`;
     window.open(url, "_blank");
-    setIsModalOpen(false);
+    closeModal();
     setCustomMessage("");
   };
 
@@ -349,7 +371,7 @@ function HeroSection({ scrollToSection, setActiveTab }) {
           </div>
           <div className="flex items-center justify-center landscape:justify-start space-x-4 pt-6 sm:pt-10 px-2 landscape:pl-2 landscape:px-0 opacity-0 animate-slide-up [animation-delay:0.3s]">
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={openModal}
               className="bg-white text-black window-click font-chivo font-semibold px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm tracking-wide hover:bg-neutral-200 transition-all active:scale-95 text-center cursor-pointer shadow-xl shadow-white/5 w-[140px] sm:w-[160px] inline-block"
             >
               Reach Us!
@@ -479,10 +501,10 @@ function HeroSection({ scrollToSection, setActiveTab }) {
       {/* Modal Popup Contact */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)} />
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={closeModal} />
           <div className="relative bg-neutral-900 border border-white/10 p-6 sm:p-8 rounded-2xl w-full max-w-md shadow-2xl animate-slide-up">
             <button 
-              onClick={() => setIsModalOpen(false)}
+              onClick={closeModal}
               className="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors cursor-pointer"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
