@@ -11,29 +11,29 @@ import waLogo from "./assets/waLogo.png";
 import logoImg from "./assets/logo-mostu.png";
 
 function PrototypeRedirect() {
-    const location = useLocation();
-    const pathParts = location.pathname.split('/');
-    const folderName = pathParts[pathParts.length - 1];
-    const iframeSrc = `/prototypes/${folderName}/index.html`;
-    return (
-      <div className="fixed inset-0 w-full h-full bg-white" style={{ zIndex: 9999 }}>
-        <iframe
-          src={iframeSrc}
-          className="w-full h-full border-0"
-          title="Figma Prototype"
-        />
-        {/* Tombol kembali yang elegan */}
-        <button
-          onClick={() => window.history.back()}
-          className="absolute top-4 left-4 sm:top-6 sm:left-6 z-[10000] flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-black/80 hover:bg-[#FF5500] text-white rounded-full backdrop-blur-sm transition-all duration-300 shadow-lg group"
-          title="Kembali"
-        >
-          <svg className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-      </div>
-    );
+  const location = useLocation();
+  const pathParts = location.pathname.split('/');
+  const folderName = pathParts[pathParts.length - 1];
+  const iframeSrc = `/prototypes/${folderName}/index.html`;
+  return (
+    <div className="fixed inset-0 w-full h-full bg-white" style={{ zIndex: 9999 }}>
+      <iframe
+        src={iframeSrc}
+        className="w-full h-full border-0"
+        title="Figma Prototype"
+      />
+      {/* Tombol kembali yang elegan */}
+      <button
+        onClick={() => window.history.back()}
+        className="absolute top-4 left-4 sm:top-6 sm:left-6 z-[10000] flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 bg-black/80 hover:bg-[#FF5500] text-white rounded-full backdrop-blur-sm transition-all duration-300 shadow-lg group"
+        title="Kembali"
+      >
+        <svg className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+    </div>
+  );
 }
 
 function App() {
@@ -297,7 +297,7 @@ function App() {
                       ubahTabNavigasi("home");
                     }}
                   >
-                    <img src={logoImg} alt="MoStu Logo" className="h-8 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
+                    <img src={logoImg} alt="MoStu Logo" className="h-7 sm:h-10 w-auto object-contain transition-transform duration-300 group-hover:scale-105 cursor-pointer" />
                   </div>
 
                   {/* NAV LINK DESKTOP */}
@@ -412,7 +412,7 @@ function App() {
                 </Routes>
               </main>
 
-              
+
 
               {/* FOOTER */}
               <Footer setActiveTab={ubahTabNavigasi} scrollToSection={scrollToSection} />
@@ -471,8 +471,8 @@ function Footer({ setActiveTab, scrollToSection }) {
     <footer className="w-full bg-black/90 py-12 px-6 border-t border-white/5 relative z-10">
       <div className="w-[95%] max-w-[80%] mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex flex-col items-center md:items-start text-center md:text-left gap-4">
-          <div 
-            className="flex items-center gap-3 cursor-pointer group"
+          <div
+            className="flex items-end gap-3 cursor-pointer"
             onClick={() => {
               setActiveTab("home");
               setTimeout(() => {
@@ -480,12 +480,12 @@ function Footer({ setActiveTab, scrollToSection }) {
               }, 100);
             }}
           >
-            <div className="w-12 h-12 bg-neutral-900 rounded-xl flex items-center justify-center p-2.5 border border-white/10 group-hover:border-[#FF5500]/50 transition-colors">
-              <img src={logoImg} alt="MoStu Logo" className="w-full h-full object-contain" />
+            <div className="h-12 flex items-center justify-center">
+              <img src={logoImg} alt="MoStu Logo" className="h-full w-auto object-contain" />
             </div>
-            <div>
-              <h2 className="font-poppins font-bold text-xl text-white tracking-tight">MoStu<span className="text-[#FF5500]">.ID</span></h2>
-              <p className="font-chivo text-neutral-400 text-[10px] uppercase tracking-[0.2em]">Digital & Creative</p>
+            <div className="flex flex-col items-start justify-end translate-y-[2px]">
+              <span className="font-mono text-[10px] sm:text-xs text-white uppercase tracking-widest mb-0.5">Digital &</span>
+              <span className="font-mono text-[10px] sm:text-xs text-[#FF5500] uppercase tracking-widest">Creative Agency</span>
             </div>
           </div>
           <p className="text-neutral-500 text-xs font-light max-w-sm leading-relaxed">
@@ -499,7 +499,7 @@ function Footer({ setActiveTab, scrollToSection }) {
             <button onClick={() => { setActiveTab("portfolio"); window.scrollTo(0, 0); }} className="hover:text-[#FF5500] transition-colors cursor-pointer">Portfolio</button>
             <button onClick={() => { setActiveTab("about"); window.scrollTo(0, 0); }} className="hover:text-[#FF5500] transition-colors cursor-pointer">About Us</button>
           </div>
-          <p className="opacity-50">© 2026 MoStu.ID. All rights reserved.</p>
+          <p className="opacity-50">© 2024-2026 MoStu.ID. All rights reserved.</p>
         </div>
       </div>
     </footer>

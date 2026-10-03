@@ -21,7 +21,7 @@ export function AppsTabSection() {
             Unduh aplikasi mobile buatan Kami.
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 max-w-5xl mx-auto gap-6 px-4 sm:px-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 max-w-5xl mx-auto gap-6 px-4 sm:px-0">
           {[
             {
               title: "Catet Aja Apps",
