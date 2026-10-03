@@ -761,7 +761,7 @@ function QnaSection() {
       <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#FF5500]/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="w-[95%] max-w-[80%] mx-auto relative z-10 select-none">
+      <div className="w-[95%] sm:max-w-[80%] lg:max-w-4xl mx-auto relative z-10 select-none">
         <ScrollAnimateWrapper qnaAnimationClass="animate-slide-down">
           <div className="text-center mb-12">
             {/* Badge - Rata Tengah (sama dengan Services) */}
@@ -793,8 +793,7 @@ function QnaSection() {
               <div
                 className={`
                   group relative rounded-2xl overflow-hidden cursor-pointer
-                  transition-all duration-500
-                  ${openIndex === idx ? 'scale-[1.02]' : ''}
+                  transition-all duration-300
                 `}
                 style={{ ...item.delayStyle }}
                 onClick={() => toggleQnA(idx)}
@@ -851,7 +850,7 @@ function QnaSection() {
                   </div>
 
                   {/* Jawaban - ukuran sama dengan deskripsi Services */}
-                  <div className={`transition-all duration-500 ease-in-out overflow-hidden ${openIndex === idx ? 'max-h-60 mt-4 border-t border-white/10 pt-4' : 'max-h-0'
+                  <div className={`transition-all duration-300 ease-out overflow-hidden ${openIndex === idx ? 'max-h-60 mt-4 border-t border-white/10 pt-4' : 'max-h-0'
                     }`}>
                     <p className="font-poppins font-normal text-[11px] sm:text-xs lg:text-sm text-neutral-300 leading-relaxed group-hover:text-neutral-200 transition-colors duration-300">
                       {item.a}
