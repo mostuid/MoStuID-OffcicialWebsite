@@ -27,7 +27,7 @@ export function AppsTabSection() {
             {
               title: "Catet Aja Apps",
               desc: "Catet Aja adalah aplikasi kasir dan pembukuan berbasis Android yang membantu usaha kecil hingga menengah dalam pencatatan transaksi, mengelola keuangan, mencetak struk, hingga membuat laporan penjualan harian, bulanan serta tahunan dengan sangat mudah dan praktis.",
-              link: "https://drive.google.com/file/d/1hEafxkFXbtzOcEbCux6TZ2_2CuwULTW_/view?usp=sharing",
+              link: "https://drive.usercontent.google.com/download?id=1hEafxkFXbtzOcEbCux6TZ2_2CuwULTW_&export=download&authuser=0",
               btnText: "Download APK",
               icon: (
                 <img src={catetAjaIcon} alt="Catet Aja Apps Icon" fetchPriority="high" loading="eager" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-105 transition-all duration-500 rounded-3xl" />
