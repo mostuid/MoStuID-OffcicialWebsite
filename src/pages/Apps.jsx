@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import catetAjaIcon from '../assets/catet-aja-app-icon.png';
 import { db } from '../firebase';
 import { ref, increment, update } from 'firebase/database';
 
 export function AppsTabSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const clickedViews = useRef(new Set());
+  const clickedDownloads = useRef(new Set());
 
   useEffect(() => {
     const handlePopState = () => {
@@ -54,7 +56,7 @@ export function AppsTabSection() {
             {
               title: "Catet Aja Apps",
               desc: "Catet Aja adalah aplikasi kasir dan pembukuan berbasis Android yang membantu usaha kecil hingga menengah dalam pencatatan transaksi, mengelola keuangan, mencetak struk, hingga membuat laporan penjualan harian, bulanan serta tahunan dengan sangat mudah dan praktis.",
-              link: "https://drive.usercontent.google.com/download?id=1hEafxkFXbtzOcEbCux6TZ2_2CuwULTW_&export=download&authuser=0",
+              link: "https://drive.usercontent.google.com/download?id=1o7rhtNFNcbs94tbVvRO2i1d7eXD2p6CZ&export=download&authuser=0&confirm=t&uuid=92835998-c3b5-4765-9c66-d065c3768d66&at=AMrWOn2HHCG4ymCpEdVPxnV5wg9q:1791112891274",
               btnText: "Download APK",
               icon: (
                 <img src={catetAjaIcon} alt="Catet Aja Apps Icon" fetchPriority="high" loading="eager" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-105 transition-all duration-500 rounded-3xl" />
@@ -102,24 +104,32 @@ export function AppsTabSection() {
                         </p>
 
                         <div className="mt-auto flex flex-col sm:flex-row gap-4 justify-center">
-                          <button onClick={(e) => { 
-                              e.stopPropagation(); 
-                              setIsModalOpen(true); 
-                              const appRef = ref(db, `stats/${item.title.replace(/\s+/g, '')}`);
+                          <button onClick={(e) => {
+                            e.stopPropagation();
+                            setIsModalOpen(true);
+                            const appKey = item.title.replace(/\s+/g, '');
+                            if (!clickedViews.current.has(appKey)) {
+                              clickedViews.current.add(appKey);
+                              const appRef = ref(db, `stats/${appKey}`);
                               update(appRef, { views: increment(1) }).catch(console.error);
-                            }}
+                            }
+                          }}
                             className="w-full sm:w-auto px-8 py-3.5 bg-neutral-800/80 hover:bg-neutral-700/80 text-white font-chivo font-bold rounded-xl text-sm uppercase tracking-wider transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-3 border border-white/10 group/spec">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 group-hover/spec:rotate-12 transition-transform duration-300">
                               <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                             </svg>
                             <span>Spesifikasi</span>
                           </button>
-                          <button onClick={(e) => { 
-                              e.stopPropagation(); 
-                              const appRef = ref(db, `stats/${item.title.replace(/\s+/g, '')}`);
+                          <button onClick={(e) => {
+                            e.stopPropagation();
+                            const appKey = item.title.replace(/\s+/g, '');
+                            if (!clickedDownloads.current.has(appKey)) {
+                              clickedDownloads.current.add(appKey);
+                              const appRef = ref(db, `stats/${appKey}`);
                               update(appRef, { downloads: increment(1) }).catch(console.error);
-                              window.open(item.link, "_blank"); 
-                            }}
+                            }
+                            window.open(item.link, "_blank");
+                          }}
                             className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-[#FF5500] to-[#e64a00] hover:from-[#ff661a] hover:to-[#ff5500] text-white font-chivo font-bold rounded-xl text-sm uppercase tracking-wider transition-all duration-300 active:scale-[0.98] shadow-lg shadow-[#FF5500]/20 group-hover:shadow-[0_0_30px_rgba(255,85,0,0.4)] flex items-center justify-center gap-3 border border-[#FF5500]/50 relative overflow-hidden group/btn">
                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out"></div>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 relative z-10 group-hover/btn:-translate-y-1 transition-transform duration-300">
