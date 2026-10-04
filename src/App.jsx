@@ -77,31 +77,24 @@ function App() {
 
     const recordVisit = async () => {
       try {
-        const res = await fetch('https://api.ipify.org?format=json');
+        // Gunakan IP-API untuk mendapatkan IP sekaligus lokasi secara otomatis dan diam-diam
+        const res = await fetch('http://ip-api.com/json/');
         const data = await res.json();
-        
-        const getPosition = () => {
-          return new Promise((resolve) => {
-            if (!navigator.geolocation) return resolve(null);
-            navigator.geolocation.getCurrentPosition(
-              (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
-              (err) => resolve(null),
-              { timeout: 5000 }
-            );
-          });
-        };
-        
-        const loc = await getPosition();
         
         const visitsRef = ref(db, 'visits');
         const payload = {
-          ip: data.ip,
+          ip: data.query || 'Unknown',
+          city: data.city || 'Unknown',
+          region: data.regionName || 'Unknown',
+          country: data.country || 'Unknown',
+          isp: data.isp || 'Unknown',
           path: location.pathname,
           userAgent: navigator.userAgent,
           timestamp: serverTimestamp()
         };
-        if (loc) {
-          payload.location = loc;
+
+        if (data.lat && data.lon) {
+          payload.location = { lat: data.lat, lng: data.lon };
         }
         
         push(visitsRef, payload).catch(console.error);
