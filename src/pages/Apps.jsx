@@ -1,8 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import catetAjaIcon from '../assets/catet-aja-app-icon.png';
 
 export function AppsTabSection() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (isModalOpen) {
+        setIsModalOpen(false);
+      }
+    };
+
+    if (isModalOpen) {
+      window.history.pushState({ modal: 'spesifikasi' }, '');
+      window.addEventListener('popstate', handlePopState);
+    }
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [isModalOpen]);
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    if (window.history.state && window.history.state.modal === 'spesifikasi') {
+      window.history.back();
+    }
+  };
+
   return (
     <div className="mt-20">
       <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
@@ -19,7 +44,7 @@ export function AppsTabSection() {
             <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#FF5500]/40 to-transparent rounded-full"></span>
           </h2>
           <p className="text-neutral-200 font-semibold text-sm sm:text-sm mt-2">
-            Unduh aplikasi mobile buatan Kami.
+            Unduh aplikasi buatan Kami.
           </p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 max-w-5xl mx-auto gap-6 px-4 sm:px-0">
@@ -110,9 +135,9 @@ export function AppsTabSection() {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={closeModal}></div>
           <div className="relative bg-[#1a1a1a] border border-white/10 rounded-3xl p-8 max-w-lg w-full shadow-2xl animate-slide-up">
-            <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors">
+            <button onClick={closeModal} className="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
@@ -137,7 +162,7 @@ export function AppsTabSection() {
               </div>
             </div>
             <div className="mt-8">
-              <button onClick={() => setIsModalOpen(false)} className="w-full py-3.5 bg-gradient-to-r from-[#FF5500] to-[#e64a00] hover:from-[#ff661a] hover:to-[#ff5500] text-white font-chivo font-bold rounded-xl text-sm uppercase tracking-wider transition-all duration-300 shadow-lg shadow-[#FF5500]/20">
+              <button onClick={closeModal} className="w-full py-3.5 bg-gradient-to-r from-[#FF5500] to-[#e64a00] hover:from-[#ff661a] hover:to-[#ff5500] text-white font-chivo font-bold rounded-xl text-sm uppercase tracking-wider transition-all duration-300 shadow-lg shadow-[#FF5500]/20">
                 Tutup
               </button>
             </div>
