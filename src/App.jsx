@@ -80,7 +80,7 @@ function App() {
         // Gunakan IP-API untuk mendapatkan IP sekaligus lokasi secara otomatis dan diam-diam
         const res = await fetch('http://ip-api.com/json/');
         const data = await res.json();
-        
+
         const visitsRef = ref(db, 'visits');
         const payload = {
           ip: data.query || 'Unknown',
@@ -96,7 +96,7 @@ function App() {
         if (data.lat && data.lon) {
           payload.location = { lat: data.lat, lng: data.lon };
         }
-        
+
         push(visitsRef, payload).catch(console.error);
       } catch (err) {
         console.error("Gagal mencatat kunjungan:", err);
@@ -120,7 +120,7 @@ function App() {
       setTimeout(() => {
         setIsMenuClosing(false);
       }, 280);
-      
+
       // Jika kita menutup secara manual, pop history agar tidak nyangkut
       if (window.history.state && window.history.state.menuOpen) {
         window.history.back();
@@ -486,13 +486,12 @@ function App() {
                     <div className="text-sm text-neutral-300 font-poppins">
                       <p className="mb-2"><strong>Kami Menggunakan Cookies 🍪</strong></p>
                       <p className="text-xs text-neutral-400">
-                        Website ini menggunakan cookies untuk melacak alamat IP dan lokasi (jika GPS aktif) 
-                        guna meningkatkan pengalaman pengunjung serta analitik internal. 
+                        Website ini menggunakan cookies guna meningkatkan pengalaman pengunjung serta analitik internal.
                         Dengan melanjutkan, Anda menyetujui kebijakan privasi kami.
                       </p>
                     </div>
                     <div className="flex gap-3 w-full md:w-auto shrink-0">
-                      <button 
+                      <button
                         onClick={() => {
                           localStorage.setItem('cookie_consent', 'declined');
                           setCookieConsent('declined');
@@ -501,7 +500,7 @@ function App() {
                       >
                         Tolak
                       </button>
-                      <button 
+                      <button
                         onClick={() => {
                           localStorage.setItem('cookie_consent', 'accepted');
                           setCookieConsent('accepted');
