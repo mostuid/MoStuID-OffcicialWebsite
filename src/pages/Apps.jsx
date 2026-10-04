@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import catetAjaIcon from '../assets/catet-aja-app-icon.png';
 
 export function AppsTabSection() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="mt-20">
       <div className="absolute inset-0 bg-[#FF5500]/5 blur-3xl pointer-events-none" />
@@ -73,7 +74,14 @@ export function AppsTabSection() {
                           {item.desc}
                         </p>
 
-                        <div className="mt-auto">
+                        <div className="mt-auto flex flex-col sm:flex-row gap-4 justify-center">
+                          <button onClick={(e) => { e.stopPropagation(); setIsModalOpen(true); }}
+                            className="w-full sm:w-auto px-8 py-3.5 bg-neutral-800/80 hover:bg-neutral-700/80 text-white font-chivo font-bold rounded-xl text-sm uppercase tracking-wider transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-3 border border-white/10 group/spec">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5 group-hover/spec:rotate-12 transition-transform duration-300">
+                              <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
+                            </svg>
+                            <span>Spesifikasi</span>
+                          </button>
                           <button onClick={(e) => { e.stopPropagation(); window.open(item.link, "_blank"); }}
                             className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-[#FF5500] to-[#e64a00] hover:from-[#ff661a] hover:to-[#ff5500] text-white font-chivo font-bold rounded-xl text-sm uppercase tracking-wider transition-all duration-300 active:scale-[0.98] shadow-lg shadow-[#FF5500]/20 group-hover:shadow-[0_0_30px_rgba(255,85,0,0.4)] flex items-center justify-center gap-3 border border-[#FF5500]/50 relative overflow-hidden group/btn">
                             <div className="absolute inset-0 bg-white/20 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300 ease-out"></div>
@@ -98,6 +106,44 @@ export function AppsTabSection() {
           })}
         </div>
       </div>
+
+      {/* Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setIsModalOpen(false)}></div>
+          <div className="relative bg-[#1a1a1a] border border-white/10 rounded-3xl p-8 max-w-lg w-full shadow-2xl animate-slide-up">
+            <button onClick={() => setIsModalOpen(false)} className="absolute top-4 right-4 text-neutral-400 hover:text-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <h3 className="text-2xl font-poppins font-bold text-white mb-6">Spesifikasi Catet Aja</h3>
+            <div className="space-y-4 text-neutral-300 text-sm font-poppins">
+              <div className="flex justify-between border-b border-white/10 pb-3">
+                <span className="text-neutral-500">Versi</span>
+                <span className="font-semibold text-white">1.0.0</span>
+              </div>
+              <div className="flex justify-between border-b border-white/10 pb-3">
+                <span className="text-neutral-500">Ukuran</span>
+                <span className="font-semibold text-white">~ 96,0 MB</span>
+              </div>
+              <div className="flex justify-between border-b border-white/10 pb-3">
+                <span className="text-neutral-500">OS Minimum</span>
+                <span className="font-semibold text-white">Android 6.0 (Marshmallow)</span>
+              </div>
+              <div className="flex justify-between border-b border-white/10 pb-3">
+                <span className="text-neutral-500">Developer</span>
+                <span className="font-semibold text-white">Bang Eija | Founder MoStu.id</span>
+              </div>
+            </div>
+            <div className="mt-8">
+              <button onClick={() => setIsModalOpen(false)} className="w-full py-3.5 bg-gradient-to-r from-[#FF5500] to-[#e64a00] hover:from-[#ff661a] hover:to-[#ff5500] text-white font-chivo font-bold rounded-xl text-sm uppercase tracking-wider transition-all duration-300 shadow-lg shadow-[#FF5500]/20">
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
