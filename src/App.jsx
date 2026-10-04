@@ -10,7 +10,7 @@ import { ToolsTabSection } from "./pages/Tools";
 import waLogo from "./assets/waLogo.png";
 import logoImg from "./assets/logo-mostu.png";
 import { db } from "./firebase";
-import { ref, push, serverTimestamp } from "firebase/database";
+import { ref, push, serverTimestamp, increment, update } from "firebase/database";
 
 function PrototypeRedirect() {
   const location = useLocation();
@@ -96,8 +96,13 @@ function App() {
         if (data.lat && data.lon) {
           payload.location = { lat: data.lat, lng: data.lon };
         }
-
+        
         push(visitsRef, payload).catch(console.error);
+        
+        // Tambahkan hitungan ke totalViews secara global
+        const rootRef = ref(db);
+        update(rootRef, { totalViews: increment(1) }).catch(console.error);
+        
       } catch (err) {
         console.error("Gagal mencatat kunjungan:", err);
       }
