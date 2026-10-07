@@ -59,7 +59,7 @@ export function AppsTabSection() {
               link: "https://drive.usercontent.google.com/download?id=1-T52dnLAJqm6y7DtGk1lfdy5lwXEakNT&export=download&authuser=0&confirm=t&uuid=43325152-c59a-4a60-99a7-dd404510896e&at=AMrWOn1fbljDglZGSufFaNhIcQwl:1791347782374",
               btnText: "Download APK",
               icon: (
-                <img src={catetAjaIcon} alt="Tap Jual Apps Icon" fetchPriority="high" loading="eager" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-105 transition-all duration-500 rounded-3xl" />
+                <img src={tapJualIcon} alt="Tap Jual Apps Icon" fetchPriority="high" loading="eager" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-105 transition-all duration-500 rounded-3xl" />
               )
             },
             {

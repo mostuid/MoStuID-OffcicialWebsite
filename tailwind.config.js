@@ -13,7 +13,16 @@ export default {
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],
         chivo: ['Chivo', 'sans-serif'],
-      }
+      },
+      keyframes: {
+        slideUp: {
+          '0%': { opacity: '0', transform: 'translateY(24px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        slideUp: "slideUp 0.6s ease-out forwards",
+      },
     },
   },
   plugins: [],
