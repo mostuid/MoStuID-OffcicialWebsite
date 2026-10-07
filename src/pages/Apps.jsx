@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import catetAjaIcon from '../assets/catet-aja-app-icon.png';
+import tapJualIcon from '../assets/tap-jual-app-icon.png';
 import { db } from '../firebase';
 import { ref, increment, update } from 'firebase/database';
 
@@ -54,12 +54,12 @@ export function AppsTabSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 max-w-5xl mx-auto gap-6 px-4 sm:px-0">
           {[
             {
-              title: "Catet Aja Apps",
-              desc: "Catet Aja adalah aplikasi kasir dan pembukuan berbasis Android yang membantu usaha kecil hingga menengah dalam pencatatan transaksi, mengelola keuangan, mencetak struk, hingga membuat laporan penjualan harian, bulanan serta tahunan dengan sangat mudah dan praktis.",
-              link: "https://drive.usercontent.google.com/download?id=1o7rhtNFNcbs94tbVvRO2i1d7eXD2p6CZ&export=download&authuser=0&confirm=t&uuid=92835998-c3b5-4765-9c66-d065c3768d66&at=AMrWOn2HHCG4ymCpEdVPxnV5wg9q:1791112891274",
+              title: "Tap Jual Apps",
+              desc: "Tap Jual adalah aplikasi kasir dan pembukuan berbasis Android yang membantu usaha kecil hingga menengah dalam pencatatan transaksi, mengelola keuangan, mencetak struk, hingga membuat laporan penjualan harian, bulanan serta tahunan dengan sangat mudah dan praktis.",
+              link: "https://drive.usercontent.google.com/download?id=1-T52dnLAJqm6y7DtGk1lfdy5lwXEakNT&export=download&authuser=0&confirm=t&uuid=43325152-c59a-4a60-99a7-dd404510896e&at=AMrWOn1fbljDglZGSufFaNhIcQwl:1791347782374",
               btnText: "Download APK",
               icon: (
-                <img src={catetAjaIcon} alt="Catet Aja Apps Icon" fetchPriority="high" loading="eager" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-105 transition-all duration-500 rounded-3xl" />
+                <img src={catetAjaIcon} alt="Tap Jual Apps Icon" fetchPriority="high" loading="eager" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-105 transition-all duration-500 rounded-3xl" />
               )
             },
             {
@@ -164,7 +164,7 @@ export function AppsTabSection() {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <h3 className="text-2xl font-poppins font-bold text-white mb-6">Spesifikasi Catet Aja</h3>
+            <h3 className="text-2xl font-poppins font-bold text-white mb-6">Spesifikasi Tap Jual</h3>
             <div className="space-y-4 text-neutral-300 text-sm font-poppins">
               <div className="flex justify-between border-b border-white/10 pb-3">
                 <span className="text-neutral-500">Versi</span>

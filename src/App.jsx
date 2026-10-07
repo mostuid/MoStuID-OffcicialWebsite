@@ -68,47 +68,52 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const currentPath = location.pathname;
-  const [cookieConsent, setCookieConsent] = useState(localStorage.getItem('cookie_consent'));
 
-  // Catat visit & IP ke Firebase setiap kali halaman (path) berubah
+
+  // Catat visit ke Firebase setiap kali halaman (path) berubah
   useEffect(() => {
-    // Hanya catat jika user menyetujui cookies
-    if (cookieConsent !== 'accepted') return;
-
     const recordVisit = async () => {
       try {
-        // Gunakan IP-API untuk mendapatkan IP sekaligus lokasi secara otomatis dan diam-diam
-        const res = await fetch('http://ip-api.com/json/');
-        const data = await res.json();
+        const lastVisitStr = localStorage.getItem('last_visit_time');
+        const now = Date.now();
+        const oneHour = 60 * 60 * 1000;
+        
+        // Cek apakah ada parameter ?forceView=true untuk testing
+        const params = new URLSearchParams(window.location.search);
+        const isForce = params.get("forceView") === "true";
+        
+        if (lastVisitStr && !isForce) {
+          const lastVisitTime = parseInt(lastVisitStr, 10);
+          if (now - lastVisitTime < oneHour) {
+            console.log("Belum 1 jam, view tidak dicatat.");
+            return; // Skip jika belum 1 jam
+          }
+        }
+        
+        // Simpan waktu visit sekarang
+        localStorage.setItem('last_visit_time', now.toString());
 
         const visitsRef = ref(db, 'visits');
         const payload = {
-          ip: data.query || 'Unknown',
-          city: data.city || 'Unknown',
-          region: data.regionName || 'Unknown',
-          country: data.country || 'Unknown',
-          isp: data.isp || 'Unknown',
           path: location.pathname,
           userAgent: navigator.userAgent,
           timestamp: serverTimestamp()
         };
-
-        if (data.lat && data.lon) {
-          payload.location = { lat: data.lat, lng: data.lon };
-        }
         
-        push(visitsRef, payload).catch(console.error);
+        push(visitsRef, payload).catch(err => console.error("Gagal push visits:", err));
         
-        // Tambahkan hitungan ke totalViews secara global
-        const rootRef = ref(db);
-        update(rootRef, { totalViews: increment(1) }).catch(console.error);
+        // Tambahkan hitungan ke stats/website/totalViews
+        const statsRef = ref(db, 'stats/website');
+        update(statsRef, { totalViews: increment(1) })
+          .then(() => console.log("Berhasil update totalViews di Firebase!"))
+          .catch(err => console.error("Gagal update totalViews:", err));
         
       } catch (err) {
         console.error("Gagal mencatat kunjungan:", err);
       }
     };
     recordVisit();
-  }, [location.pathname, cookieConsent]);
+  }, [location.pathname]);
   const [activeTab, setActiveTab] = useState("home");
   const [portfolioFilter, setPortfolioFilter] = useState("all");
   const [isSec2Visible, setIsSec2Visible] = useState(false);
@@ -484,40 +489,7 @@ function App() {
               {/* FOOTER */}
               <Footer setActiveTab={ubahTabNavigasi} scrollToSection={scrollToSection} />
 
-              {/* COOKIE CONSENT BANNER */}
-              {!cookieConsent && (
-                <div className="fixed bottom-0 left-0 right-0 z-[1000] p-4 animate-slide-up">
-                  <div className="max-w-4xl mx-auto bg-black/90 backdrop-blur-xl border border-white/10 rounded-2xl p-5 md:p-6 shadow-2xl shadow-[#FF5500]/10 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="text-sm text-neutral-300 font-poppins">
-                      <p className="mb-2"><strong>Kami Menggunakan Cookies 🍪</strong></p>
-                      <p className="text-xs text-neutral-400">
-                        Website ini menggunakan cookies guna meningkatkan pengalaman pengunjung serta analitik internal.
-                        Dengan melanjutkan, Anda menyetujui kebijakan privasi kami.
-                      </p>
-                    </div>
-                    <div className="flex gap-3 w-full md:w-auto shrink-0">
-                      <button
-                        onClick={() => {
-                          localStorage.setItem('cookie_consent', 'declined');
-                          setCookieConsent('declined');
-                        }}
-                        className="flex-1 md:flex-none px-6 py-2.5 rounded-xl border border-white/10 text-white font-chivo text-sm hover:bg-white/5 transition-colors"
-                      >
-                        Tolak
-                      </button>
-                      <button
-                        onClick={() => {
-                          localStorage.setItem('cookie_consent', 'accepted');
-                          setCookieConsent('accepted');
-                        }}
-                        className="flex-1 md:flex-none px-6 py-2.5 rounded-xl bg-[#FF5500] text-white font-chivo font-bold text-sm hover:bg-[#e64a00] transition-colors shadow-lg shadow-[#FF5500]/20"
-                      >
-                        Terima
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
+
 
               {/* WHATSAPP FLOATING BUTTON */}
               <div
