@@ -56,7 +56,7 @@ export function AppsTabSection() {
             {
               title: "Tap Jual Apps",
               desc: "Tap Jual adalah aplikasi kasir dan pembukuan berbasis Android yang membantu usaha kecil hingga menengah dalam pencatatan transaksi, mengelola keuangan, mencetak struk, hingga membuat laporan penjualan harian, bulanan serta tahunan dengan sangat mudah dan praktis.",
-              link: "https://drive.usercontent.google.com/download?id=1u9Y_3_nDNUgoVwffIBuVIf7_79mUXgYE&export=download&authuser=0&confirm=t&uuid=25ec8f9f-34c7-4f63-9951-dc1ac0d049cd&at=AMrWOn32zBhHTdAWJgFjlDnfVkAP:1791436397133",
+              link: "https://drive.usercontent.google.com/download?id=1vDqx14vVg9EW1mUyLz3kyR99oGEuOYgC&export=download&authuser=0&confirm=t&uuid=a1f768b5-13d8-4fc4-83f4-03f4fc2c64ca&at=AMrWOn31_PNNC2f6q6o9cj2I-ymj:1791593083872",
               btnText: "Download APK",
               icon: (
                 <img src={tapJualIcon} alt="Tap Jual Apps Icon" fetchPriority="high" loading="eager" className="w-24 h-24 sm:w-28 sm:h-28 object-contain drop-shadow-[0_4px_20px_rgba(255,85,0,0.15)] group-hover:scale-105 transition-all duration-500 rounded-3xl" />
